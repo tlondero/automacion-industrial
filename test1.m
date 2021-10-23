@@ -15,20 +15,18 @@ Rob = SerialLink(L);
 Rob.name = 'RR';
 
 t = [0:0.01:1];
-T = [2.-t.*2; t.*2; t.*0].'
+T = [1.+t.*0; -1.+t.*2; t.*0].';
 hold on
  x = linspace(0,2,1000);
  y = -x+2;
- plot(x,y)
-Q = Rob.ikine(transl(T), 'mask', [1 1 0 0 0 0])
-Rob.plot(Q)
+ plot(x,y);
+ patch([2 0 0 2],[0 2 2 0], [-2 -2 1 1],'g' );
+
+ Q = Rob.ikine(transl(T), 'mask', [1 1 0 0 0 0]);
+Rob.plot(Q);
+
 hold off
-TT = Rob.fkine(Q);
-tt =[]
-for i = [1:1:101]
-    tt = [tt; (TT(i).t(1:2)).'];
-end
-plot2(tt)
+
 % T1 = transl(L1, -L2, 0);
 % qi = Rob.ikine(T1,'q0',[-pi/2 0], 'mask', [1 1 0 0 0 0]);
 % Rob.plot(qi)
