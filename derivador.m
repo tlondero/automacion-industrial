@@ -6,7 +6,7 @@ syms R L m g; %Constantes
 
 
 
-f=[-x1*abs(x1)*R/L+u1/L;
+f = [-x1*abs(x1)*R/L+u1/L;
     x3;
     -g+((0.5*(2+x1)^2)/(1-x2)^2)/m-((0.5*(2-x1)^2)/(1+x2)^2)/m];
 A = jacobian(f,[x1;x2;x3])
@@ -34,5 +34,35 @@ u1 = u1eq;
 A = eval(A);
 B = eval(B);
 C = [0 1 0];
+D = 0;
+system = ss(A,B,C,D);
+K = place(A,B,[-20 -2 -1]);
+Acl= (A-B*K);
+eig(Acl)
+Bcl=B;
+Ccl=C;
+Dcl = 0;
+systemcl=ss(Acl,Bcl,Ccl,0);
 
-system = ss(A,B,C,0)
+nyquist(systemcl)
+figure();
+step(systemcl)
+%Hay error permanente necesitamos integral
+Aai=[A B;
+    -C D];
+Bai = [B ; 0];
+Cai = [C 0];
+
+Kai = place(Aai, Bai, [-20 -1 -0.5 -200]);
+Aaicl= (Aai-Bai*Kai);
+
+eig(Aaicl)
+Baicl=[B*0;1];
+Caicl=Cai;
+Daicl = 0;
+
+systemai=ss(Aaicl,Baicl,Caicl,Daicl);
+figure()
+nyquist(systemai)
+figure()
+step(systemai)
