@@ -1,6 +1,5 @@
 clc; clear all; close all;
-%DH parameters using Peter Corke Robotics
-%
+%DH parameters using Peter Corke Robotics%
 L1=1;
 L2=L1;
 syms th1 th2;
