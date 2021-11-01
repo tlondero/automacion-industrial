@@ -30,7 +30,7 @@ function arm = RobotInit(pert)
 
     Tool = transl(L2, 0, 0); % Offset de la herramienta
     
-    arm = SerialLink([links{:}], 'tool', Tool, 'name', 'messi');
+    arm = SerialLink([links{:}], 'tool', Tool, 'name', 'botete');
      %W= [-2 2 -2 2 -1 1]; %workspace [xmin xmax ymin ymax ...
      %q= [0,0,0];
      %arm.teach (q, 'workspace', W);
