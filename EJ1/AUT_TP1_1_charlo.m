@@ -23,5 +23,5 @@ cfg.J = [cfg.L cfg.L; %Falta multiplicar por [s2 c2; y sumar [0 L;
 cfg.V= [0 -cfg.L*cfg.m2;  %Falta multiplicarlo por s2, se hace en modelo
         cfg.L*cfg.m2 0]
       
-cfg.Kv = [150 0;0 150]
-cfg.Kp = [250 0; 0 250]
+cfg.Kv = [108 0;0 108]
+cfg.Kp = [350 0; 0 350]
