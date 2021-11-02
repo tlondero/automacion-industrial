@@ -1,4 +1,4 @@
-clc;clear all;
+
 cfg.m1=1;
 cfg.m2=1;
 cfg.Izz=1;
