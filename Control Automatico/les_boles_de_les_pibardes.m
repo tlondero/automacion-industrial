@@ -61,28 +61,28 @@ Cai = [C 0];
 Dai = D;
 
 %Verifico Observabilidad y Controlabilidad
-%rank(ctrb(Aai,Bai))
-%rank(obsv(Aai,Cai))
+rank(ctrb(Aai,Bai))
+rank(obsv(Aai,Cai))
 
 eig(Aai)
 Kai = acker(Aai, [0; 0; 0; 1], [-20 -21 -22 -200])
-% Kc = Kai(1:3);
+Kc = Kai(1:3);
 Kic = Kai(4);
 
 %% Punto G: Observador continuo
-
-L = (acker(A', C', [-160 -160 -160]))'
+% 
+ L = (acker(A', C', [-140 -140 -140]))'
 
 %% Observador discreto
 
-% sys = ss(Aai,Bai,Cai,D);
-% Ts = 0.1;
-% sysDisc = c2d(sys, Ts, 'tustin');%discrete system
-% pCont = [-20 -21 -22 -200];%poles in s-domain
-% pDisc = exp(pCont.*Ts);%poles in z-domain
-% Kdisc = place(sysDisc.A,sysDisc.B,pDisc)
-% K = Kdisc(1:3)
-% Kic = Kdisc(4)
+sys = ss(Aai,Bai,Cai,D);
+Ts = 0.01;
+sysDisc = c2d(sys, Ts, 'tustin');%discrete system
+pCont = [-20 -21 -22 -200];%poles in s-domain
+pDisc = exp(pCont.*Ts);%poles in z-domain
+Kdisc = place(sysDisc.A,sysDisc.B,pDisc)
+Kd = Kdisc(1:3)
+Kid = Kdisc(4)
 
 
 
