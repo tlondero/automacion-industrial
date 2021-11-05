@@ -52,7 +52,7 @@ obs = obsv(A,C);
 rank(obs)
 
 Aai=[A B;
-    -C D];
+    -C -D];
 Bai = [B ; 0];
 Cai = [C 0];
 D=0;
@@ -84,7 +84,8 @@ disc=place(sysDisc.A,sysDisc.B,pDisc)
 %%%%%%%%
 %% calculamos paramentros observador
 sysobs=ss(A,B,C,D);
-sysDiscobs=c2d(sysobs,Ts,'tustin');%discrete system
+sysDiscobs=c2d(sysobs,Ts,'tustin'); 
+%discrete system
 Ad_obs=sysDiscobs.A;
 Bd_obs=sysDiscobs.B;
 Cd_obs=sysDiscobs.C;
