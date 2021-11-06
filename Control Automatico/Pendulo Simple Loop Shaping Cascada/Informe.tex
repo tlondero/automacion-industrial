@@ -1,0 +1,141 @@
+\input{Header.tex}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Caratula		%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{Caratula.tex}
+
+%%%%%%%%%%%%%%%%%%%%%
+%		Indice		%
+%%%%%%%%%%%%%%%%%%%%%
+
+\tableofcontents
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%
+%		Informe		%
+%%%%%%%%%%%%%%%%%%%%%
+
+\section{Simulación del Carro con Péndulo Simple}
+
+Para la simulación del carro con péndulo simple se creó un modelo de este utilizando Simscape de Simulink, utilizando una máscara para poder modificar posteriormente los siguientes parámetros:
+
+\begin{itemize}
+\item Masa del carro
+\item Masa del péndulo
+\item Longitud del Péndulo
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Simscape}
+	\caption{Modelo de Simscape utilizado como planta.}
+	\label{1_simscape}
+\end{figure}
+
+
+\section{Carro con Péndulo Simple: Control en Cascada por Loop Shaping}
+
+Para el control del sistema por loop shaping, como primer paso, se asignaron las variables del modelo de la siguiente forma:
+
+\begin{itemize}
+\item Masa del carro = $1 \ kg$
+\item Masa del péndulo = $0.25 \ kg$
+\item Longitud del Péndulo = $8 \ m$
+\end{itemize}
+
+Luego, se utilizó el Model Linearizer de Simulink para linealizar la planta alrededor de $q=0$, $p=0$ y $f=0$; siendo $q$ el ángulo del péndulo, $p$ la posición del carrito y $f$ la fuerza aplicada al carrito.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{equilibrio}
+	\caption{Punto de equilibrio de linealización.}
+	\label{1_equilibrio}
+\end{figure}
+
+De esta manera, se obtuvieron las siguientes transferencias:
+
+\begin{equation}
+\frac{Q(s)}{F(s)} = \frac{0.1763}{(s-1.47)(s+1.47)}
+\end{equation}
+
+\begin{equation}
+\frac{P(s)}{F(s)} = \frac{(s-1.36)(s+1.36)}{s^2(s-1.47)(s+1.47)}
+\end{equation}
+
+donde se nota la presencia de un polo y un cero en el semiplano derecho.
+
+Se cierra un lazo de realimentación, tomando el valor de $q$ e inyectándolo a la entrada con una ganancia de valor $-1$ y se grafica la respuesta en frecuencia del sistema viendo solamente el ángulo $q$, obteniendo:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{bode_cerrando_q}
+	\caption{Respuesta en frencuencia del sistema entre la fuerza aplicada al carrito y el ángulo del péndulo.}
+	\label{bode_cerrando_q}
+\end{figure}
+
+donde se observa, como se esperaba, que el sistema es inestable. Notando el polo en el semiplano derecho en $1.47 \frac{rad}{s}$, se decide utilizar un controlador que agregue adelanto de fase para obtener una frecuencia de cruce en $w_{cruce} > 1.7 * w_{rhp} = 2.5 \frac{rad}{s}$, eligiendo entonces agregar un cero de $10 \frac{rad}{s}$, quedando entonces:
+
+\begin{equation}
+C_2(s) = \frac{s-10}{s-100}
+\end{equation} 
+
+Cabe notar que se agregó un polo rápido que no afecte la dinámica del sistema en $100 \frac{rad}{s}$ para lograr un controlador propio.
+
+Luego, se graficó nuevamente la respuesta en frecuencia, obteniendo:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{bode_cerrando_q_con_controlador}
+	\caption{Respuesta en frencuencia del sistema entre la fuerza aplicada al carrito y el ángulo del péndulo con controlador.}
+	\label{bode_cerrando_q_con_controlador}
+\end{figure}
+
+Se busca un margen de fase de $60$ grados, por lo que se agrega una ganancia de $86 dB$ al controlador, calculado como se observa en la Figura (\ref{bode_cerrando_q_con_controlador}). Finalmente, se tiene que
+
+\begin{equation}
+C_2(s) = 1.9953e+04 \cdot \frac{s-10}{s-100}
+\end{equation}
+
+Se valida el control graficando una última vez la respuesta en frencuencia quedando:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{bode_cerrando_q_con_controlador_ganancia}
+	\caption{Respuesta en frencuencia del sistema entre la fuerza aplicada al carrito y el ángulo del péndulo con controlador y frecuencia de cruce ajustada.}
+	\label{bode_cerrando_q_con_controlador_ganancia}
+\end{figure}
+
+donde se observa que el margen de fase es de $\approx 68$ grados.
+
+En este punto del diseño, si se simula el carrito con un disturbio de ruido blanco de un segundo de frecuencia de muestreo, se puede observar que el ángulo es correctamente estabilizado, sin embargo el carrito presenta drift al no ser controlada la posición de este.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{simulacion_solo_angulo}
+	\caption{Simulación de la planta controlando únicamente el ángulo del péndulo.}
+	\label{simulacion_solo_angulo}
+\end{figure}
+
+A continuación, se cierra otro lazo de realimentación por afuera del anterior utilizando la posición del carrito y se grafica la respuesta en frecuencia entre la fuerza aplicada al carrito y la posición de este, obteniendo el siguiente resultado:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{bode_cerrando_p}
+	\caption{Respuesta en frecuencia entre la fuerza aplicada al carrito y la posición de este, cerrando el lazo con realimentación unitaria.}
+	\label{bode_cerrando_p}
+\end{figure}
+
+AIOJGIPSHGPIHASG NO SE POR QUE FUNCIONA ME DI CUENTA QUE CUANDO CERRE EL LAZO TENIA REALIMENTACION POSITIVA SALUDOS
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{simulacion_final}
+	\caption{Simulación final de la planta controlando el ángulo del péndulo y la posición del carrito.}
+	\label{simulacion_solo_angulo}
+\end{figure}
+
+\end{document}
