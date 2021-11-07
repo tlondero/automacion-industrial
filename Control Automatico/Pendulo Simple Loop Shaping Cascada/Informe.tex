@@ -56,17 +56,13 @@ Luego, se utilizó el Model Linearizer de Simulink para linealizar la planta alr
 	\label{1_equilibrio}
 \end{figure}
 
-De esta manera, se obtuvieron las siguientes transferencias:
+De esta manera, se obtuvo la siguiente transferencia desde la fuerza aplicada al carrito al ángulo del péndulo:
 
 \begin{equation}
 \frac{Q(s)}{F(s)} = \frac{0.1763}{(s-1.47)(s+1.47)}
 \end{equation}
 
-\begin{equation}
-\frac{P(s)}{F(s)} = \frac{(s-1.36)(s+1.36)}{s^2(s-1.47)(s+1.47)}
-\end{equation}
-
-donde se nota la presencia de un polo y un cero en el semiplano derecho.
+donde se nota la presencia de un polo en el semiplano derecho.
 
 Se cierra un lazo de realimentación, tomando el valor de $q$ e inyectándolo a la entrada con una ganancia de valor $-1$ y se grafica la respuesta en frecuencia del sistema viendo solamente el ángulo $q$, obteniendo:
 
