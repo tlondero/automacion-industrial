@@ -50,7 +50,7 @@ D = 0;
 %rank(ctrb(A,B))
 %rank(obsv(A,C))
 eig(A)
-K = place(A, B, [-15 -3 -220])
+K = place(A, B, [-15 -3 -220]);
 
 %% Punto F: Control Integral
 
@@ -78,11 +78,21 @@ Kic = Kai(4);
 sys = ss(Aai,Bai,Cai,D);
 Ts = 0.01;
 sysDisc = c2d(sys, Ts, 'tustin');%discrete system
+
 pCont = [-20 -21 -22 -200];%poles in s-domain
 pDisc = exp(pCont.*Ts);%poles in z-domain
 Kdisc = place(sysDisc.A,sysDisc.B,pDisc)
+
+sysd=ss(A,B,C,D);
+sysDiscd=c2d(sysd, Ts, 'tustin');
+Ad=sysDiscd.A;
+Bd=sysDiscd.B;
+Cd=sysDiscd.C;
+Dd=sysDiscd.D;
+
 Kd = Kdisc(1:3)
 Kid = Kdisc(4)
-
+pDiscL = exp([-140 -140 -140].*Ts);%poles in z-domain
+L = (acker(Ad', Cd', pDiscL))'
 
 
