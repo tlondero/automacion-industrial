@@ -1,0 +1,78 @@
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-tabla, es-noshorthands]{babel}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage[a4paper, footnotesep=1.25cm, headheight=1.25cm, top=2.54cm, left=2.54cm, bottom=2.54cm, right=2.54cm]{geometry}
+%\geometry{showframe}
+
+%\usepackage{wrapfig}			%Wrap figure in text
+\usepackage[export]{adjustbox}	%Move images
+\usepackage{changepage}			%Move tables
+
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\setlength{\doublerulesep}{\arrayrulewidth}
+\usepackage{booktabs}
+\usepackage[numbib, nottoc, notlot, notlof]{tocbibind}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    citecolor=blue,    
+}
+
+%Change Font Size
+
+% #1 = size, #2 = text
+\newcommand{\setparagraphsize}[2]{{\fontsize{#1}{6}\selectfont#2 \par}}		%Cambia el size de todo el parrafo
+\newcommand{\setlinesize}[2]{{\fontsize{#1}{6}\selectfont#2}}				%Cambia el font de una oración
+
+\newcommand{\note}[1]{
+	\begin{center}
+		\huge{ \textcolor{red}{#1} }
+	\end{center}
+}
+
+%FONTS (IMPORTANTE): Compilar en XeLaTex o LuaLaTeX
+\usepackage{anyfontsize}	%Font size
+\usepackage{fontspec}		%Font type
+
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\floatpagefraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\setlength{\floatsep}{5pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{5pt plus 2pt minus 2pt}
+\setlength{\intextsep}{5pt plus 2pt minus 2pt}
+
+\newcommand{\quotes}[1]{``#1''}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\usepackage[american]{circuitikz}
+\usetikzlibrary{calc}
+\usepackage{fancyhdr}
+\usepackage{units} 
+
+\graphicspath{{../Control de posición no lineal/}{../Control de fuerza no lineal/}{../Control híbrido no lineal/}{../Referencias/}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{22.99 - Automación Industrial}
+\rhead{Lambertucci, Londero B., Maselli, Mechoulam}
+\rfoot{Página \thepage}
