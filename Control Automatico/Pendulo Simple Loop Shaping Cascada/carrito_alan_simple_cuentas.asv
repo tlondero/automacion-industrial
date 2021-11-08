@@ -46,4 +46,7 @@ bode(G_p*C_p)
 %0.2rad/seg por debajo del limite de 0.5rad/seg, multiplicamos por 70.9dB. 
 C_p = -db2mag(70.9)*(s+0.1)/(s+100);
 [C_p_n, C_p_d] = tfdata(C_p,'v');
-margin(G_p*C_p);
+bode(G_p*C_p);
+%Se valida el diseño.
+margin(G_p*C_p)
+%Simulando con un step de 10 de amplitud en 
