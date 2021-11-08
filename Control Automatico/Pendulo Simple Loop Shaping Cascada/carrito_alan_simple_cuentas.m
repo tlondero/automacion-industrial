@@ -47,3 +47,21 @@ bode(G_p*C_p)
 C_p = -db2mag(70.9)*(s+0.1)/(s+100);
 [C_p_n, C_p_d] = tfdata(C_p,'v');
 margin(G_p*C_p);
+%Tras la simulación con un step en la referencia de posición de 5, se
+%observa error permanente en la posición del carro. Esto es raro debido a
+%que 
+L_p = G_p*C_p;
+T_p = L_p/(1+L_p);
+S_p = 1-T_p;
+bode(S_p)
+%Se observa un pico muy pequeño en S_p, lo que da indicio de un buen margen
+%de estabilidad.
+step(T_p)
+%En el step de la función de sensibilidad complementaria se puede ver la
+%acción del cero en el semiplano derecho al actuar al carrito en la
+%dirección contraria a la referencia, para luego volver y asentarse sin
+%error permanente sobre la referencia.
+
+%Sin embargo, al simular con simscape, si bien tanto el ángulo como la
+%posición son correctamente estabilizadas, sí se ve error permanente en la
+%posición. Esto es raro debido a que la planta es de tipo 2.
