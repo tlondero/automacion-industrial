@@ -23,7 +23,7 @@ rank(ctrb(sys.A, sys.B));
 %Realizamos la realimentación de estados teniendo en cuenta que el
 %controlador debe ser lo suficientemente rapido para lograr controlar la
 %inestabilidad del polo del semiplano derecho.
-K = acker(sys.A, sys.B, [-15 -15 -3 -3]);
+K = acker(sys.A, sys.B, [-3 -3 -2 -2]);
 %El algoritmo de acker presenta error en los lugares de los polos por mas
 %de un 10% de lo esperado, sin embargo el diseño se valida mediante la
 %simulación y se logra asi obtener ganancia mas pequenas.
@@ -42,8 +42,7 @@ Bar = [zeros(4,1);
 Ca = [C 0];
 Da = 0;
 %Calculamos las ganancias
-Ka = acker(Aa, Ba, [-15 -15 -3 -3 -50])
-
+Ka = acker(Aa, Ba, [-2.5 -2.5 -1 -1 -4]);
 sys_i = ss(Aa, Ba, Ca, Da);
 sys_i_cl = ss(Aa-Ba*Ka, Bar, Ca, Da);
 
