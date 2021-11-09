@@ -2,6 +2,78 @@
 
 %\begin{document}
 
-\subsection{XXX}
+\subsection{Caracterizaci\'on del problema}
+Para este caso se pidi\'o un control de fuerzas no lineal. Para ello un aspecto fundamental es modelar las fuerzas del sistema que interaccionan con el actuador.
+En este caso es la pared que trabaja como obst\'aculo. La fuerza de reacci\'on entre el EE y la pared ser\'a aquella definida por:
+\begin{equation}
+f_r = k_e \cdot d \ \hat{n}
+\end{equation}
+La cual es una fuerza proporcional a la distancia y normal a la superficie de la pared.
+Esta fuerza  ser\'a nula mientras el EE no se encuentre en contacto con la pared y no nula en caso de estarlo.
 
+\subsection{Esquema de control propuesto}
+El esquema de control porpuesto ser\'a nuevamente una linealizaci\'on por realimentaci\'on de la siguiente manera.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/controlf}
+	\caption{Topolog\'ia del control de fuerza no lineal.}	
+	\label{fig:control_f_modelo}
+\end{figure}
+
+
+HABLAR DE VALROES DE GANANCIAS
+\subsection{Resultados}
+Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_a}
+	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\label{fig:athetas}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_b}
+	\caption{Posici\'on  del EE.}	
+	\label{fig:apos}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{ImagenesControl de fuerza no lineal/2_3_c}
+	\caption{Gr\'afico XY.}	
+	\label{fig:axy}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_e}
+	\caption{Gr\'afico XY.}	
+	\label{fig:af}
+\end{figure}
+Ademas se le incluy\'o un disturbio a la planta tanto en posici\'on como en velocidad.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_f_a}
+	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\label{fig:athetasd}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_f_b}
+	\caption{Posici\'on del EE.}	
+	\label{fig:aposd}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{ImagenesControl de fuerza no lineal/2_3_f_c}
+	\caption{Gr\'afico XY.}	
+	\label{fig:bxyd}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_f_e}
+	\caption{Fuerza deseada y real.}	
+	\label{fig:bfd}
+\end{figure}
 %\end{document}

@@ -2,6 +2,73 @@
 
 %\begin{document}
 
-\subsection{XXX}
+\subsection{Caracterizaci\'on del problema}
+Finalmente se realiz\'o un control hibrido, en el cual toman parte tanto posici\'on como fuerza.
 
+
+\subsection{Esquema de control propuesto}
+El esquema de control porpuesto ser\'a nuevamente una linealizaci\'on por realimentaci\'on de la siguiente manera.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/controlh}
+	\caption{Topolog\'ia del control de fuerza no lineal.}	
+	\label{fig:control_f_modelo}
+\end{figure}
+
+
+HABLAR DE VALROES DE GANANCIAS
+\subsection{Resultados}
+Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_a}
+	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\label{fig:cthetas}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_b}
+	\caption{Posici\'on  del EE.}	
+	\label{fig:cpos}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{ImagenesControl híbrido no lineal/3_3_c}
+	\caption{Gr\'afico XY.}	
+	\label{fig:cxy}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_e}
+	\caption{Gr\'afico XY.}	
+	\label{fig:cf}
+\end{figure}
+Ademas se le incluy\'o un disturbio a la planta tanto en posici\'on como en velocidad.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_f_a}
+	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\label{fig:cthetasd}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_f_b}
+	\caption{Posici\'on del EE.}	
+	\label{fig:cposd}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{ImagenesControl híbrido no lineal/3_3_f_c}
+	\caption{Gr\'afico XY.}	
+	\label{fig:cxyd}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_f_e}
+	\caption{Fuerza deseada y real.}	
+	\label{fig:cfd}
+\end{figure}
 %\end{document}

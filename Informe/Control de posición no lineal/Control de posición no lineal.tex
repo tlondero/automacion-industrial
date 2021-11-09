@@ -14,7 +14,7 @@ Es fundamental para este tipo de control tener un gran conocimiento de la planta
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/modelo_control_p}
-	\caption{Topolog\'ia del control cartesiano no lineal.}	
+	\caption{Topolog\'ia del control de posici\'on cartesiano no lineal.}	
 	\label{fig:control_p_modelo}
 \end{figure}
 Cabe mencionar que las matrices $M_x,\ V_x, \ y \ G_x$ se encuentran en espacio cartesiano, y la manera de pasar de las mismas en espacio joint es la siguiente:
@@ -26,5 +26,53 @@ V_x(\Theta , \dot{\Theta}) = J^{-T}(\Theta) \left( V(\Theta , \dot{\Theta}) - M(
 \end{equation} 
 \begin{equation}
 G_x(\Theta) = J^{-T}(\Theta) G(\Theta) 
-\end{equation} 
+\end{equation}
+
+
+HABLAR DE VALROES DE GANANCIAS
+
+\subsection{Resultados}
+Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_a}
+	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\label{fig:athetas}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_b}
+	\caption{Posici\'on deseada y real del EE.}	
+	\label{fig:apos}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{ImagenesControl de posición no lineal/1_3_c}
+	\caption{Gr\'afico XY.}	
+	\label{fig:axy}
+\end{figure}
+
+Ademas se le incluy\'o un disturbio a la planta tanto en posici\'on como en velocidad.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_e_a}
+	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\label{fig:athetasd}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_e_b}
+	\caption{Posici\'on deseada y real del EE.}	
+	\label{fig:aposd}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{ImagenesControl de posición no lineal/1_3_e_c}
+	\caption{Gr\'afico XY.}	
+	\label{fig:axyd}
+\end{figure}
+
 %\end{document}
