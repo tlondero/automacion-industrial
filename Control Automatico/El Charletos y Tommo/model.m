@@ -35,6 +35,17 @@ rank(obs);
 
 K = acker(A, B, [-10 -10 -15 -15])
 
+
+
+
+syms x1 x2 x3 x4 u;
+
+f = [x2;
+    u+m*l*(u+(M+m)*g*x4)/((M+m)*(I/(m*l)+l)-m*l);
+    x4;
+    (u+(M+m)*g*x4)/((M+m)*(I/(m*l)+l)-m*l)];
+
+
 %[num, den] = ss2tf(A,B,C,D); T = minreal(tf(num,den))
 
 % Aai=[A B; -Cc -D];
