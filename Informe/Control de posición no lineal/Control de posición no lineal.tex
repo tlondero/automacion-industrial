@@ -2,6 +2,29 @@
 
 %\begin{document}
 
-\subsection{XXX}
-
+\subsection{Caracterizaci\'on del problema}
+Se pide un control cartesiano no lineal para el manipulador RR. Agregando una zona prohibida que es todo valor por encima de una pared, descrita en el plano XY pro la siguiente ecuaci\'on:
+\begin{equation}
+y=2-x
+\end{equation}
+Al manipulador se le pide que vaya del punto (1;-1;0) a (1;1;0). Para generar la trayectoria se utiliza la función \textbf{jtraj} del toolbox de matlab de Peter Corke.
+\subsection{Esquema de control}
+El modelo de control porpuesto es el conocido como linealizaci\'on por realimentaci\'on.
+Es fundamental para este tipo de control tener un gran conocimiento de la planta, ya que basicamente se lo controla como si fuese lineal, con un esquema tipo PD. Con la diferencia que se le agrega  a la acci\'on de control la respuesta no lineal de la planta, gracias al conocimiento del modelo no lineal de la planta y sus variables de estado.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/modelo_control_p}
+	\caption{Topolog\'ia del control cartesiano no lineal.}	
+	\label{fig:control_p_modelo}
+\end{figure}
+Cabe mencionar que las matrices $M_x,\ V_x, \ y \ G_x$ se encuentran en espacio cartesiano, y la manera de pasar de las mismas en espacio joint es la siguiente:
+\begin{equation}
+M_x(\Theta) = J^{-T}(\Theta) M(\Theta) J^{-1}(\Theta)
+\end{equation} 
+\begin{equation}
+V_x(\Theta , \dot{\Theta}) = J^{-T}(\Theta) \left( V(\Theta , \dot{\Theta}) - M(\Theta) J^{-1}(\Theta) \dot{J}(\Theta) \dot{\Theta} \right)
+\end{equation} 
+\begin{equation}
+G_x(\Theta) = J^{-T}(\Theta) G(\Theta) 
+\end{equation} 
 %\end{document}
