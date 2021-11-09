@@ -33,20 +33,23 @@ HABLAR DE VALROES DE GANANCIAS
 
 \subsection{Resultados}
 Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
-
+Aqui se pueden observar los angulos de los manipuladores en espacio de joint.
+Como el primer rotacional hace una trayectoria de $-\frac{\pi}{2}$ hacia 0, y el segundo si bien el punto inicial y final son el mismo, se desv\'ia con el prop\'osito de seguir la trayectoria cartesiana indicada.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_a}
 	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
 	\label{fig:athetas}
 \end{figure}
-
+Aqu\'i se ven tanto las referencias como las coordendas reales que tomo el EE, con un error porcentual menor al XX$\%$ 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_b}
 	\caption{Posici\'on deseada y real del EE.}	
 	\label{fig:apos}
 \end{figure}
+
+La trayectoria descripta por el EE se observa claramente en la siguiente imagen.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{ImagenesControl de posición no lineal/1_3_c}
@@ -54,7 +57,8 @@ Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
 	\label{fig:axy}
 \end{figure}
 
-Ademas se le incluy\'o un disturbio a la planta tanto en posici\'on como en velocidad.
+Ademas se le incluy\'o un disturbio a la planta tanto en posici\'on como en velocidad. Este disturbio sucede en el segundo 14. Y se observa en los siguientes gráficos como el manipulador se ve afectado por el mismo y luego vuelve rápidamente a la referencia.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_e_a}

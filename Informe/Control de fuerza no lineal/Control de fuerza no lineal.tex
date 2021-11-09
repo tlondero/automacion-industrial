@@ -24,14 +24,14 @@ El esquema de control porpuesto ser\'a nuevamente una linealizaci\'on por realim
 HABLAR DE VALROES DE GANANCIAS
 \subsection{Resultados}
 Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
-
+Algo carácteristico que tiene este control de fuerzas es que debido a que no hay información provista como referencia de posición, el manipulador se moverá hasta estar cerca de la pared, y leugo realizará una breve oscilación sobre la pared hasta llegar a un estado permanente en el cual el manipulador estará apicando la fuerza comandada por la referencia.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_a}
 	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
 	\label{fig:athetas}
 \end{figure}
-
+Se observa claramente en la siguiente imagen, como oscila levemente el EE al llegar a la pared.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_b}
@@ -44,6 +44,8 @@ Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
 	\caption{Gr\'afico XY.}	
 	\label{fig:axy}
 \end{figure}
+Cabe mencionar en este gráfico que en todos los puntos en los cuales la función es cero, se debe a que el manipulador no esta en contacto con la pared por lo que la misma no aplica una fuerza.
+Además se ve como una vez alcanzada la pared y dada una referencia, el EE osicla levemente en torno a la referencia hasta establecerse.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_e}
@@ -51,13 +53,14 @@ Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
 	\label{fig:af}
 \end{figure}
 Ademas se le incluy\'o un disturbio a la planta tanto en posici\'on como en velocidad.
+Se puede ver claramente en este gráfico el momento en el que se le aplica el disturbio a la planta, y como las variables de estado se estabilizan nuevamente.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_f_a}
 	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
 	\label{fig:athetasd}
 \end{figure}
-
+Aqui se ve el movimiento del EE.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_f_b}
@@ -70,6 +73,7 @@ Ademas se le incluy\'o un disturbio a la planta tanto en posici\'on como en velo
 	\caption{Gr\'afico XY.}	
 	\label{fig:bxyd}
 \end{figure}
+Y finalmente se observa un gráfico similar al de fuerzas anterior, con la diferencia de que se hace nulo el valor de la fuerza aplicada en el segundo 15 al EE despegarse completamente de la pared. luego vuelve a la misma y se establece en el régimen permanente nuevamente.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de fuerza no lineal/2_3_f_e}
