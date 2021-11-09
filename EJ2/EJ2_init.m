@@ -6,7 +6,7 @@ cfg.Izz=1;
 cfg.L=1;
 cfg.b=1;
 
-pert = 1;
+pert = 0;
 
 Juan = RobotInit(pert);
 
