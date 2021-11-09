@@ -37,25 +37,25 @@ G_p = (0.94101 * (s+200) * (s+1.356) * (s-1.356)) / (s^2 * (s+2.635) * (s^2 + 19
 %Notar que hay un cero en el semiplano derecho en 1.356 rad/s. La teoría nos indica que la
 %frecuencia de cruce debe estar por debajo de 0.6 veces la frecuencia del
 %polo en el semiplano derecho que sería alrededor de 0.5 rad/s.
-%Agregamos un cero en -0.1rad/s para brindar adelanto de fase alrededor de
+%Agregamos un cero en -0.05rad/s para brindar adelanto de fase a la izquierda de
 %0.5rad/seg. Ademas agregamos un polo rápido en -100 para hacer el
 %controlador realizable.
-C_p = -(s+0.1)/(s+100);
+C_p = -(s+0.05)/(s+100);
 bode(G_p*C_p)
-%Para tener un margen de fase de 60 grados y una frecuencia de cruce de
-%0.2rad/seg por debajo del limite de 0.5rad/seg, multiplicamos por 70.9dB. 
-C_p = -db2mag(70.9)*(s+0.1)/(s+100);
+%Para tener un margen buen margen de fase a una frecuencia de cruce de
+%por debajo del limite de 0.5rad/seg, multiplicamos por 76.9dB. 
+C_p = -db2mag(76.9)*(s+0.05)/(s+100);
 [C_p_n, C_p_d] = tfdata(C_p,'v');
 margin(G_p*C_p);
-%Tras la simulación con un step en la referencia de posición de 5, se
-%observa error permanente en la posición del carro. Esto es raro debido a
-%que 
 L_p = G_p*C_p;
 T_p = L_p/(1+L_p);
 S_p = 1-T_p;
 bode(S_p)
-%Se observa un pico muy pequeño en S_p, lo que da indicio de un buen margen
-%de estabilidad.
+%Se observa un pico de 6db en S_p, esto esta casi al límite de un buen
+%margen de estabilidad. Además, si bien el margen de fase es bueno, el
+%margen de ganancia es bastante malo, pero es el costo de tener un
+%controlador lo más rápido posible, dentro de las limitaciones de
+%implementación por las características de la planta.
 step(T_p)
 %En el step de la función de sensibilidad complementaria se puede ver la
 %acción del cero en el semiplano derecho al actuar al carrito en la
