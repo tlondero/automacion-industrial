@@ -25,11 +25,21 @@ El esquema de control propuesto es nuevamente una linealización por realimentac
 
 \observacion{\verObs}{HABLAR DE VALORES DE GANANCIAS}
 
-Nuevamente y de manera análoga lo presentado en las Secciones (\ref{sec:posic}) y (\ref{sec:fuerza}), se utilizó el método de Ziegler-Nichols. De esta forma, los valores obtenidos fueron:
+\label{sec:fuerza_}
+Nuevamente y de manera análoga lo presentado en las Secciones (\ref{sec:posic}) y (\ref{sec:fuerza}), se utilizó el método de Ziegler-Nichols. De esta forma, lo que se alcanzó fue:
+\begin{multicols}{2}
 \begin{itemize}
-	\item Kv = [139 0;0 139].
-	\item Kp = [420 0; 0 420].
+	\item $Kvf = \begin{pmatrix}
+	150 & 0 \\
+	0 & 150
+	\end{pmatrix}$
+	\item $Kpf \cdot {Ke}^{-1} =
+	\begin{pmatrix}
+	5 & 0 \\
+	0 & 5
+	\end{pmatrix}$
 \end{itemize}
+\end{multicols}
 
 \subsection{Resultados}
 Nuevamente se realizó el simulink del sistema, obteniendo así los gráficos que se presentan a continuación.
