@@ -26,3 +26,4 @@ cfg.V= [0 -cfg.L*cfg.m2;  %Falta multiplicarlo por s2, se hace en modelo
       
 cfg.Kv = [150 0; 0 150]
 cfg.Kp = [250 0; 0 250]
+cfg.kpfke=5
