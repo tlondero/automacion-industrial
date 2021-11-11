@@ -2,6 +2,8 @@
 
 \begin{document}
 
+\def\verObs{1}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %		Caratula		%
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -24,6 +26,8 @@
 %		Informe		%
 %%%%%%%%%%%%%%%%%%%%%
 
+\observacion{\verObs}{El legajo del charlo.}
+
 \section{Deducción de modelo}
 \input{../Deducción de modelo/Deducción de modelo.tex}
 
@@ -37,14 +41,7 @@
 \input{../Control híbrido no lineal/Control híbrido no lineal.tex}
 
 \section{Conclusiones}
-Hubo la oportunidad de desarrollar analíticamente la mecánica del manipulador propuesto por la cátedra, obteniendo a través del método de Lagrange el vector de torques, al igual que por propagación de velocidades la matriz jacobiana. Parámetros sumamente importantes para la siguiente actividad, la cual fue llevar a cabo diversos tipos de control, tanto de posición y fuerzo e incluso uno híbrido el cual incluía tanto posición como fuerza.
-
- Se exploraron varias topologías de control no lineal, como puede ser la linealización por punto de equilibrio variable, y la linealización por realimentación. La utilizada fue la linealización por realimetnación debido al amplio conocimiento que se tiene sobre la planta. 
-
-Se profundizó en el uso de simulink  al igual que un aprendizaje en el uso del toolbox de robotics de Peter Corke, una gran herramienta para la simulación de manipuladores. 
-
-Finalmente se observó como era la reacción de los distintos tipos de control ante disturbios en la planta.
-Y como estos volvían a sus señales respectivas de referencia.
+\input{../Conclusiones/Conclusiones.tex}
 
 %\newpage
 %\input{../Referencias/Referencias.tex}

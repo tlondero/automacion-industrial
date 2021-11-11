@@ -9,18 +9,21 @@ La consigna propone un manipulador RR de las siguientes cualidades.
 	\caption{Manipulador RR.}	
 	\label{fig:brazo}
 \end{figure}
-Donde para los parametros DH se opto por la posicion $\theta_1 \ = \ 0$ y $\theta_2 \ = \ 0$.
-A partir de ello se obtuvieron los siguientes par\'ametros DH (Donde todas las ternas son paralelas. Los Z paralelos, los ejes X colineales y en sentido del siguiente link).
+
+Para los parámetros DH se optó por la posición $\theta_1 = 0$ y $\theta_2 = 0$.
+Planteando todas las ternas paralelas, es decir, los ejes Z paralelos, los X colineales, se obtuvieron los siguientes parámetros.
 \begin{table}[H]
 \centering
-\begin{tabular}{c|c|c|c|c}
+\begin{tabular}{ccccc}
+\hline
 \textbf{}   & \textbf{$\alpha$} & \textbf{a} & \textbf{$\theta$} & \textbf{d} \\ \hline
 \textbf{1}  & 0                 & 0          & $\theta_1$        & 0          \\
 \textbf{2}  & 0                 & $L_1$      & $\theta_2$        & 0          \\
 \textbf{EE} & 0                 & $L_2$      & 0                 & 0          \\ \hline
 \end{tabular}
 \end{table}
-Luego realizando la propagaci\'on de velocidades se obtiene que:
+
+Luego realizando la propagación de velocidades se obtiene que:
 \begin{equation}
 ^1v_1 = 0 
 \end{equation}
@@ -30,35 +33,34 @@ Luego realizando la propagaci\'on de velocidades se obtiene que:
 \begin{equation}
 ^2v_2 = \dot{\theta_1} \cdot \sin(\theta_2)L \  \cdot \ \hat{i} + \dot{\theta_1} \cdot \cos(\theta_2)L  \ \cdot \  \hat{j}
 \end{equation}
-
 \begin{equation}
 ^2\omega_2= \dot{\theta_1}+\dot{\theta_2}  \ \cdot \ \hat{k}
 \end{equation}
-Luego obteniendo los correspondientes a los centros de masa (Ubicados al final de cada link).
-\begin{equation}
+
+A continuación, con los correspondientes a los centros de masa, ubicados al final de cada link, se calculan las velocidades de estos.
+\begin{equation*}
 ^1v_{c1}=\dot{\theta_1}L \ \cdot \  \hat{j}
-\end{equation}
-
-\begin{equation}
+\end{equation*}
+\begin{equation*}
 ^2v_{c2}=\dot{\theta_1} \cdot \sin(\theta_2)L  \ \cdot \ \hat{i} + \left( \dot{\theta_1} \cdot \cos(\theta_2)L  + L( \dot{\theta_1}+\dot{\theta_2} ) \right) \ \cdot \  \hat{j}
-\end{equation}
-Las matrices de inercia ser\'an diagonales con valores $I_{zz}=mL^2$, $I_{yy}=mL^2$ e $I_{xx}=0$
+\end{equation*}
 
+Además las matrices de inercia son diagonales con valores $I_{zz}=mL^2$, $I_{yy}=mL^2$ e $I_{xx}=0$.
 
 Luego se procede a calcular el vector de torques.
 \begin{equation}
 \mathcal{L}(\Theta , \dot{\Theta}) = k(\Theta , \dot{\Theta}) - u(\Theta)
 \end{equation}
-\begin{equation}
+\begin{equation*}
 \tau = \frac{d}{dt}\left(\frac{\partial k}{\partial \dot{\Theta}} \right) - \frac{\partial k}{\partial \Theta} + \frac{\partial u}{\partial \Theta}
-\end{equation}
-Debido a que todo el movimiento del brazo se encuentra al mismo potencial gravitatorio los terminos de u son nulos.
+\end{equation*}
 
+Debido a que todo el movimiento del brazo se encuentra al mismo potencial gravitatorio los términos de $u$ son nulos.
 
 Operando se obtiene un modelo de la siguiente forma:
-\begin{equation}
+\begin{equation*}
 \tau =  M(\Theta) \ddot{\Theta} + V(\Theta , \dot{\Theta}) + G(\Theta) + F(\Theta , \dot{\Theta})
-\end{equation}
+\end{equation*}
 \begin{equation}
 \tau = \begin{pmatrix}
 2m_2L^2+2I_{zz}+m_1L^2 & m_2L^2+I_{zz}\\
@@ -74,11 +76,12 @@ m_2L^2+I_{zz} & m_2L^2+I_{zz}
 -\dot{\theta_2}b_2+L\sin(\theta_2)m_2\dot{\theta_1}
 \end{pmatrix}
 \end{equation}
-Adicionalmente se obtuvo el Jacobiano, si bien este es una matriz de 3x2, dado a que nunca hay un movimiento en el versor k, se lo toma de 2x2.
+
+Adicionalmente se obtuvo el Jacobiano. Si bien este es una matriz de 3x2, dado a que nunca hay un movimiento en el eje Z, se toma el sistema de 2x2.
 \begin{equation}
 ^{EE}J=\begin{pmatrix}
 L\sin(\theta_2) & 0 \\
-L(\cos(\theta+2)+1) & L
+L\left[\cos(\theta+2)+1\right] & L
 \end{pmatrix}
 \end{equation}
 %\end{document}

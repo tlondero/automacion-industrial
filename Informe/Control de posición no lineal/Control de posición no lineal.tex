@@ -2,80 +2,89 @@
 
 %\begin{document}
 
-\subsection{Caracterizaci\'on del problema}
-Se pide un control cartesiano no lineal para el manipulador RR. Agregando una zona prohibida que es todo valor por encima de una pared, descrita en el plano XY pro la siguiente ecuaci\'on:
+\subsection{Caracterización del problema}
+Se desarrolla un control cartesiano no lineal para el manipulador RR. Además se debe considerar una zona prohibida, representada por todo aquel valor por encima de una pared, descrita en el plano XY pro la siguiente ecuación:
 \begin{equation}
 y=2-x
 \end{equation}
-Al manipulador se le pide que vaya del punto (1;-1;0) a (1;1;0). Para generar la trayectoria se utiliza la función \textbf{jtraj} del toolbox de matlab de Peter Corke.
+
+Se busca que el manipulador se desplace desde el punto (1;-1;0) al (1;1;0). Para generar la trayectoria se utiliza la función \textbf{jtraj} del toolbox de matlab de Peter Corke.
+
 \subsection{Esquema de control}
-El modelo de control porpuesto es el conocido como linealizaci\'on por realimentaci\'on.
-Es fundamental para este tipo de control tener un gran conocimiento de la planta, ya que basicamente se lo controla como si fuese lineal, con un esquema tipo PD. Con la diferencia que se le agrega  a la acci\'on de control la respuesta no lineal de la planta, gracias al conocimiento del modelo no lineal de la planta y sus variables de estado.
+El modelo de control propuesto es el conocido como linealización por realimentación. Es fundamental para este tipo de control tener un gran conocimiento de la planta, ya que básicamente se realiza el control como si fuese lineal, con un esquema tipo PD, con la diferencia que se agrega a la acción de control la respuesta no lineal de la planta.
+%gracias al conocimiento del modelo no lineal de la planta y sus variables de estado.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/modelo_control_p}
-	\caption{Topolog\'ia del control de posici\'on cartesiano no lineal.}	
+	\caption{Topología del control de posición cartesiano no lineal.}	
 	\label{fig:control_p_modelo}
 \end{figure}
-Cabe mencionar que las matrices $M_x,\ V_x, \ y \ G_x$ se encuentran en espacio cartesiano, y la manera de pasar de las mismas en espacio joint es la siguiente:
-\begin{equation}
+
+Cabe mencionar que las matrices $M_x,\ V_x, \ y \ G_x$ se encuentran en espacio cartesiano. La manera de pasar de las mismas en espacio joint es la siguiente:
+\begin{equation*}
 M_x(\Theta) = J^{-T}(\Theta) M(\Theta) J^{-1}(\Theta)
-\end{equation} 
-\begin{equation}
+\end{equation*} 
+\begin{equation*}
 V_x(\Theta , \dot{\Theta}) = J^{-T}(\Theta) \left( V(\Theta , \dot{\Theta}) - M(\Theta) J^{-1}(\Theta) \dot{J}(\Theta) \dot{\Theta} \right)
-\end{equation} 
-\begin{equation}
+\end{equation*} 
+\begin{equation*}
 G_x(\Theta) = J^{-T}(\Theta) G(\Theta) 
-\end{equation}
+\end{equation*}
 
-
-HABLAR DE VALROES DE GANANCIAS
+\observacion{\verObs}{HABLAR DE VALORES DE GANANCIAS}
 
 \subsection{Resultados}
-Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
-Aqui se pueden observar los angulos de los manipuladores en espacio de joint.
-Como el primer rotacional hace una trayectoria de $-\frac{\pi}{2}$ hacia 0, y el segundo si bien el punto inicial y final son el mismo, se desv\'ia con el prop\'osito de seguir la trayectoria cartesiana indicada.
+Se realizó el sistema en simulink. Se obtuvieron los siguientes gráficos.
+En estos se pueden observar los ángulos de los manipuladores en espacio de joint.
+
+Como el primer rotacional hace una trayectoria de $-\frac{\pi}{2}$ hacia $0$, y el segundo, si bien el punto inicial y final son el mismo, se desvía con el propósito de seguir la trayectoria cartesiana indicada.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_a}
-	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\caption{Ángulos en función del tiempo en espacio joint.}	
 	\label{fig:athetas}
 \end{figure}
-Aqu\'i se ven tanto las referencias como las coordendas reales que tomo el EE, con un error porcentual menor al XX$\%$ 
+
+En la Figura (\ref{fig:aposd}) se ven tanto las referencias como las coordenadas reales que tomó el EE, con un error porcentual menor del XX$\%$. 
+
+\observacion{\verObs}{Porcentaje desconocido.}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_b}
-	\caption{Posici\'on deseada y real del EE.}	
+	\caption{Posición deseada y real del EE.}	
 	\label{fig:apos}
 \end{figure}
-
 La trayectoria descripta por el EE se observa claramente en la siguiente imagen.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{ImagenesControl de posición no lineal/1_3_c}
-	\caption{Gr\'afico XY.}	
+	\caption{Gráfico XY.}	
 	\label{fig:axy}
 \end{figure}
 
-Ademas se le incluy\'o un disturbio a la planta tanto en posici\'on como en velocidad. Este disturbio sucede en el segundo 14. Y se observa en los siguientes gráficos como el manipulador se ve afectado por el mismo y luego vuelve rápidamente a la referencia.
+Ademas se le incluyó un disturbio a la planta tanto en posición como en velocidad. Este disturbio sucede en el segundo 14. Se observa en los siguientes gráficos como el manipulador es afectado por el mismo y luego vuelve rápidamente a la referencia.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_e_a}
-	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\caption{Ángulos en función del tiempo en espacio joint.}	
 	\label{fig:athetasd}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_e_b}
-	\caption{Posici\'on deseada y real del EE.}	
+	\caption{Posición deseada y real del EE.}	
 	\label{fig:aposd}
 \end{figure}
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{ImagenesControl de posición no lineal/1_3_e_c}
-	\caption{Gr\'afico XY.}	
+	\caption{Gráfico XY.}	
 	\label{fig:axyd}
 \end{figure}
 

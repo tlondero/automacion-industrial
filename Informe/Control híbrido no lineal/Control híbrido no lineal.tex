@@ -2,74 +2,89 @@
 
 %\begin{document}
 
-\subsection{Caracterizaci\'on del problema}
-Finalmente se realiz\'o un control hibrido, en el cual toman parte tanto posici\'on como fuerza.
-
+\subsection{Caracterización del problema}
+Finalmente se realizó un control híbrido, el cual toma parte tanto del control de posición como de fuerza.
 
 \subsection{Esquema de control propuesto}
-El esquema de control porpuesto ser\'a nuevamente una linealizaci\'on por realimentaci\'on de la siguiente manera.
+El esquema de control propuesto es nuevamente una linealización por realimentación de la siguiente manera:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/controlh}
-	\caption{Topolog\'ia del control de fuerza no lineal.}	
-	\label{fig:control_f_modelo}
+	\caption{Topología del control de fuerza no lineal.}	
+	\label{fig:control_f_modelo_h}
 \end{figure}
 
+\observacion{\verObs}{HABLAR DE VALORES DE GANANCIAS}
 
-HABLAR DE VALROES DE GANANCIAS
 \subsection{Resultados}
-Se realiz\'o el simulink del sistema. Obteniendo los siguientes gr\'aficos.
-En este control sucede algo muy peculiar. Debido a las ganancias elegidas existe un control mas fuerte asociado al control de fuerzas que al de trayectoria, por lo que aproximadamente en el segundo 1 el EE se acerca a la pared y sigue pegado a esta, si bien se mueve la dirección provista por el contorol de posición, lo hace pegado a la pared.
+Se realizó el simulink del sistema. Es así que se obtuvieron los gráficos siguientes.
+
+Debido a las ganancias elegidas existe un control más fuerte asociado al control de fuerzas que al de trayectoria. Por dicha razón es que aproximadamente en el segundo 1, el EE se acerca a la pared y sigue pegado a esta.
+
+Si bien se mueve en la dirección provista por el control de posición, lo hace pegado a la pared.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_a}
-	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\caption{Ángulos en función del tiempo en espacio joint.}	
 	\label{fig:cthetas}
 \end{figure}
+
 Se puede ver como convergen las posiciones del EE con las de la referencia.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_b}
-	\caption{Posici\'on  del EE.}	
+	\caption{Posición  del EE.}	
 	\label{fig:cpos}
 \end{figure}
-En el siguiente gráfico se puede apreciar claramente lo discutido previamente, como el EE al llegar a la pared este se pega a ella, y avanza sobre la pared en dirección al punto descrito por el control de posición.
+
+En la Figura (\Ref{fig:cxy}) se puede apreciar claramente lo discutido previamente, es decir como el EE, al llegar a la pared, este se pega a ella y avanza sobre la misma en dirección al punto descrito por el control de posición.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{ImagenesControl híbrido no lineal/3_3_c}
-	\caption{Gr\'afico XY.}	
+	\caption{Gráfico XY.}	
 	\label{fig:cxy}
 \end{figure}
-Aqui tambien se ve como aproximadamente en el segundo 2.5 el EE llega  ala pared y comienza a hacer fuerza contra la misma, y esta fuerza se mantiene por todo el recorrido hasta el fin.
+
+Aquí también se ve como aproximadamente en el segundo 2.5 el EE llega a la pared y comienza a hacer fuerza contra la misma. Esta fuerza se mantiene por todo el recorrido hasta el fin.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_e}
-	\caption{Gr\'afico XY.}	
+	\caption{Gráfico XY.}	
 	\label{fig:cf}
 \end{figure}
-Ademas se le incluy\'o un disturbio a la planta tanto en posici\'on como en velocidad. En este caso el disturbio se optó por hacerlo en el segundo 5, así se observa como reacciona el manipulador en pleno movimiento en vez de en régimen permanente.
-Se puede ver como si bien hay mucho mayor desvio de la posición, las variables convergen. 
+
+Ademas se incluyó un disturbio a la planta tanto en posición como en velocidad. En este caso, se optó por hacer el disturbio en el segundo 5. Es así que se observa como reacciona el manipulador en pleno movimiento en vez de en régimen permanente.
+
+Se puede ver que, si bien hay mucho mayor desvío de la posición, las variables convergen. 
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_f_a}
-	\caption{\'Angulos en funci\'on del tiempo en espacio joint.}	
+	\caption{Ángulos en función del tiempo en espacio joint.}	
 	\label{fig:cthetasd}
 \end{figure}
+
 En este caso es el control en el que mayor error respecto de la referencia hay.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_f_b}
-	\caption{Posici\'on del EE.}	
+	\caption{Posición del EE.}	
 	\label{fig:cposd}
 \end{figure}
-Aquí se puede ver como se desplazo el EE por el plano, pegado a la pared hasta el disturbio.
+
+Aquí se puede ver como se desplazó el EE por el plano, pegado a la pared hasta el disturbio.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{ImagenesControl híbrido no lineal/3_3_f_c}
-	\caption{Gr\'afico XY.}	
+	\caption{Gráfico XY.}	
 	\label{fig:cxyd}
 \end{figure}
-En este gráfico es donde mas claramente se puede ver el disturbio introducido, y como rápidamente el control de fuerzas vuelve a su referencia.
+
+En este gráfico es donde mejor se puede ver el disturbio introducido y como rápidamente el control de fuerzas vuelve a su referencia.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{ImagenesControl híbrido no lineal/3_3_f_e}

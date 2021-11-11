@@ -49,6 +49,11 @@
 \usepackage{anyfontsize}	%Font size
 \usepackage{fontspec}		%Font type
 
+\usepackage{etoolbox}
+\usepackage{todonotes}
+
+\newcommand{\observacion}[2]{  \ifnumequal{1}{#1}{ { \todo[inline,backgroundcolor=red!25,bordercolor=red!100]{\textbf{Observación: #2}} } }{  }  }
+
 \setcounter{topnumber}{2}
 \setcounter{bottomnumber}{2}
 \setcounter{totalnumber}{4}
@@ -69,7 +74,7 @@
 \usepackage{fancyhdr}
 \usepackage{units} 
 
-\graphicspath{{../Control de posición no lineal/}{../Control de fuerza no lineal/}{../Control híbrido no lineal/}{../Referencias/}{../Deducción de modelo/}}
+\graphicspath{{../Control de posición no lineal/}{../Control de fuerza no lineal/}{../Control híbrido no lineal/}{../Referencias/}{../Deducción de modelo/}{../Conclusiones/}}
 
 \pagestyle{fancy}
 \fancyhf{}
