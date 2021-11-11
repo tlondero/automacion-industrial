@@ -34,6 +34,21 @@ G_x(\Theta) = J^{-T}(\Theta) G(\Theta)
 
 \observacion{\verObs}{HABLAR DE VALORES DE GANANCIAS}
 
+\label{sec:posic}
+Para obtener las ganancias del sistema se empleo el método de Ziegler-Nichols. De esta forma, los valores obtenidos fueron:
+\begin{multicols}{2}
+\begin{itemize}
+	\item $Kv = \begin{pmatrix}
+	80 & 0 \\
+	0 & 80
+	\end{pmatrix}$
+	\item $Kp = \begin{pmatrix}
+	250 & 0 \\
+	0 & 250
+	\end{pmatrix}$
+\end{itemize}
+\end{multicols}
+
 \subsection{Resultados}
 Se realizó el sistema en simulink. Se obtuvieron los siguientes gráficos.
 En estos se pueden observar los ángulos de los manipuladores en espacio de joint.
@@ -47,7 +62,8 @@ Como el primer rotacional hace una trayectoria de $-\frac{\pi}{2}$ hacia $0$, y 
 	\label{fig:athetas}
 \end{figure}
 
-En la Figura (\ref{fig:aposd}) se ven tanto las referencias como las coordenadas reales que tomó el EE, con un error porcentual menor del 20$\%$ en el eje X y menor del 5$\%$ en el eje Y. 
+
+En la Figura (\ref{fig:apos}) se ven tanto las referencias como las coordenadas reales que tomó el EE, con un error porcentual menor del 20$\%$ en el eje X y menor del 5$\%$ en el eje Y. 
 
 \observacion{\verObs}{Porcentaje desconocido.}
 
