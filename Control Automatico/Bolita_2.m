@@ -83,12 +83,8 @@ sysDisc = c2d(sys, Ts, 'tustin');%discrete system
 pCont = [-15 -15 -15 -100];%poles in s-domain
 pDisc = exp(pCont.*Ts);%poles in z-domain
 
-sysd=ss(A,B,C,D);
-sysDiscd=c2d(sysd, Ts, 'tustin');
-Ad=sysDiscd.A;
-Bd=sysDiscd.B;
-Cd=sysDiscd.C;
-Dd=sysDiscd.D;
+Kdisc = acker(sysDisc.A,sysDisc.B,pDisc)
+
 
 Kd = Kdisc(1:3)
 Kid = Kdisc(4)
