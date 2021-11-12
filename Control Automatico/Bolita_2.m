@@ -1,5 +1,6 @@
 clear; clc;
 
+
 %defino variables simbolicas
 
 %Variables de estado y entradas
