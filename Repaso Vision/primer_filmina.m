@@ -91,10 +91,31 @@ title('Klaritud')
 
 figure()
 histogram(foto)
+%% Tomi Berde
+clear all
+close all
+clc
+foto =imread('./poronga.jpg');
+fondo =imread('./fondo.jpg');
+figure()
+imshow(foto)
+title('tomi greenscreen')
 
+[H W RGB] = size(foto);
 
+for i = 1:H
+    for j = 1:W
+        if((foto(i,j,1) <  80) && ((foto(i,j,2) >  200)) && (foto(i,j,3) <  80) )
+            foto(i,j,1) = fondo(i,j,1);
+            foto(i,j,2) = fondo(i,j,2);
+            foto(i,j,3) = fondo(i,j,3);
+        end
+    end
+end
 
-
+figure()
+imshow(foto)
+title('Tomi RAD')
 
 
 
