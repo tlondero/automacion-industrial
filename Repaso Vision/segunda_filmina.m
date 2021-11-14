@@ -22,6 +22,7 @@ K = kgauss(sigma);
 Out = iconvolve(foto, K);
 figure()
 imshow(Out./255)
+title('K Gaussian iconvolve')
 
 %% Irank
 clear all
@@ -33,10 +34,12 @@ foto_gray = rgb2gray(foto);     %irank solo recibe en escala de grices
 foto_gray_snp = imnoise(foto_gray, 'salt & pepper', 0.1);   %Le meto ruido
 figure()
 imshow(foto_gray_snp)
+title('Gray Salt n Pepper')
 
 foto_irank = irank(foto_gray_snp, 5, 1);        %Le saco el ruido
 figure()
 imshow(foto_irank./255)      %Importante dividir por 255
+title('irank')
 
 %% Deteccion de bordes
 clear all
