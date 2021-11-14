@@ -262,14 +262,14 @@ imshow(uint8(BIGGUSDICKUS))
 clear all
 close all
 clc
-%foto = imread('./Tomi_cara.jpg');
-foto = rgb2gray(imread('./Tomi_facha.jpg'));
+foto = imread('./Tomi_cara.jpg');
+%foto = rgb2gray(imread('./Tomi_facha.jpg'));
 
 [Ui, Vi] = imeshgrid(foto);
-[Uo, Vo] = imeshgrid(690,690);
+[Uo, Vo] = imeshgrid(400, 400);
 
-U = 2*(Uo-100);
-V = 2*(Vo-200);
+U = 4*(Uo-100);
+V = 4*(Vo-200);
 
 tomismol = interp2(Ui, Vi, idouble(foto), U, V);
 figure()
