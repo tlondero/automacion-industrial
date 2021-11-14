@@ -89,31 +89,9 @@ imshow(foto)
 title('Anashe')
 
 foto_anashe = uint8(ilabel(foto));
+k = max(foto_anashe, [], 'includenan');
+kp = uint8(255/k);
 
-k = uint8(255/max(max(foto_anashe)));
 figure()
-imshow(foto_anashe.*k)
+imshow(foto_anashe.*(420/69))
 title('Ananashe')
-
-iblobs(foto_anashe)
-
-%% Hough
-
-clear all
-close all
-clc
-
-foto = rgb2gray(imread('./Cartel.jpeg'));
-figure()
-imshow(foto)
-title('Cartel')
-
-h = Hough(foto, 'equal');
-
-figure()
-imshow(foto)
-title('Cartel lineas')
-h.plot(20)
-
-figure()
-h.show()
