@@ -1,5 +1,6 @@
 clear; clc;
 
+
 %defino variables simbolicas
 
 %Variables de estado y entradas
@@ -65,7 +66,7 @@ rank(ctrb(Aai,Bai))
 rank(obsv(Aai,Cai))
 
 eig(Aai)
-Kai = acker(Aai, Bai, [-20 -20 -20 -200])
+Kai = acker(Aai, Bai, [-200 -200 -200 -200])
 
 Kc = Kai(1:3);
 Kic = Kai(4);
@@ -76,9 +77,9 @@ Kic = Kai(4);
 
 %% Observador discreto
 
-sys = ss(Aai,Bai,Cai,D);
+
 Ts = 0.0001;
-sysDisc = c2d(sys, Ts, 'tustin');%discrete system
+sysDisc = c2d(ss(Aai,Bai,Cai,D), Ts, 'tustin');%discrete system
 
 pCont = [-15 -15 -15 -100];%poles in s-domain
 pDisc = exp(pCont.*Ts);%poles in z-domain
@@ -89,11 +90,8 @@ Kdisc = acker(sysDisc.A,sysDisc.B,pDisc)
 Kd = Kdisc(1:3)
 Kid = Kdisc(4)
 
-pDiscL = exp([-150 -150 -150].*Ts);%poles in z-domain
-L = (acker(A', C', pDiscL))'
-
 
 sysasd = ss(A,B,C,D);
 sysasd = c2d(sysasd, Ts, 'tustin');%discrete system
 pDiscL = exp([-150 -150 -150].*Ts);%poles in z-domain
-L = (acker(sysasd.A', sysasd.C', pDiscL))'
+Ldisc = (acker(sysasd.A', sysasd.C', pDiscL))'
