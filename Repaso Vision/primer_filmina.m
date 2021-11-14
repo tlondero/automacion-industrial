@@ -78,7 +78,7 @@ value=255/nice;
 for i = 1:H
     for j = 1:W
         if(foto(i,j)< nice)
-           foto(i,j) = int32(foto(i,j)*value);
+           foto(i,j) = uint8(foto(i,j)*value);
          else
             foto(i,j) = 255;
         end
@@ -117,10 +117,22 @@ figure()
 imshow(foto)
 title('Tomi RAD')
 
+%%
 
+clear all
+close all
+clc
+foto =imnoise(rgb2gray(imread('./lena.png')),'salt & pepper', 0.2);
+figure();
+imshow(foto);
+title('lena salt and pepper');
 
-
-
-
-
+foto=irank(foto,4,1);
+figure();
+imshow(foto./255);
+title('lena1');
+foto=irank(foto,4,1);
+figure();
+imshow(foto./255);
+title('threeway with lena');
 
