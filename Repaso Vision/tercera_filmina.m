@@ -7,16 +7,16 @@ foto = imread('./Tomi_facha.jpg');
 figure()
 imshow(foto)
 
-S = ones(20,5);
-% mn = imorph(foto, S, 'min');
-% figure()
-% imshow(mn)
-% title('imorph min')
-
-mn = ierode(foto, S);
+S = ones(1,100);
+mn = imorph(foto, S, 'min');
 figure()
 imshow(mn)
-title('ierode')
+title('imorph min')
+
+% mn = ierode(foto, S);
+% figure()
+% imshow(mn)
+% title('ierode')
 
 %% Dilatacion
 
