@@ -18,7 +18,8 @@ sys = ss(A,B,C,D);
 %Chequeamos controlabilidad, viendo que el rango de la matriz de
 %controlabilidad sea igual a la dimensión del espacio columna de la matriz
 %A.
-rank(ctrb(sys.A, sys.B));
+rank(ctrb(sys.A, sys.B))
+rank(obsv(sys.A,sys.C))
 %El rango es cuatro, por lo que el sistema es controlable.
 %Realizamos la realimentación de estados teniendo en cuenta que el
 %controlador debe ser lo suficientemente rapido para lograr controlar la
@@ -28,6 +29,9 @@ K = acker(sys.A, sys.B, [-3 -3 -2 -2]);
 %de un 10% de lo esperado, sin embargo el diseño se valida mediante la
 %simulación y se logra asi obtener ganancia mas pequenas.
 
+%Observador
+
+L = place((sys.A)',(sys.C)',[-25 -20 -35 -30])'
 %% Control por realimentación de estados con acción integral
 %Modificamos la matriz C para realizar la acción integral sobre la posición
 %del carrito
@@ -41,6 +45,8 @@ Bar = [zeros(4,1);
        1];
 Ca = [C 0];
 Da = 0;
+rank(ctrb(Aa, Ba))
+rank(obsv(Aa,Ca))
 %Calculamos las ganancias
 Ka = acker(Aa, Ba, [-2.5 -2.5 -1 -1 -4]);
 sys_i = ss(Aa, Ba, Ca, Da);

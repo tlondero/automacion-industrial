@@ -31,7 +31,7 @@ Para la simulación del carro con péndulo simple se creó un modelo de este uti
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{Simscape}
+	\includegraphics[width=1\linewidth]{Imagenes/Simscape}
 	\caption{Modelo de Simscape utilizado como planta.}
 	\label{1_simscape}
 \end{figure}
@@ -51,7 +51,7 @@ Luego, se utilizó el Model Linearizer de Simulink para linealizar la planta alr
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\linewidth]{equilibrio}
+	\includegraphics[width=0.5\linewidth]{Imagenes/equilibrio}
 	\caption{Punto de equilibrio de linealización.}
 	\label{1_equilibrio}
 \end{figure}
@@ -68,7 +68,7 @@ Se cierra un lazo de realimentación, tomando el valor de $q$ e inyectándolo a 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{bode_cerrando_q}
+	\includegraphics[width=0.8\linewidth]{Imagenes/bode_cerrando_q}
 	\caption{Respuesta en frencuencia del sistema entre la fuerza aplicada al carrito y el ángulo del péndulo.}
 	\label{bode_cerrando_q}
 \end{figure}
@@ -85,7 +85,7 @@ Luego, se graficó nuevamente la respuesta en frecuencia, obteniendo:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{bode_cerrando_q_con_controlador}
+	\includegraphics[width=0.8\linewidth]{Imagenes/bode_cerrando_q_con_controlador}
 	\caption{Respuesta en frencuencia del sistema entre la fuerza aplicada al carrito y el ángulo del péndulo con controlador.}
 	\label{bode_cerrando_q_con_controlador}
 \end{figure}
@@ -100,7 +100,7 @@ Se valida el control graficando una última vez la respuesta en frencuencia qued
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{bode_cerrando_q_con_controlador_ganancia}
+	\includegraphics[width=0.8\linewidth]{Imagenes/bode_cerrando_q_con_controlador_ganancia}
 	\caption{Respuesta en frencuencia del sistema entre la fuerza aplicada al carrito y el ángulo del péndulo con controlador y frecuencia de cruce ajustada.}
 	\label{bode_cerrando_q_con_controlador_ganancia}
 \end{figure}
@@ -111,7 +111,7 @@ En este punto del diseño, si se simula el carrito con un disturbio de ruido bla
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{simulacion_solo_angulo}
+	\includegraphics[width=0.8\linewidth]{Imagenes/simulacion_solo_angulo}
 	\caption{Simulación de la planta controlando únicamente el ángulo del péndulo.}
 	\label{simulacion_solo_angulo}
 \end{figure}
@@ -120,18 +120,18 @@ A continuación, se cierra otro lazo de realimentación por afuera del anterior 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{bode_cerrando_p}
+	\includegraphics[width=0.8\linewidth]{Imagenes/bode_cerrando_p}
 	\caption{Respuesta en frecuencia entre la fuerza aplicada al carrito y la posición de este, cerrando el lazo con realimentación unitaria.}
 	\label{bode_cerrando_p}
 \end{figure}
 
-AIOJGIPSHGPIHASG NO SE POR QUE FUNCIONA ME DI CUENTA QUE CUANDO CERRE EL LAZO TENIA REALIMENTACION POSITIVA SALUDOS
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{simulacion_final}
+	\includegraphics[width=0.8\linewidth]{Imagenes/simulacion_final}
 	\caption{Simulación final de la planta controlando el ángulo del péndulo y la posición del carrito.}
 	\label{simulacion_solo_angulo}
 \end{figure}
-
+\section{Carro con Péndulo Simple: Control por realimentaci\'on de estados.}
+ Para la realimentación de estados se tomaron al igual que en loop shaping las matrices producto de la linealizacion de la planta. Se probo que esta sea controlable y observable teniendo como salida el \'angulo y posici\'on del carrito. Y finalmente se realizo una realimetnacion de estados colocando los polos del sistema doble en -3 y doble en -2. Ademas se diseño un observador de estados  para el sistema que permita realizar la realimentación de estados mirando la salida.
 \end{document}
