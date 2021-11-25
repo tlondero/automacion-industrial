@@ -55,48 +55,27 @@ eig(A);
 Pmp=59.46/((s+10)*(s+3.761)^2)
 Pap = -(s+3.761)/(s-3.761)
 
-
-
 Control= -(1/Pmp)*(1/s)*(1/(s+100))^3*(s+20)*db2mag(105+8.39)
 
+rlocus(Pmp*Pap*Control)
 
+Pmp = -59.46/((s+10)*(s+3.761)^2);
+Pap = (s+3.761)/(s-3.761);
 
-%rlocus(Pmp*Pap*Control)
+Contr = db2mag(145)*((1/Pmp)*(1/s^2)*(s+1)/((s+1000)^2));
 
+L = minreal(P*Contr);
+bode(L); %Queda ajustado a MF=60 con 40db/dec de atenuacion antes y despues de w_cruce y 20db/dec en la w_cruce. w_cruce = 17 rad/s.
+T = 0.01;
+pade_raro = (1-(T/2)*s)/(1+(T/2)*s);
 
+L = minreal(P*pade_raro*Contr);
+margin(L);
+%De manera iterativa se consigue que con 0.01 el retraso de fase
+%introducido al sistema es casi de 10 grados, quedando MF = 50.
 
+rank(ctrb(A,B)) %El rango de la matriz ctrb es 3 que es igual a la dimension del espacio columna de A -> es controlable.
 
-
-
-% Pmp = -59.46/((s+10)*(s+3.761)^2);
-% Pap = (s+3.761)/(s-3.761);
-% 
-% Contr = db2mag(145)*((1/Pmp)*(1/s^2)*(s+1)/((s+1000)^2));
-% 
-% L = minreal(P*Contr);
-% bode(L); %Queda ajustado a MF=60 con 40db/dec de atenuacion antes y despues de w_cruce y 20db/dec en la w_cruce. w_cruce = 17 rad/s.
-% T = 0.01;
-% pade_raro = (1-(T/2)*s)/(1+(T/2)*s);
-% 
-% L = minreal(P*pade_raro*Contr);
-% margin(L);
-% %De manera iterativa se consigue que con 0.01 el retraso de fase
-% %introducido al sistema es casi de 10 grados, quedando MF = 50.
-% 
-% rank(ctrb(A,B)) %El rango de la matriz ctrb es 3 que es igual a la dimension del espacio columna de A -> es controlable.
-% 
-% K = acker(A, B, [-20 -20 -200]);
-% A_cl = (A-B*K);
-% sys_cl = ss(A_cl, B, C, D);
-% 
-
-Q=diag([1 1 1e-100 1])
-R=1e-6
-
-Ka = lqi(sys,Q,R)
-
-K_lqr=Ka(1:3)
-Ki_lqr = Ka(end)
-
-
-eig(A-B*K_lqr)
+K = acker(A, B, [-20 -20 -200]);
+A_cl = (A-B*K);
+sys_cl = ss(A_cl, B, C, D);
