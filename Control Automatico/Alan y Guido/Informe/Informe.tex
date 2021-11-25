@@ -155,7 +155,7 @@ Para los cambios de referencia se suma un escalon a la posici\'on de la planta. 
   \item Polo doble en -2
 \end{itemize}
 utilizando el comando acker.
-
+El esquema de referencias y perturbaciones para este caso es, en el segundo 1 se cambia la referencai a 5m. A los 12 seg se cambia la referencia a -5m. Finalmente en el segundo 25 se introduce un tren de pulsos con periodo 3 segundos con amplitud 500.
 En la siguiente imagen se pueden ver 4 señales. En el primer cuadro se observan la referencia y la posición del carrito, en el tercero el ángulo del carrito y en el último las perturbaciones.
 Se puede apreciar como al cambiar la referencia la posicion sigue al mismo, y ademas como la introduccion de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rapidamente a su condición de equilibrio. 
 \begin{figure}[H]
@@ -185,15 +185,61 @@ Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-pos
  \subsection{Realimentaci\'on de estados con observadores: continuo y discreto}
 Finalmente se diseño un observador de estados  para el sistema. Haciendo a este tanto continuo como discreto.
 Para el observador se consideraron polos por lo menos 1 decada mas rapidos que los de la planta, para que pueda reaccionar con rapidez.
-
+Se propuso el siguiente esquema de control:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Esquema_general_obs.png}
+	\caption{Esquema de control realimentación de estados con observador continuo.}
+	\label{esqcontobs}
+\end{figure}
 
 FOTOS SISTEMA REALIMENTACION DE ESTADOS CONTINUO OBSERVADOR
 
 Para el caso discreto hubo que elegir ademas un valor para el tiempo de muestreo. Para esto se busco un tiempo que sea lo mas alto posible y que funcione correctamente el control. Para este caso en particular fue $T_s$=0.1s.
+Se propuso el siguiente esquema de control:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Esquema_general_obs_disc.png}
+	\caption{Esquema de control realimentación de estados con observador discreto.}
+	\label{esqdisctobs}
+\end{figure}
 
-FOTOS SISTEMA REALIMENTACION DE ESTADOS discreto OBSERVADOR
+En estas mediciones se puede observar que ademas se agrego una señal que es la discreta, luego del sample and hold.
+Se puede apreciar como al cambiar la referencia la posicion sigue al mismo, y ademas como la introduccion de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rapidamente a su condición de equilibrio. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Control_Obs_Discreto/general.png}
+	\caption{Respuesta del sistema a lazo cerrado.}
+	\label{realmentacion}
+\end{figure}
+
+Se observa claramente la diferencia entre la señal de posicion real, la discreta y la referencia deseada, al igual de como las tres convergen al mismo punto.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Control_Obs_Discreto/detalle_angulo_pos.png}
+	\caption{Detalle \'angulo posición.}
+	\label{realmentacion_error}
+\end{figure}
+
+Agregamos finalmente esta imagen para ver como la señal discreta coincide con la señal real cada Ts y como teniendo una frecuencia de muestreo tan chica aun se consigue un control eficaz.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Control_Obs_Discreto/detalle_real_medido.png}
+	\caption{Detalle continuo discreto.}
+	\label{realmentacion_disturbio}
+\end{figure}
+
+
 \subsection{Realimentaci\'on de estados con control integral}
 Adicionalmente se hizo una realimentaci\'on de estados con control integral, teniendo como salida la posici\'on del carrito. Esto trae un problema el cual es que deja de ser observable el sistema, por lo que el sistema no podría realizarse con las salidas definidas, habria que tener una mayor informacion de las otras variables.
+Se propuso el siguiente esquema de control:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Esquema_general_int.png}
+	\caption{Esquema de control realimentación de estados con acción integral.}
+	\label{esqint}
+\end{figure}
+
 Se puede apreciar como al cambiar la referencia la posicion sigue al mismo, y ademas como la introduccion de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rapidamente a su condición de equilibrio. 
 \begin{figure}[H]
 	\centering
@@ -219,5 +265,8 @@ Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-pos
 \end{figure}
 
 
-\subsection{Conclusiones}
+\section{Conclusiones}
+Se realizo un control por loopshaping enfrentandonos a algunas difcultades como...
+Ademas se hicieron realimentación de estados, sin y con observador tanto continuo como discreto al igual que un conotrol con acción integral.
+Con las dificultades impuestas por las condiciones de observabilidad y o controlabilidad debido a la salida del sistema.
 \end{document}
