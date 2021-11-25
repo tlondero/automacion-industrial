@@ -31,7 +31,7 @@ Para la simulación del carro con péndulo simple se creó un modelo de este uti
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=1\linewidth]{Imagenes/Simscape}
+	\includegraphics[width=1\linewidth]{Imagenes/loopshaping/Simscape}
 	\caption{Modelo de Simscape utilizado como planta.}
 	\label{1_simscape}
 \end{figure}
@@ -51,7 +51,7 @@ Luego, se utilizó el Model Linearizer de Simulink para linealizar la planta alr
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.5\linewidth]{Imagenes/equilibrio}
+	\includegraphics[width=0.5\linewidth]{Imagenes/loopshaping/equilibrio}
 	\caption{Punto de equilibrio de linealización.}
 	\label{1_equilibrio}
 \end{figure}
@@ -68,7 +68,7 @@ Se cierra un lazo de realimentación, tomando el valor de $q$ e inyectándolo a 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Imagenes/bode_cerrando_q}
+	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/bode_cerrando_q}
 	\caption{Respuesta en frencuencia del sistema entre la fuerza aplicada al carrito y el ángulo del péndulo.}
 	\label{bode_cerrando_q}
 \end{figure}
@@ -85,7 +85,7 @@ Luego, se graficó nuevamente la respuesta en frecuencia, obteniendo:
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Imagenes/bode_cerrando_q_con_controlador}
+	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/bode_cerrando_q_con_controlador}
 	\caption{Respuesta en frencuencia del sistema entre la fuerza aplicada al carrito y el ángulo del péndulo con controlador.}
 	\label{bode_cerrando_q_con_controlador}
 \end{figure}
@@ -100,7 +100,7 @@ Se valida el control graficando una última vez la respuesta en frencuencia qued
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Imagenes/bode_cerrando_q_con_controlador_ganancia}
+	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/bode_cerrando_q_con_controlador_ganancia}
 	\caption{Respuesta en frencuencia del sistema entre la fuerza aplicada al carrito y el ángulo del péndulo con controlador y frecuencia de cruce ajustada.}
 	\label{bode_cerrando_q_con_controlador_ganancia}
 \end{figure}
@@ -111,7 +111,7 @@ En este punto del diseño, si se simula el carrito con un disturbio de ruido bla
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Imagenes/simulacion_solo_angulo}
+	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/simulacion_solo_angulo}
 	\caption{Simulación de la planta controlando únicamente el ángulo del péndulo.}
 	\label{simulacion_solo_angulo}
 \end{figure}
@@ -120,7 +120,7 @@ A continuación, se cierra otro lazo de realimentación por afuera del anterior 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Imagenes/bode_cerrando_p}
+	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/bode_cerrando_p}
 	\caption{Respuesta en frecuencia entre la fuerza aplicada al carrito y la posición de este, cerrando el lazo con realimentación unitaria.}
 	\label{bode_cerrando_p}
 \end{figure}
@@ -128,16 +128,26 @@ A continuación, se cierra otro lazo de realimentación por afuera del anterior 
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Imagenes/simulacion_final}
+	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/simulacion_final}
 	\caption{Simulación final de la planta controlando el ángulo del péndulo y la posición del carrito.}
 	\label{simulacion_solo_angulo}
 \end{figure}
 \section{Carro con Péndulo Simple: Control por realimentaci\'on de estados.}
 \subsection{Perturbaciones}
+Para las perturbaciones y cambios en la referencia se utiliz\'o el siguiente esquema:
+Para los cambios de referencia se suma un escalon a la posici\'on de la planta. Y para las perturbaciones para la mayoria de los casos se le sumo a la acci\'on de control un tren de pulsos.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Esquema_general.png}
+	\caption{Esquema de perturbaciones y referencia.}
+	\label{esq}
+\end{figure}
+
 \subsection{Par\'ametros}
  Para la realimentación de estados se tomaron al igual que en loop shaping las matrices producto de la linealizaci\'on de la planta.
  Se probo que esta sea controlable y observable teniendo como salida el \'angulo y posici\'on del carrito.
  Se noto que no era observable el sistema teniendo únicamente como salida el angulo del carrito. Por lo que se opt\'o por conocer tanto la posici\'on como el \'angulo.
+ 
  \subsection{Realimentaci\'on de estados}
  Teniendo en cuenta que es controlable se realizo una realimetnaci\'on de estados colocando los polos del sistema de la siguiente manera:
  \begin{itemize}
@@ -145,16 +155,69 @@ A continuación, se cierra otro lazo de realimentación por afuera del anterior 
   \item Polo doble en -2
 \end{itemize}
 utilizando el comando acker.
-FOTOS DEL SISTEMA CON REALMENTACION DE ESTADOS
+
+En la siguiente imagen se pueden ver 4 señales. En el primer cuadro se observan la referencia y la posición del carrito, en el tercero el ángulo del carrito y en el último las perturbaciones.
+Se puede apreciar como al cambiar la referencia la posicion sigue al mismo, y ademas como la introduccion de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rapidamente a su condición de equilibrio. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion/general.png}
+	\caption{Respuesta del sistema a lazo cerrado.}
+	\label{realmentacion}
+\end{figure}
+
+Aquí se puede ver que el sistema tienen error permanente esto se debe a que la planta no cuenta con acción integral para corregirlo.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion/detalle_error_permanente.png}
+	\caption{Detalle error permanente.}
+	\label{realmentacion_error}
+\end{figure}
+
+Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-posici\'on y como el sistema vuelve a la condici\'on de equilibrio.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion/detalle_disturbio.png}
+	\caption{Detalle disturbios.}
+	\label{realmentacion_disturbio}
+\end{figure}
+
+
  \subsection{Realimentaci\'on de estados con observadores: continuo y discreto}
 Finalmente se diseño un observador de estados  para el sistema. Haciendo a este tanto continuo como discreto.
+Para el observador se consideraron polos por lo menos 1 decada mas rapidos que los de la planta, para que pueda reaccionar con rapidez.
+
+
 FOTOS SISTEMA REALIMENTACION DE ESTADOS CONTINUO OBSERVADOR
 
-ELECCION TS XDDDD
+Para el caso discreto hubo que elegir ademas un valor para el tiempo de muestreo. Para esto se busco un tiempo que sea lo mas alto posible y que funcione correctamente el control. Para este caso en particular fue $T_s$=0.1s.
 
 FOTOS SISTEMA REALIMENTACION DE ESTADOS discreto OBSERVADOR
-\subsection{Realimetnaci\'on de estados con control integral}
-Adicionalmente se hizo una realimentaci\'on de estados con control integral, teniendo como salida la posici\'on del carrito. Esto trae un problema el cual es que deja de ser observable el sistema.
-FOTOS CONTROL INTEGRAL
+\subsection{Realimentaci\'on de estados con control integral}
+Adicionalmente se hizo una realimentaci\'on de estados con control integral, teniendo como salida la posici\'on del carrito. Esto trae un problema el cual es que deja de ser observable el sistema, por lo que el sistema no podría realizarse con las salidas definidas, habria que tener una mayor informacion de las otras variables.
+Se puede apreciar como al cambiar la referencia la posicion sigue al mismo, y ademas como la introduccion de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rapidamente a su condición de equilibrio. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion_integral/general.png}
+	\caption{Respuesta del sistema a lazo cerrado.}
+	\label{realmentacion}
+\end{figure}
+
+Aquí se puede ver que a diferencia del sistema sin acci\'on integral este no tiene error permanente.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion_integral/detalle_error_permanente.png}
+	\caption{Detalle error permanente.}
+	\label{realmentacion_error}
+\end{figure}
+
+Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-posici\'on y como el sistema vuelve a la condici\'on de equilibrio.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion_integral/detalle_disturbio.png}
+	\caption{Detalle disturbios.}
+	\label{realmentacion_disturbio}
+\end{figure}
+
+
 \subsection{Conclusiones}
 \end{document}
