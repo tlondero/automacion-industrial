@@ -61,8 +61,14 @@ Bar = [zeros(4,1);
        1];
 Ca = [C 0];
 Da = 0;
-rank(ctrb(Aa, Ba))
-rank(obsv(Aa,Ca))
+%Estudiamos controlabilidad del sistema aumentado
+rank(ctrb(Aa, Ba));
+%Como el rango de la matriz de controlabilidad es 5 igual al orden de A, el
+%sistema es controlable.
+%Estudio de observabilidad del sistema aumentado
+rank(obsv(Aa,Ca));
+%El rango de la matriz de observabilidad es menor al orden de A, por lo que
+%el sistema no es observable.
 %Calculamos las ganancias
 Ka = acker(Aa, Ba, [-2.5 -2.5 -1 -1 -4]);
 sys_i = ss(Aa, Ba, Ca, Da);

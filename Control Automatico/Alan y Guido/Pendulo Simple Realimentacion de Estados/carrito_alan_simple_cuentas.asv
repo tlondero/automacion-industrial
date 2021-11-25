@@ -32,19 +32,14 @@ K = acker(sys.A, sys.B, [-3 -3 -2 -2]);
 %Estudiamos la observabilidad del sistema
 rank(obsv(sys.A,sys.C));
 %Como el rango de la matriz de observabilidad es 4 igual al orden de la
-%matriz A, el sistema es observable.
-%Calculo ganancias del observador, colocando sus polos diez veces más
-%rápidos que los de la planta a lazo cerrado.
+%matriz A, el sistem
+%Calculo ganancias del observador
 L = place((sys.A)',(sys.C)', [-25 -20 -35 -30])';
 
 %% Control por realimentación de estados con observador discreto
-%Selecciono periodo de muestreo
 Ts = 0.1; %100ms
-%Discretizo el sistema utilizando tustin.
 sysDisc = c2d(sys, Ts, 'tustin');
-%Calculo ganancias de realimentación.
 KDisc = acker(sysDisc.A, sysDisc.B, exp([-2 -2 -1 -1].*Ts));
-%Calculo ganancias del observador discreto.
 LDisc = place((sysDisc.A)',(sysDisc.C)', exp([-20 -15 -25 -30].*Ts))';
 
 
@@ -72,8 +67,7 @@ Kai = Ka(5);
 Ka = Ka(1:4);
 
 %% Control de ángulo por loop shaping
-%Transferencia de fuerza carrito a ángulo sacada utilizando el linearizer
-%del simulink
+%Transferencia de fuerza carrito a ángulo
 G_q = 0.1763/((s-1.47)*(s+1.47));
 %Grafico bode de la planta
 bode(G_q);

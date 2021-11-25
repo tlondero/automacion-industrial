@@ -1,79 +1,7 @@
 clc; clear all;
 s = tf('s');
-%% Control por realimentación de estados
-%Del linearizer de simulink
-A = [0 1 0 0;
-    0 0 1.7292 0;
-    0 0 0 1;
-    0 0 2.1615 0];
-
-B = [0 ; 0.941 ; 0 ; 0.1763];
-
-C = [0 0 1 0;
-    1 0 0 0];
-
-D = [0 ; 0];
-%Tener en cuenta: x1: p, x2: v, x3: q, x4: w
-sys = ss(A,B,C,D);
-%Chequeamos controlabilidad, viendo que el rango de la matriz de
-%controlabilidad sea igual a la dimensión del espacio columna de la matriz
-%A.
-rank(ctrb(sys.A, sys.B));
-%El rango es cuatro, por lo que el sistema es controlable.
-%Realizamos la realimentación de estados teniendo en cuenta que el
-%controlador debe ser lo suficientemente rapido para lograr controlar la
-%inestabilidad del polo del semiplano derecho.
-K = acker(sys.A, sys.B, [-3 -3 -2 -2]);
-%El algoritmo de acker presenta error en los lugares de los polos por mas
-%de un 10% de lo esperado, sin embargo el diseño se valida mediante la
-%simulación y se logra asi obtener ganancia mas pequenas.
-
-%% Control por realimentación de estados con observador
-%Estudiamos la observabilidad del sistema
-rank(obsv(sys.A,sys.C));
-%Como el rango de la matriz de observabilidad es 4 igual al orden de la
-%matriz A, el sistema es observable.
-%Calculo ganancias del observador, colocando sus polos diez veces más
-%rápidos que los de la planta a lazo cerrado.
-L = place((sys.A)',(sys.C)', [-25 -20 -35 -30])';
-
-%% Control por realimentación de estados con observador discreto
-%Selecciono periodo de muestreo
-Ts = 0.1; %100ms
-%Discretizo el sistema utilizando tustin.
-sysDisc = c2d(sys, Ts, 'tustin');
-%Calculo ganancias de realimentación.
-KDisc = acker(sysDisc.A, sysDisc.B, exp([-2 -2 -1 -1].*Ts));
-%Calculo ganancias del observador discreto.
-LDisc = place((sysDisc.A)',(sysDisc.C)', exp([-20 -15 -25 -30].*Ts))';
-
-
-%% Control por realimentación de estados con acción integral
-%Modificamos la matriz C para realizar la acción integral sobre la posición
-%del carrito
-C = [1 0 0 0];
-%Aumentamos las matrices
-Aa = [A  zeros(4,1);
-      -C      0];
-Ba = [sys.B;
-      0];
-Bar = [zeros(4,1);
-       1];
-Ca = [C 0];
-Da = 0;
-rank(ctrb(Aa, Ba))
-rank(obsv(Aa,Ca))
-%Calculamos las ganancias
-Ka = acker(Aa, Ba, [-2.5 -2.5 -1 -1 -4]);
-sys_i = ss(Aa, Ba, Ca, Da);
-sys_i_cl = ss(Aa-Ba*Ka, Bar, Ca, Da);
-
-Kai = Ka(5);
-Ka = Ka(1:4);
-
 %% Control de ángulo por loop shaping
-%Transferencia de fuerza carrito a ángulo sacada utilizando el linearizer
-%del simulink
+%Transferencia de fuerza carrito a ángulo
 G_q = 0.1763/((s-1.47)*(s+1.47));
 %Grafico bode de la planta
 bode(G_q);
@@ -102,6 +30,7 @@ bode(S_q);
 %correctamente estabilizado, sin embargo la posición del carrito presenta
 %drift.
 
+%% Control de posición en cascada por loop shaping
 %Transferencia de fuerza de carrito a posición con realimentación en el
 %ángulo
 G_p = (0.94101 * (s+200) * (s+1.356) * (s-1.356)) / (s^2 * (s+2.635) * (s^2 + 197.4*s + 2.409e04));
@@ -112,7 +41,7 @@ G_p = (0.94101 * (s+200) * (s+1.356) * (s-1.356)) / (s^2 * (s+2.635) * (s^2 + 19
 %0.5rad/seg. Ademas agregamos un polo rápido en -100 para hacer el
 %controlador realizable.
 C_p = -(s+0.05)/(s+100);
-bode(G_p*C_p);
+bode(G_p*C_p)
 %Para tener un margen buen margen de fase a una frecuencia de cruce de
 %por debajo del limite de 0.5rad/seg, multiplicamos por 76.9dB. 
 C_p = -db2mag(76.9)*(s+0.05)/(s+100);
@@ -121,13 +50,13 @@ margin(G_p*C_p);
 L_p = G_p*C_p;
 T_p = L_p/(1+L_p);
 S_p = 1-T_p;
-bode(S_p);
+bode(S_p)
 %Se observa un pico de 6db en S_p, esto esta casi al límite de un buen
 %margen de estabilidad. Además, si bien el margen de fase es bueno, el
 %margen de ganancia es bastante malo, pero es el costo de tener un
 %controlador lo más rápido posible, dentro de las limitaciones de
 %implementación por las características de la planta.
-step(T_p);
+step(T_p)
 %En el step de la función de sensibilidad complementaria se puede ver la
 %acción del cero en el semiplano derecho al actuar al carrito en la
 %dirección contraria a la referencia, para luego volver y asentarse sin
