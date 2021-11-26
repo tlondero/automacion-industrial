@@ -98,13 +98,16 @@ rank(obsv(Aa,Ca));
 %el sistema no es observable.
 %Calculamos las ganancias
 
+%Tasa de muestreo
+Ts2 = 0.05; %50ms
+
 %Calculo ganancias de realimentación.
-sysDisc2 = c2d(ss(Aa,Ba,Ca,Da), Ts, 'tustin');
-KDisc2 = acker(sysDisc2.A, sysDisc2.B, exp([-2.5 -2.5 -1 -1 -4].*Ts))
+sysDisc2 = c2d(ss(Aa,Ba,Ca,Da), Ts2, 'tustin');
+KDisc2 = acker(sysDisc2.A, sysDisc2.B, exp([-2.5 -2.5 -1 -1 -4].*Ts2));
 
 
-Kai2 = KDisc2(5);
-Ka2 = KDisc2(1:4);
+KaiDisc = KDisc2(5);
+KaDisc = KDisc2(1:4);
 
 %% Control de ángulo por loop shaping
 %Transferencia de fuerza carrito a ángulo sacada utilizando el linearizer
@@ -171,3 +174,13 @@ step(T_p);
 %Sin embargo, al simular con simscape, si bien tanto el ángulo como la
 %posición son correctamente estabilizadas, sí se ve error permanente en la
 %posición. Esto es raro debido a que la planta es de tipo 2.
+
+%% Control de ángulo por loop shaping discreto
+Ts_loop = 25/1000; %25ms
+
+C_q_Disc = c2d(C_q, Ts_loop, 'tustin')
+[C_q_Disc_n, C_q_Disc_d] = tfdata(C_q_Disc,'v');
+
+C_p_Disc = c2d(C_p, Ts_loop, 'tustin')
+[C_p_Disc_n, C_p_Disc_d] = tfdata(C_p_Disc,'v');
+
