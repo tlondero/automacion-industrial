@@ -68,7 +68,7 @@ Ba = [B; zeros(p,p)];
 Bar = [0;0;0;0;1]
 Ca = [C 0]
 
-
+obs = det(obsv(Aa,Ca))
 K2=acker(Aa,Ba,[-3 -3 -15 -15 -20])
 
 Ks2=K2(1:end-1);
@@ -82,7 +82,8 @@ Ki2=K2(end);
 % Ks2=K2(1:end-1);
 % Ki2=K2(end);
 %% Pasando a tiempo discreto
-sysd=c2d(sys,1e-3,'tustin')
+Ts = 200e-3;
+sysd=c2d(sys,Ts,'tustin')
 
 Ad=sysd.A;
 Bd=sysd.B;
@@ -95,3 +96,41 @@ R=0.1
 K2d=lqi(sysd,Q,R)
 Ks2d=K2d(1:end-1);
 Ki2d=K2d(end);
+
+%% Realimentacion por loop shaping continuo: theta
+
+close all;
+
+s = tf('s');
+
+P_t = zpk(tf(ss(A,B,[0 0 1 0],D)))
+
+Pap = (s+6.763)/(s-6.763);
+Pmp = 6.6667/(s+6.763)^2;
+
+gain = db2mag(117);
+cn = (s+20);
+cd = Pmp*s*(s+100)^3;
+Cont_t = gain*cn/cd
+
+L = Cont_t*P;
+
+figure(); bode(L); grid on;
+figure(); margin(L); grid on;
+figure(); nyqlog(L);
+
+%% Realimentacion por loop shaping continuo: x
+
+close all;
+
+P_x = zpk(tf(ss(A,B,[1 0 0 0],D)));
+P_xcl = (P_x*Cont_t)/(1+P_x*Cont_t)
+
+% Pap = (s+9.564)/(s-9.564);
+% Pmp = 2*(s-8.033)*(s+8.033)/(s^2*(s+9.564)^2);
+
+% gain = db2mag(78.3);
+% cn = (s+20);
+% cd = Pmp*(s+100)^2*(s+10);
+% Cont = gain*cn/cd
+
