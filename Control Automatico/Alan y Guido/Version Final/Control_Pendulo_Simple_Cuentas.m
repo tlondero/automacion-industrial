@@ -119,15 +119,15 @@ bode(G_q);
 %frecuencia de cruce debe estar 1.766 veces más arriba que el polo en el
 %semiplano derecho.
 %Notar también que el bode de la planta presenta inversión de fase para
-%todas las frecuencias. Se coloca un cero en -1.47*1.766 para proveer adelanto de
+%todas las frecuencias. Se coloca un cero en -2.6 para proveer adelanto de
 %fase alrededor de la frecuencia de cruce deseada. Se coloca un polo en
-%-100 para hacer al controlador realizable.
-bode(G_q*((s+(1.47*1.7666)/(s+100))));
+%-200 para hacer al controlador realizable.
+bode(G_q*((s+(2.6)/(s+200))));
 %Se observa que se debe levantar la magnitud por 102.5db para obtener cruce
 %en una frecuencia rápida.
 %Se valida el diseño.
-bode(G_q*(db2mag(102.5)*(s+(1.47*1.7666))/(s+200)));
-C_q = (db2mag(102.5)*(s+(1.47*1.7666))/(s+200));
+bode(G_q*(db2mag(102.5)*(s+(2.6))/(s+200)));
+C_q = (db2mag(102.5)*(s+(2.6))/(s+200));
 [C_q_n, C_q_d] = tfdata(C_q,'v');
 %Se analiza la función de sensibilidad
 L_q = G_q*C_q;
@@ -145,15 +145,15 @@ bode(S_q);
 G_p = (0.94101 * (s+200) * (s+1.356) * (s-1.356)) / (s^2 * (s+2.635) * (s^2 + 197.4*s + 2.409e04));
 %Notar que hay un cero en el semiplano derecho en 1.356 rad/s. La teoría nos indica que la
 %frecuencia de cruce debe estar por debajo de 0.6 veces la frecuencia del
-%polo en el semiplano derecho que sería alrededor de 0.5 rad/s.
+%polo en el semiplano derecho que sería alrededor de 0.8 rad/s.
 %Agregamos un cero en -0.05rad/s para brindar adelanto de fase a la izquierda de
 %0.5rad/seg. Ademas agregamos un polo rápido en -100 para hacer el
 %controlador realizable.
 C_p = -(s+0.05)/(s+100);
-bode(G_p*C_p);
+bode(G_p*-(s+0.05)/(s+100));
 %Para tener un margen buen margen de fase a una frecuencia de cruce de
 %por debajo del limite de 0.5rad/seg, multiplicamos por 76.9dB. 
-C_p = -db2mag(76.9)*(s+0.05)/(s+100);
+C_p = -db2mag(80.6)*(s+0.05)/(s+100);
 [C_p_n, C_p_d] = tfdata(C_p,'v');
 margin(G_p*C_p);
 L_p = G_p*C_p;
