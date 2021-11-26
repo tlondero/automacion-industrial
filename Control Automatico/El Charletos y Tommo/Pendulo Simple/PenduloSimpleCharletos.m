@@ -138,3 +138,11 @@ L_x = Cont_x*P_x;
  
 figure(); margin(L_x); grid on;
 figure(); nyqlog(L_x);
+
+%% LS Discreto
+
+close all;
+
+Ts = 1e-3;
+Cont_td = c2d(Cont_t, Ts, 'tustin');
+Cont_xd = c2d(Cont_x, Ts, 'tustin');
