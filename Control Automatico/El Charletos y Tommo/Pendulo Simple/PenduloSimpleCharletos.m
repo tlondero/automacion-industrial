@@ -96,3 +96,53 @@ R=0.1
 K2d=lqi(sysd,Q,R)
 Ks2d=K2d(1:end-1);
 Ki2d=K2d(end);
+
+%% Realimentacion por loop shaping continuo: theta
+
+close all;
+
+s = tf('s');
+
+P_t = zpk(tf(ss(A,B,[0 0 1 0],D)))
+
+Pap = (s+6.763)/(s-6.763);
+Pmp = 6.6667/(s+6.763)^2;
+
+gain = db2mag(117);
+cn = (s+20);
+cd = Pmp*s*(s+100)^3;
+Cont_t = gain*cn/cd
+
+L_t = Cont_t*P_t;
+
+figure(); bode(L_t); grid on;
+figure(); nyqlog(L_t);
+
+%% Realimentacion por loop shaping continuo: x
+
+close all;
+
+%Linealizando el nuevo sistema generado antes
+
+num = 2.1238e05*(s+20)*(s+6.763)^2*(s+5.718)*(s-5.718);
+den = s^2*(s+183.7)*(s+6.766)*(s^2 + 8.029*s + 74.89)*(s^2 + 101.5*s + 6958);
+
+P_x = num/den
+
+gain = -db2mag(20.8);
+cn = (s+1);
+cd = (s+100);
+Cont_x = gain*cn/cd
+ 
+L_x = Cont_x*P_x;
+ 
+figure(); margin(L_x); grid on;
+figure(); nyqlog(L_x);
+
+%% LS Discreto
+
+close all;
+
+Ts = 1e-3;
+Cont_td = c2d(Cont_t, Ts, 'tustin');
+Cont_xd = c2d(Cont_x, Ts, 'tustin');
