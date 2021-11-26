@@ -36,6 +36,42 @@ Para la simulación del carro con péndulo simple se creó un modelo de este uti
 	\label{1_simscape}
 \end{figure}
 
+\subsection{Par\'ametros del modelo}
+Linealizando se obtuvieron las siguientes matrices. 
+\begin{equation*}
+A = 
+\begin{pmatrix}
+0 &  1 & 0 & 0 \\
+0 &  0 & 1.7292 & 0 \\
+0  & 0 & 0 & 1  \\
+0 &  0 & 2.1615 & 0 
+\end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+B = 
+\begin{pmatrix}
+0  \\
+0.941  \\
+0   \\
+0.1763  
+\end{pmatrix}
+\end{equation*}
+Ademas se definió la siguiente matriz de salida para el sistema.
+\begin{equation*}
+C = 
+\begin{pmatrix}
+0 ; 0; 1 ; 0 \\
+1 ; 0; 0 ; 0 
+\end{pmatrix}
+\end{equation*}
+\begin{equation*}
+D = 
+\begin{pmatrix}
+0 \\
+0 
+\end{pmatrix}
+\end{equation*}
 
 \section{Carro con Péndulo Simple: Control en Cascada por Loop Shaping}
 
@@ -264,6 +300,11 @@ Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-pos
 	\label{realmentacion_disturbio}
 \end{figure}
 
+A continuaci\'on se discretiz\'o el sistema
+blablalba
+
+
+Se le agrego un observador al control integral, teniendo la salveddad que para el observador se tom\'o como salida tanto la posici\'on como el \'angulo, y para la realimentaci\'on integral se uso C como solo la posici\'on
 
 \section{Conclusiones}
 Se realizo un control por loopshaping enfrentandonos a algunas difcultades como...
