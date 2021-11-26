@@ -375,15 +375,16 @@ Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-pos
 	\caption{Detalle continuo discreto.}
 	\label{realmentacion_disturbio}
 \end{figure}
-\subsection{Realimentaci\'on de estados con control integral en tiempo discreto con observador}
-Se le agrego un observador al control integral, teniendo la salvedad que para el observador se tom\'o como salida tanto la posici\'on como el \'angulo, y para la realimentaci\'on integral se uso C como solo la posici\'on. Obteniendo lo siguientes resultados:
+
+
+%\subsection{Realimentaci\'on de estados con control integral en %tiempo discreto con observador}
+%Se le agregó un observador al control integral, teniendo la salvedad %que para el observador se tom\'o como salida tanto la posici\'on %como el \'angulo, y para la realimentaci\'on integral se uso C como %solo la posici\'on. Obteniendo lo siguientes resultados:
 
 \section{Conclusiones}
-Se realizo un control por loopshaping enfrentandonos a algunas difcultades como...
 
+Se realizó un control por loopshaping enfrentándonos a varias dificultades. Por un lado, la planta tenía un polo en el semiplano derecho, lo que limitaba inferiormente al ancho de banda del controlador del primer lazo, teniendo que hacer a este control lo suficientemente rápido para que venza esta alinealidad. Por otro lado, para el caso de la posición, la planta tenía un cero en el semiplano derecho lo que limitaba superiormente a la velocidad del controlador del segundo lazo. Esto tiene sentido, dado que si se busca achicar el error con la referencia de posición demasiado rápido, se puede llegar a perder la condición de linealidad en la cercanía del equilibrio. 
 
-Se tuvo en cuenta las limitacoines de la frecuencia de cruce relacionada tanto a los polos en el semiplano derecho como los ceros.
-Ademas se hicieron realimentación de estados, sin y con observador discreto al igual que un conotrol con acción integral continuo y discreto.
-Con las dificultades impuestas por las condiciones de observabilidad y o controlabilidad debido a la salida del sistema.
-Ademas se hizo un contorl con acción integral en la posicion con un observador de estados.
+Luego, se realizaron controles por realimentación de estados, sin y con observador discreto al igual que un control con acción integral. También se realizaron estudios de observabilidad y controlabilidad, que fijaron qué salidas debería tener el sistema para poder realizar un observador en cada caso, dado que no todos los sistemas eran observables.
+
+La mayor discrepancia entre ambos tipos de controles implementados, por loop shaping y por realimentación de estados, se da en la calidad del control y la respuesta transitoria que se obtiene. Esto se debe a que para el caso de loop shaping, solamente se puede realimentar la posición y el ángulo, tratándolos de manera independiente, mientras que para la realimentación de estados se pueden realimentar todos los estados y fijar los polos donde se desea, a costo de un control mucho más complejo.
 \end{document}
