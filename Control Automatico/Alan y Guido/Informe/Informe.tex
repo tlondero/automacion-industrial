@@ -109,13 +109,13 @@ Se cierra un lazo de realimentación, tomando el valor de $q$ e inyectándolo a 
 	\label{bode_cerrando_q}
 \end{figure}
 
-donde se observa, como se esperaba, que el sistema es inestable. Notando el polo en el semiplano derecho en $1.47 \frac{rad}{s}$, se decide utilizar un controlador que agregue adelanto de fase para obtener una frecuencia de cruce en $w_{cruce} > 1.7 * w_{rhp} = 2.5 \frac{rad}{s}$, eligiendo entonces agregar un cero de $10 \frac{rad}{s}$, quedando entonces:
+donde se observa, como se esperaba, que el sistema es inestable. Notando el polo en el semiplano derecho en $1.47 \frac{rad}{s}$, se decide utilizar un controlador que agregue adelanto de fase para obtener una frecuencia de cruce en $w_{cruce} > 1.7 * w_{rhp} = 2.5 \frac{rad}{s}$, eligiendo entonces agregar un cero de $2.6 \frac{rad}{s}$, quedando entonces:
 
 \begin{equation}
-C_2(s) = \frac{s-10}{s-100}
+C_2(s) = \frac{s+2.6}{s+200}
 \end{equation} 
 
-Cabe notar que se agregó un polo rápido que no afecte la dinámica del sistema en $100 \frac{rad}{s}$ para lograr un controlador propio.
+Cabe notar que se agregó un polo rápido que no afecte la dinámica del sistema en $200 \frac{rad}{s}$ para lograr un controlador propio.
 
 Luego, se graficó nuevamente la respuesta en frecuencia, obteniendo:
 
@@ -126,10 +126,10 @@ Luego, se graficó nuevamente la respuesta en frecuencia, obteniendo:
 	\label{bode_cerrando_q_con_controlador}
 \end{figure}
 
-Se busca un margen de fase de $60$ grados, por lo que se agrega una ganancia de $86 dB$ al controlador, calculado como se observa en la Figura (\ref{bode_cerrando_q_con_controlador}). Finalmente, se tiene que
+Se busca un margen de fase de $60$ grados, por lo que se agrega una ganancia de $120.5 dB$ al controlador, calculado como se observa en la Figura (\ref{bode_cerrando_q_con_controlador}). Finalmente, se tiene que
 
 \begin{equation}
-C_2(s) = 1.9953e+04 \cdot \frac{s-10}{s-100}
+C_2(s) = 1.3335e+05 \cdot \frac{s+2.6}{s+200}
 \end{equation}
 
 Se valida el control graficando una última vez la respuesta en frencuencia quedando:
@@ -141,7 +141,7 @@ Se valida el control graficando una última vez la respuesta en frencuencia qued
 	\label{bode_cerrando_q_con_controlador_ganancia}
 \end{figure}
 
-donde se observa que el margen de fase es de $\approx 68$ grados.
+donde se observa que el margen de fase es de $\approx 61$ grados.
 
 En este punto del diseño, si se simula el carrito con un disturbio de ruido blanco de un segundo de frecuencia de muestreo, se puede observar que el ángulo es correctamente estabilizado, sin embargo el carrito presenta drift al no ser controlada la posición de este.
 
@@ -152,7 +152,24 @@ En este punto del diseño, si se simula el carrito con un disturbio de ruido bla
 	\label{simulacion_solo_angulo}
 \end{figure}
 
-A continuación, se cierra otro lazo de realimentación por afuera del anterior utilizando la posición del carrito y se grafica la respuesta en frecuencia entre la fuerza aplicada al carrito y la posición de este, obteniendo el siguiente resultado:
+En la Figura (\ref{s_q}) se puede observar la respuesta en frecuencia de la funcion transferencia de la sensibilidad. Se puede comprobar un buen margen de estabilidad notando que el sobrepico es de $2.38 \ dB$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/bode_s_q}
+	\caption{Respuesta en frecuencia de la sensibilidad.}
+	\label{s_q}
+\end{figure}
+
+Se obtiene ahora utilizando nuevamente el linearizer de matlab la transferencia entre la fuerza del carrito y su posición con el ángulo a lazo cerrado, quedando:
+
+\begin{equation}
+\frac{P(s)}{F(s)} = 0.94101\frac{(s+200)(s+1.356)(s-1.356)}{s^2(s+2.635)(s^2 + 197.4s + 2.409e04)}
+\end{equation}
+
+Donde cabe notar que existe un cero en el semiplano derecho en $1.356 \ \frac{rad}{s}$, por lo que el ancho de banda del controlador estará limitada superiormente a $0.8 \ \frac{rad}{s}$.
+
+A continuación, se grafica la respuesta en frecuencia entre la fuerza aplicada al carrito y la posición de este, obteniendo el siguiente resultado:
 
 \begin{figure}[H]
 	\centering
@@ -161,6 +178,24 @@ A continuación, se cierra otro lazo de realimentación por afuera del anterior 
 	\label{bode_cerrando_p}
 \end{figure}
 
+Agregamos un cero en $-0.05 \ \frac{rad}{s}$ para brindar adelanto de fase a la izquierda de $0.8 \ \frac{rad}{seg}$. Ademas agregamos un polo rápido en $-100 \ \frac{rad}{s}$ para hacer el controlador realizable. Graficando la respuesta en frecuencia de la ganancia de lazo se obtiene ahora:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/bode_cerrando_p_con_controlador}
+	\caption{Respuesta en frecuencia de la ganancia de lazo con controlador.}
+	\label{bode_cerrando_p_con_controlador}
+\end{figure}
+
+Se agrega al controlador una ganancia de $80.6 \ dB$ para traer a la frecuencia de cruce a $0.7 \ \frac{rad}{s}$, por debajo del máximo impuesto por las limitaciones de diseño. Finalmente entonces se termina con
+
+\begin{equation}
+C_1(s) = 1.0715e+04 \cdot \frac{s+0.05}{s+100}
+\end{equation}
+
+y un margen de fase de $60$ grados.
+
+Luego, se simula la respuesta del carrito como se observa en la Figura (\ref{sim_loop_carrito}) ante una entrada del tipo step, obteniendo:
 
 \begin{figure}[H]
 	\centering
@@ -168,6 +203,17 @@ A continuación, se cierra otro lazo de realimentación por afuera del anterior 
 	\caption{Simulación final de la planta controlando el ángulo del péndulo y la posición del carrito.}
 	\label{simulacion_solo_angulo}
 \end{figure}
+
+Finalmente, se discretiza el control utilizando el método de tustin y colocando retensores de orden cero a la entrada y salida de la planta con una tasa de muestreo de $25 \ ms$, y se simula nuevamente, obteniendo:
+
+ \begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/simulacion_final_disc}
+	\caption{Simulación discreta final de la planta controlando el ángulo del péndulo y la posición del carrito.}
+	\label{simulacion_solo_angulo_disc}
+\end{figure}
+
+
 \section{Carro con Péndulo Simple: Control por realimentaci\'on de estados.}
 \subsection{Perturbaciones}
 Para las perturbaciones y cambios en la referencia se utiliz\'o el siguiente esquema:
@@ -299,14 +345,12 @@ Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-pos
 	\caption{Detalle disturbios.}
 	\label{realmentacion_disturbio}
 \end{figure}
-\subsection{Realimentaci\'on de estados con control integral en tiempo discreto}
-A continuaci\'on se discretiz\'o el sistema a travez de la transformada de tustin. Obteniendo los siguientes resultados:
+
+A continuaci\'on se discretiz\'o el sistema
+blablalba
 
 
-
-\subsection{Realimentaci\'on de estados con control integral en tiempo discreto con observador}
-Se le agrego un observador al control integral, teniendo la salvedad que para el observador se tom\'o como salida tanto la posici\'on como el \'angulo, y para la realimentaci\'on integral se uso C como solo la posici\'on. Obteniendo lo siguientes resultados:
-
+Se le agrego un observador al control integral, teniendo la salveddad que para el observador se tom\'o como salida tanto la posici\'on como el \'angulo, y para la realimentaci\'on integral se uso C como solo la posici\'on
 
 \section{Conclusiones}
 Se realizo un control por loopshaping enfrentandonos a algunas difcultades como...
