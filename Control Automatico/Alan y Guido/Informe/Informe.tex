@@ -94,6 +94,8 @@ Luego, se utilizó el Model Linearizer de Simulink para linealizar la planta alr
 
 De esta manera, se obtuvo la siguiente transferencia desde la fuerza aplicada al carrito al ángulo del péndulo:
 
+\subsection{Primer Lazo: Control del Ángulo}
+
 \begin{equation}
 \frac{Q(s)}{F(s)} = \frac{0.1763}{(s-1.47)(s+1.47)}
 \end{equation}
@@ -160,6 +162,8 @@ En la Figura (\ref{s_q}) se puede observar la respuesta en frecuencia de la func
 	\caption{Respuesta en frecuencia de la sensibilidad.}
 	\label{s_q}
 \end{figure}
+
+\subsection{Segundo Lazo: Control de la Posición}
 
 Se obtiene ahora utilizando nuevamente el linearizer de matlab la transferencia entre la fuerza del carrito y su posición con el ángulo a lazo cerrado, quedando:
 
