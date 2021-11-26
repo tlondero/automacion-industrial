@@ -1,0 +1,39 @@
+%Pone las refrencias en el indice
+\usepackage[numbib, nottoc, notlot, notlof]{tocbibind}
+
+%Pone toc, lof y lot en colores y elijo el titulo de estos
+\addto\captionsspanish{
+	\renewcommand\contentsname{\hspace{2.5em}\fontsize{13}{6} \arabic{section}.\arabic{subsection}.\hspace{5mm}Contenidos}
+	\renewcommand\listfigurename{\hspace{2.5em}\fontsize{13}{6} \arabic{section}.\arabic{subsection}.\hspace{5mm}Lista de Figuras}
+	\renewcommand\listtablename{\hspace{2.5em}\fontsize{13}{6} \arabic{section}.\arabic{subsection}.\hspace{5mm}Lista de Tablas}
+}
+
+\newcommand{\MyIndex}{
+	\Section{Indice}
+
+	%Agrega TOC al indice
+	\stepcounter{subsection}	
+	\addcontentsline{toc}{subsection}{\protect\numberline{\thesubsection}{Contenidos}}
+	\tableofcontents
+
+	%Agrega LOF al indice
+	\stepcounter{subsection}
+	\addcontentsline{toc}{subsection}{\protect\numberline{\thesubsection}{Lista de Figuras}}
+	\listoffigures
+
+	%Agrega LOT al indice
+%	\stepcounter{subsection}
+%	\addcontentsline{toc}{subsection}{\protect\numberline{\thesubsection}{Lista de Tablas}}
+%	\listoftables
+}
+
+%Indices: cambio la separación de los numeros para que entren tablas y fotos
+\usepackage{tocloft}
+\setlength{\cftfignumwidth}{1.35cm}  % change numwidth from figures in lof
+\setlength{\cfttabnumwidth}{1.35cm}  % change numwidth from tables in lot
+\renewcommand{\cfttoctitlefont}{\Large\bfseries\color{AzulInfo}}
+\renewcommand{\cftloftitlefont}{\Large\bfseries\color{AzulInfo}}
+\renewcommand{\cftlottitlefont}{\Large\bfseries\color{AzulInfo}}
+
+%Coloca lineas punteadas a las seciones en el TOC
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
