@@ -77,6 +77,35 @@ sys_i_cl = ss(Aa-Ba*Ka, Bar, Ca, Da);
 Kai = Ka(5);
 Ka = Ka(1:4);
 
+%% Control por realimentacion de estados con accion integral discreto
+C = [1 0 0 0];
+%Aumentamos las matrices
+Aa = [A  zeros(4,1);
+      -C      0];
+Ba = [sys.B;
+      0];
+Bar = [zeros(4,1);
+       1];
+Ca = [C 0];
+Da = 0;
+%Estudiamos controlabilidad del sistema aumentado
+rank(ctrb(Aa, Ba));
+%Como el rango de la matriz de controlabilidad es 5 igual al orden de A, el
+%sistema es controlable.
+%Estudio de observabilidad del sistema aumentado
+rank(obsv(Aa,Ca));
+%El rango de la matriz de observabilidad es menor al orden de A, por lo que
+%el sistema no es observable.
+%Calculamos las ganancias
+
+%Calculo ganancias de realimentación.
+sysDisc2 = c2d(ss(Aa,Ba,Ca,Da), Ts, 'tustin');
+KDisc2 = acker(sysDisc2.A, sysDisc2.B, exp([-2.5 -2.5 -1 -1 -4].*Ts))
+
+
+Kai2 = KDisc2(5);
+Ka2 = KDisc2(1:4);
+
 %% Control de ángulo por loop shaping
 %Transferencia de fuerza carrito a ángulo sacada utilizando el linearizer
 %del simulink
