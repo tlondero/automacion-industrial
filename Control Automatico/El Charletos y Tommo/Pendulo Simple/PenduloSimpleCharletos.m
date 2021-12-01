@@ -4,7 +4,7 @@ syms x1 x2 x3 x4 u b k;
 M = 0.5;
 m = 0.2;
 b = 0; % 0.1;
-J = 0.000;
+J = 0.006;
 g = 9.8;
 
 l = 0.3;
@@ -82,7 +82,7 @@ Ki2=K2(end);
 % Ks2=K2(1:end-1);
 % Ki2=K2(end);
 %% Pasando a tiempo discreto
-Ts = 200e-3;
+Ts = 50e-3;
 sysd=c2d(sys,Ts,'tustin')
 
 Ad=sysd.A;
