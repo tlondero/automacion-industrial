@@ -36,43 +36,6 @@ Para la simulación del carro con péndulo simple se creó un modelo de este uti
 	\label{1_simscape}
 \end{figure}
 
-\subsection{Par\'ametros del modelo}
-Linealizando se obtuvieron las siguientes matrices. 
-\begin{equation*}
-A = 
-\begin{pmatrix}
-0 &  1 & 0 & 0 \\
-0 &  0 & 1.7292 & 0 \\
-0  & 0 & 0 & 1  \\
-0 &  0 & 2.1615 & 0 
-\end{pmatrix}
-\end{equation*}
-
-\begin{equation*}
-B = 
-\begin{pmatrix}
-0  \\
-0.941  \\
-0   \\
-0.1763  
-\end{pmatrix}
-\end{equation*}
-Ademas se definió la siguiente matriz de salida para el sistema.
-\begin{equation*}
-C = 
-\begin{pmatrix}
-0 ; 0; 1 ; 0 \\
-1 ; 0; 0 ; 0 
-\end{pmatrix}
-\end{equation*}
-\begin{equation*}
-D = 
-\begin{pmatrix}
-0 \\
-0 
-\end{pmatrix}
-\end{equation*}
-
 \section{Carro con Péndulo Simple: Control en Cascada por Loop Shaping}
 
 Para el control del sistema por loop shaping, como primer paso, se asignaron las variables del modelo de la siguiente forma:
@@ -92,9 +55,9 @@ Luego, se utilizó el Model Linearizer de Simulink para linealizar la planta alr
 	\label{1_equilibrio}
 \end{figure}
 
-De esta manera, se obtuvo la siguiente transferencia desde la fuerza aplicada al carrito al ángulo del péndulo:
-
 \subsection{Primer Lazo: Control del Ángulo}
+
+De esta manera, se obtuvo la siguiente transferencia desde la fuerza aplicada al carrito al ángulo del péndulo:
 
 \begin{equation}
 \frac{Q(s)}{F(s)} = \frac{0.1763}{(s-1.47)(s+1.47)}
@@ -128,7 +91,7 @@ Luego, se graficó nuevamente la respuesta en frecuencia, obteniendo:
 	\label{bode_cerrando_q_con_controlador}
 \end{figure}
 
-Se busca un margen de fase de $60$ grados, por lo que se agrega una ganancia de $120.5 dB$ al controlador, calculado como se observa en la Figura (\ref{bode_cerrando_q_con_controlador}). Finalmente, se tiene que
+Se busca un margen de fase de $60$ grados, por lo que se agrega una ganancia de $103 dB$ al controlador, calculado como se observa en la Figura (\ref{bode_cerrando_q_con_controlador}). Finalmente, se tiene que
 
 \begin{equation}
 C_2(s) = 1.3335e+05 \cdot \frac{s+2.6}{s+200}
@@ -165,7 +128,7 @@ En la Figura (\ref{s_q}) se puede observar la respuesta en frecuencia de la func
 
 \subsection{Segundo Lazo: Control de la Posición}
 
-Se obtiene ahora utilizando nuevamente el linearizer de matlab la transferencia entre la fuerza del carrito y su posición con el ángulo a lazo cerrado, quedando:
+Se obtiene ahora utilizando nuevamente el Linearizer de Simulink la transferencia entre la fuerza del carrito y su posición con el ángulo a lazo cerrado, quedando:
 
 \begin{equation}
 \frac{P(s)}{F(s)} = 0.94101\frac{(s+200)(s+1.356)(s-1.356)}{s^2(s+2.635)(s^2 + 197.4s + 2.409e04)}
@@ -178,11 +141,11 @@ A continuación, se grafica la respuesta en frecuencia entre la fuerza aplicada 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/bode_cerrando_p}
-	\caption{Respuesta en frecuencia entre la fuerza aplicada al carrito y la posición de este, cerrando el lazo con realimentación unitaria.}
+	\caption{Respuesta en frecuencia entre la fuerza aplicada al carrito y la posición de este.}
 	\label{bode_cerrando_p}
 \end{figure}
 
-Agregamos un cero en $-0.05 \ \frac{rad}{s}$ para brindar adelanto de fase a la izquierda de $0.8 \ \frac{rad}{seg}$. Ademas agregamos un polo rápido en $-100 \ \frac{rad}{s}$ para hacer el controlador realizable. Graficando la respuesta en frecuencia de la ganancia de lazo se obtiene ahora:
+Agregamos un cero en $-0.05 \ \frac{rad}{s}$ para brindar adelanto de fase a la izquierda de $0.8 \ \frac{rad}{seg}$. Además agregamos un polo rápido en $-100 \ \frac{rad}{s}$ para hacer el controlador realizable. Graficando la respuesta en frecuencia de la ganancia de lazo se obtiene ahora:
 
 \begin{figure}[H]
 	\centering
@@ -199,16 +162,16 @@ C_1(s) = 1.0715e+04 \cdot \frac{s+0.05}{s+100}
 
 y un margen de fase de $60$ grados.
 
-Luego, se simula la respuesta del carrito como se observa en la Figura (\ref{sim_loop_carrito}) ante una entrada del tipo step, obteniendo:
+Luego, se simula la respuesta del carrito como se observa en la Figura (\ref{simulacion_final}) ante una entrada del tipo step, obteniendo:
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Imagenes/loopshaping/simulacion_final}
 	\caption{Simulación final de la planta controlando el ángulo del péndulo y la posición del carrito.}
-	\label{simulacion_solo_angulo}
+	\label{simulacion_final}
 \end{figure}
 
-Finalmente, se discretiza el control utilizando el método de tustin y colocando retensores de orden cero a la entrada y salida de la planta con una tasa de muestreo de $25 \ ms$, y se simula nuevamente, obteniendo:
+Finalmente, se discretiza el control utilizando el método de Tustin y colocando retensores de orden cero a la entrada y salida de la planta con una tasa de muestreo de $25 \ ms$, y se simula nuevamente, obteniendo:
 
  \begin{figure}[H]
 	\centering
@@ -221,7 +184,7 @@ Finalmente, se discretiza el control utilizando el método de tustin y colocando
 \section{Carro con Péndulo Simple: Control por realimentaci\'on de estados.}
 \subsection{Perturbaciones}
 Para las perturbaciones y cambios en la referencia se utiliz\'o el siguiente esquema:
-Para los cambios de referencia se suma un escalon a la posici\'on de la planta. Y para las perturbaciones para la mayoria de los casos se le sumo a la acci\'on de control un tren de pulsos.
+Para los cambios de referencia se suma un escalón a la posici\'on de la planta. Para las perturbaciones en la mayoría de los casos se sumó a la acci\'on de control un tren de pulsos.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Esquema_general.png}
@@ -229,21 +192,57 @@ Para los cambios de referencia se suma un escalon a la posici\'on de la planta. 
 	\label{esq}
 \end{figure}
 
-\subsection{Par\'ametros}
- Para la realimentación de estados se tomaron al igual que en loop shaping las matrices producto de la linealizaci\'on de la planta.
- Se probo que esta sea controlable y observable teniendo como salida el \'angulo y posici\'on del carrito.
- Se noto que no era observable el sistema teniendo únicamente como salida el angulo del carrito. Por lo que se opt\'o por conocer tanto la posici\'on como el \'angulo.
+Cabe notar que se utilizó un pasa-bajos en el camino de la referencia de posición a modo de pre-filtro para no desequilibrar demasiado al péndulo y apartarse demasiado del punto de linealización del sistema.
+
+\subsection{Par\'ametros del modelo}
+Linealizando al modelo mediante el uso del Linearizer de Simulink como descrito anteriormente, se obtuvieron las siguientes matrices que describen al sistema:
+\begin{equation*}
+A = 
+\begin{pmatrix}
+0 &  1 & 0 & 0 \\
+0 &  0 & 1.7292 & 0 \\
+0  & 0 & 0 & 1  \\
+0 &  0 & 2.1615 & 0 
+\end{pmatrix}
+\end{equation*}
+
+\begin{equation*}
+B = 
+\begin{pmatrix}
+0  \\
+0.941  \\
+0   \\
+0.1763  
+\end{pmatrix}
+\end{equation*}
+Además se definió la siguiente matriz de salida para el sistema.
+\begin{equation*}
+C = 
+\begin{pmatrix}
+0 & 0 & 1 & 0 \\
+1 & 0 & 0 & 0 
+\end{pmatrix}
+\end{equation*}
+\begin{equation*}
+D = 
+\begin{pmatrix}
+0 \\
+0 
+\end{pmatrix}
+\end{equation*}
+ Se realizó el estudio de controlabilidad y observabilidad del sistema, probando que este es controlable y observable teniendo como salida el \'angulo y posici\'on del carrito.
+ Se notó que no era observable el sistema teniendo únicamente como salida el ángulo del carrito. Por lo que se opt\'o por conocer tanto la posici\'on como el \'angulo.
  
  \subsection{Realimentaci\'on de estados}
- Teniendo en cuenta que es controlable se realizo una realimetnaci\'on de estados colocando los polos del sistema de la siguiente manera:
+ Teniendo en cuenta que es controlable se realizó una realimentaci\'on de estados colocando los polos del sistema de la siguiente manera:
  \begin{itemize}
- \item Polo doble en -3
-  \item Polo doble en -2
+ \item Polo doble en -3.
+  \item Polo doble en -2.
 \end{itemize}
 utilizando el comando acker.
-El esquema de referencias y perturbaciones para este caso es, en el segundo 1 se cambia la referencai a 5m. A los 12 seg se cambia la referencia a -5m. Finalmente en el segundo 25 se introduce un tren de pulsos con periodo 3 segundos con amplitud 500.
-En la siguiente imagen se pueden ver 4 señales. En el primer cuadro se observan la referencia y la posición del carrito, en el tercero el ángulo del carrito y en el último las perturbaciones.
-Se puede apreciar como al cambiar la referencia la posicion sigue al mismo, y ademas como la introduccion de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rapidamente a su condición de equilibrio. 
+El esquema de referencias y perturbaciones para este caso es el siguiente: al segundo de simulación, se cambia la referencia de posición de $0 \ m$ a $5 \ m$. A los $12$ segundos se cambia la referencia de $5 \ m$ a $-5 \ m$. Finalmente, a los 25 segundos se introduce un tren de pulsos con periodo 3 segundos y amplitud 500.
+En la siguiente imagen se pueden ver 4 señales. En el primer cuadro se observan la referencia y la posición del carrito, en el segundo el ángulo del péndulo y en el último las perturbaciones.
+Se puede apreciar cómo al cambiar la referencia, la posición la sigue. Además, la introducción de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rápidamente a su condición de equilibrio. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion/general.png}
@@ -251,15 +250,15 @@ Se puede apreciar como al cambiar la referencia la posicion sigue al mismo, y ad
 	\label{realmentacion}
 \end{figure}
 
-Aquí se puede ver que el sistema tienen error permanente esto se debe a que la planta no cuenta con acción integral para corregirlo.
+Aquí se puede observar que el sistema tiene error permanente. Esto se debe a que la planta no cuenta con acción integral para corregirlo.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion/detalle_error_permanente.png}
-	\caption{Detalle error permanente.}
+	\caption{Detalle del error permanente.}
 	\label{realmentacion_error}
 \end{figure}
 
-Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-posici\'on y como el sistema vuelve a la condici\'on de equilibrio.
+Así mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-posici\'on y cómo el sistema vuelve a la condici\'on de equilibrio.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion/detalle_disturbio.png}
@@ -269,29 +268,26 @@ Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-pos
 
 
  \subsection{Realimentaci\'on de estados con observador discreto}
-Finalmente se diseño un observador de estados  para el sistema. Haciendo a este para tiempo discreto.
-Para el observador se consideraron polos por lo menos 1 decada mas rapidos que los de la planta, para que pueda reaccionar con rapidez.
-Se propuso el siguiente esquema de control:
-
-Ademas se eligi\'o un valor para el tiempo de muestreo. Para esto se busco un tiempo que sea lo mas alto posible y que funcione correctamente el control. Para este caso en particular fue $T_s$=0.1s.
+Finalmente se diseñó un observador discreto de estados para el sistema. Para el observador se consideraron polos por lo menos una década mas rápidos que los de la planta, para garantizar rápida convergencia a cero del error entre salidas.
+Además, se eligi\'o un valor para el tiempo de muestreo. Para esto se busco un tiempo que sea lo más alto posible y que funcione correctamente el control. Para este caso en particular fue $T_s=0.1 \ s$.
 Se propuso el siguiente esquema de control:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Esquema_general_obs_disc.png}
-	\caption{Esquema de control realimentación de estados con observador discreto.}
+	\caption{Esquema de control de realimentación de estados con observador discreto.}
 	\label{esqdisctobs}
 \end{figure}
 
-En estas mediciones se puede observar que ademas se agrego una señal que es la discreta, luego del sample and hold.
-Se puede apreciar como al cambiar la referencia la posicion sigue al mismo, y ademas como la introduccion de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rapidamente a su condición de equilibrio. 
+En estas mediciones se puede observar que además se agregó una señal que es la discreta, luego del sample and hold.
+Se puede apreciar en este caso también cómo al cambiar la referencia la posición sigue a la misma, y además cómo la introducción de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rápidamente a su condición de equilibrio. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_Obs_Discreto/general.png}
-	\caption{Respuesta del sistema a lazo cerrado.}
+	\caption{Respuesta del sistema con realimentación de estados y observador discreto a lazo cerrado.}
 	\label{realmentacion}
 \end{figure}
 
-Se observa claramente la diferencia entre la señal de posicion real, la discreta y la referencia deseada, al igual de como las tres convergen al mismo punto.
+Se observa claramente la diferencia entre la señal de posición real, la discreta y la referencia deseada, al igual de cómo las tres convergen al mismo punto.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_Obs_Discreto/detalle_angulo_pos.png}
@@ -299,7 +295,7 @@ Se observa claramente la diferencia entre la señal de posicion real, la discret
 	\label{realmentacion_error}
 \end{figure}
 
-Agregamos finalmente esta imagen para ver como la señal discreta coincide con la señal real cada Ts y como teniendo una frecuencia de muestreo tan chica aun se consigue un control eficaz.
+Agregamos finalmente esta imagen para ver cómo la señal discreta coincide con la señal real cada Ts y cómo teniendo una frecuencia de muestreo tan chica aún se consigue un control eficaz.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_Obs_Discreto/detalle_real_medido.png}
@@ -309,7 +305,7 @@ Agregamos finalmente esta imagen para ver como la señal discreta coincide con l
 
 
 \subsection{Realimentaci\'on de estados con control integral}
-Adicionalmente se hizo una realimentaci\'on de estados con control integral, teniendo como salida la posici\'on del carrito. Esto trae un problema el cual es que deja de ser observable el sistema, por lo que el sistema no podría realizarse con las salidas definidas, habria que tener una mayor informacion de las otras variables.
+Adicionalmente se realizó una realimentaci\'on de estados con control integral, teniendo como salida la posici\'on del carrito. Esto trae un problema el cual es que deja de ser observable el sistema, por lo que el sistema no podría realizarse con las salidas definidas, sino que habría que tener mayor información de las otras variables.
 Se propuso el siguiente esquema de control:
 \begin{figure}[H]
 	\centering
@@ -318,11 +314,11 @@ Se propuso el siguiente esquema de control:
 	\label{esqint}
 \end{figure}
 
-Se puede apreciar como al cambiar la referencia la posicion sigue al mismo, y ademas como la introduccion de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rapidamente a su condición de equilibrio. 
+Se puede apreciar cómo al cambiar la referencia la posición sigue al mismo, y ademas como la introducción de las perturbaciones provoca cambios tanto en el ángulo como en la posición, para volver rápidamente a la condición de equilibrio. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion_integral/general.png}
-	\caption{Respuesta del sistema a lazo cerrado.}
+	\caption{Respuesta del sistema con realimentación de estados y control integral a lazo cerrado.}
 	\label{realmentacion}
 \end{figure}
 
@@ -334,7 +330,7 @@ Aquí se puede ver que a diferencia del sistema sin acci\'on integral este no ti
 	\label{realmentacion_error}
 \end{figure}
 
-Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-posici\'on y como el sistema vuelve a la condici\'on de equilibrio.
+Así mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-posici\'on y cómo el sistema vuelve a la condici\'on de equilibrio.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_por_realimentacion_integral/detalle_disturbio.png}
@@ -343,9 +339,8 @@ Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-pos
 \end{figure}
 
 \subsection{Realimentaci\'on de estados con control integral en tiempo discreto}
-A continuaci\'on se discretiz\'o el sistema a travez de la transformada de tustin. Obteniendo los siguientes resultados:
+A continuaci\'on se discretiz\'o el sistema a través de la transformada de Tustin. Obteniendo los siguientes resultados:
 
-Se puede apreciar como al cambiar la referencia la posicion sigue al mismo la señal discreta, y ademas como la introduccion de las perturbaciones provoca cambios tanto en el ángulo como en la posición, pero estas vuelven rapidamente a su condición de equilibrio. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_integral_disc/general.png}
@@ -353,7 +348,7 @@ Se puede apreciar como al cambiar la referencia la posicion sigue al mismo la se
 	\label{realmentacion}
 \end{figure}
 
-Aquí se puede ver que a diferencia del sistema sin acci\'on integral este no tiene error permanente.
+Aquí se puede ver que a diferencia del sistema sin acci\'on integral este tampoco no tiene error permanente.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_integral_disc/detalle_error_permanente.png}
@@ -361,7 +356,7 @@ Aquí se puede ver que a diferencia del sistema sin acci\'on integral este no ti
 	\label{realmentacion_error}
 \end{figure}
 
-Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-posici\'on y como el sistema vuelve a la condici\'on de equilibrio.
+Así mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-posici\'on y como el sistema vuelve a la condici\'on de equilibrio.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Imagenes/Control_integral_disc/detalle_disturbio.png}
@@ -376,15 +371,13 @@ Asi mismo se realizó un detalle en la interacción disturbio $\sim$ ángulo-pos
 	\label{realmentacion_disturbio}
 \end{figure}
 
-
-%\subsection{Realimentaci\'on de estados con control integral en %tiempo discreto con observador}
-%Se le agregó un observador al control integral, teniendo la salvedad %que para el observador se tom\'o como salida tanto la posici\'on %como el \'angulo, y para la realimentaci\'on integral se uso C como %solo la posici\'on. Obteniendo lo siguientes resultados:
-
 \section{Conclusiones}
 
-Se realizó un control por loopshaping enfrentándonos a varias dificultades. Por un lado, la planta tenía un polo en el semiplano derecho, lo que limitaba inferiormente al ancho de banda del controlador del primer lazo, teniendo que hacer a este control lo suficientemente rápido para que venza esta alinealidad. Por otro lado, para el caso de la posición, la planta tenía un cero en el semiplano derecho lo que limitaba superiormente a la velocidad del controlador del segundo lazo. Esto tiene sentido, dado que si se busca achicar el error con la referencia de posición demasiado rápido, se puede llegar a perder la condición de linealidad en la cercanía del equilibrio. 
+Se realizó un control por loop shaping enfrentándonos a varias dificultades. Por un lado, la planta tenía un polo en el semiplano derecho, lo que limitaba inferiormente al ancho de banda del controlador del primer lazo, teniendo que hacer a este control lo suficientemente rápido para que venza esta alinealidad. Por otro lado, para el caso de la posición, la planta tenía un cero en el semiplano derecho lo que limitaba superiormente a la velocidad del controlador del segundo lazo. Esto tiene sentido, dado que si se busca achicar el error con la referencia de posición demasiado rápido, se puede llegar a perder la condición de linealidad en la cercanía del equilibrio al desplazar de manera demasiado brusca el ángulo del péndulo. 
 
 Luego, se realizaron controles por realimentación de estados, sin y con observador discreto al igual que un control con acción integral. También se realizaron estudios de observabilidad y controlabilidad, que fijaron qué salidas debería tener el sistema para poder realizar un observador en cada caso, dado que no todos los sistemas eran observables.
+
+Una observación interesante es la del efecto del cero en el semiplano derecho en la respuesta transitoria del sistema. Esta alinealidad provoca que, ante un cambio en la referencia de posición, el control procede a desplazar el carrito hacia el lado contrario de la nueva referencia para luego sí desplazarse hacia ella. Esto tiene sentido, dado que si se desea desplazar al carrito hacia la derecha, primero se debe desbalancear al péndulo hacia esta dirección, lo cual se logra moviendo al carro primero hacia la izquierda.
 
 La mayor discrepancia entre ambos tipos de controles implementados, por loop shaping y por realimentación de estados, se da en la calidad del control y la respuesta transitoria que se obtiene. Esto se debe a que para el caso de loop shaping, solamente se puede realimentar la posición y el ángulo, tratándolos de manera independiente, mientras que para la realimentación de estados se pueden realimentar todos los estados y fijar los polos donde se desea, a costo de un control mucho más complejo.
 \end{document}
