@@ -2,7 +2,7 @@
 %
 %\begin{document}
 
-Para el modelado de la planta, se tomaron las ecuaciones provistas del Astrom y Murray:
+Para el modelado de la planta, se tomaron las ecuaciones provistas del libro de Astrom y Murray:
 
 %\begin{equation}
 %	\begin{pmatrix}
@@ -19,18 +19,18 @@ Para el modelado de la planta, se tomaron las ecuaciones provistas del Astrom y 
 %	\end{pmatrix}
 %\end{equation}
 
-\begin{equation*}
+\begin{equation}
+\label{eq:aym}
+\begin{gathered}
 	\dot{x_1} = x_2
-\end{equation*}
-\begin{equation*}
+	\\
 	\dot{x_2} = x_4
-\end{equation*}
-\begin{equation*}
+	\\
 	\dot{x_3} = \frac{-m l sin(x_3) {x_4}^2 + mg \left[ \frac{m l^2}{J_t} cos(x_3) sin(x_3) + F \right] }{M_t - m \left[ \frac{m l^2}{J_t} {cos(x_3)}^2 \right]}
-\end{equation*}
-\begin{equation*}
+	\\
 	\dot{x_4} = \frac{-m l^2 sin(x_3) cos(x_3) {x_4}^2 + M_t g l sin(x_3) + l cos(x_3) F}{\frac{J_t M_t}{m} - m \left[l cos(x_3)\right]^2}
-\end{equation*}
+\end{gathered}
+\end{equation}
 
 Donde:
 \begin{multicols}{2}
@@ -38,7 +38,7 @@ Donde:
 	\item La masa del carro es $M = 0.5 \ kg$.
 	\item La masa del péndulo es $m = 0.2 \ kg$.
 	%\item La fricción es $b = 0$.
-	\item La inercia es $J = 0 \ kg \cdot m^2$.
+	\item La inercia es $J = 0.006 \ kg \cdot m^2$.
 	\item La gravedad es $g = 9.8 \ \nicefrac{m}{s^2}$.
 	\item El largo del péndulo es $L = 0.6 \ m$.
 	\item La distancia la centro de masa del péndulo $l = 0.3 \ m$.
@@ -56,6 +56,6 @@ Para el desarrollo en Simulink se valió del sistema presente en la Figura (\ref
 	\label{fig:planta_simscape}
 \end{figure}
 
-En dicho sistema posee 2 entradas y 4 salidas. Las primeras consisten en la fuerza aplicada al carro (entrada 1 \textit{F}) y un disturbio en el péndulo (entrada 2 \textit{dF}). Por otro lado, las 4 salidas son las variables de estado: posición del carro, velocidad del carro, ángulo del péndulo y velocidad angular del péndulo.
+En dicho sistema posee 2 entradas y 4 salidas. Las primeras consisten en la fuerza aplicada al carro (entrada 1 llamada \textit{F}) y un disturbio en el péndulo (entrada 2 denominada \textit{dF}). Por otro lado, las 4 salidas son las variables de estado: posición del carro, velocidad del carro, ángulo del péndulo y velocidad angular del péndulo.
 
 %\end{document}
