@@ -3,8 +3,6 @@ clc; clear all; close all;
 %
 L1=1;
 L2=L1;
-syms th1 th2;
-
 t1=pi/2;
 t2=pi/2;
         
