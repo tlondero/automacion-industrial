@@ -24,6 +24,9 @@ classdef WidowXMKII < handle
         function pos=getPosition(obj)
             pos=obj.currPos;
         end
-        
+        function valid=isReachable(obj,position)
+            q=obj.Widow.ikine(transl(position), 'mask', [1 1 1 0 0 0]);
+            valid=~isempty(q);
+        end
     end
 end
