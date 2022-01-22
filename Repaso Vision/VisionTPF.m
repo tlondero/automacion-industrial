@@ -84,15 +84,15 @@ lineas = imlin.lines;
 
 %-------CODIGO RODO-------
 % Genera 4 imagenes, una con cada linea que obtuvo
-imlinea1=generarlinea(lineas(1).rho,lineas(1).theta,size(green_filter_l,2),size(green_filter_l,1));
-imlinea2=generarlinea(lineas(2).rho,lineas(2).theta,size(green_filter_l,2),size(green_filter_l,1));
-imlinea3=generarlinea(lineas(3).rho,lineas(3).theta,size(green_filter_l,2),size(green_filter_l,1));
-imlinea4=generarlinea(lineas(4).rho,lineas(4).theta,size(green_filter_l,2),size(green_filter_l,1));
+imlinea1=generarlinea(lineas(1).rho,lineas(1).theta,col,row);
+imlinea2=generarlinea(lineas(2).rho,lineas(2).theta,col,row);
+imlinea3=generarlinea(lineas(3).rho,lineas(3).theta,col,row);
+imlinea4=generarlinea(lineas(4).rho,lineas(4).theta,col,row);
 
 % Imagen filtrara x linea (solo se ve donde se superponen)
-figure()
-idisp(green_filter_l.*imlinea1+green_filter_l.*imlinea2+green_filter_l.*imlinea3+green_filter_l.*imlinea4)
-title('Lineas esquinas Borde');
+% figure()
+% idisp(green_filter_l.*imlinea1+green_filter_l.*imlinea2+green_filter_l.*imlinea3+green_filter_l.*imlinea4)
+% title('Lineas esquinas Borde');
 
 % Donde se superponen vale 2
 bordes_esquinas = (imlinea1+imlinea2+imlinea3+imlinea4)==2;
