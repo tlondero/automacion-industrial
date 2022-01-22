@@ -7,7 +7,7 @@ clc
 foto = iread('./Ejemplo.png'); 
 foto = idouble(foto);
 
-%% Filtro información verde
+%% Filtro verde y rojo
 
 close all
 
@@ -46,34 +46,30 @@ red_filter = rgb2gray(red_filter);
 
 close all
 
+figure()
+idisp(foto)
 title('Imagen original');
-imshow(foto)
-figure()
 
-title('Filtro verde sin limpiar');
-imshow(green_filter)
-figure()
-imshow(red_filter)
-figure()
+% figure()
+% idisp(green_filter)
+% title('Filtro verde sin limpiar');
+% 
+% figure()
+% idisp(red_filter)
+% title('Filtro rojo sin limpiar');
 
 %limpio las imagenes filtradas para tener menos error
 S = ones(3,3);
-% green_filter_l = iclose(iopen(green_filter, S), S);
-% green_filter_l = iopen(iclose(green_filter, S), S);
 green_filter_l = iopen(green_filter, S);
-red_filter_f = iclose(red_filter,S);
-title('Filtro verde limpia');
-imshow(red_filter_f)
+red_filter_l = iclose(red_filter,S);
 
-gfl_blobs = iblobs(green_filter_l);
-[~,blobs_count] = size(gfl_blobs);
-gfl_blobs_white = [];
+figure()
+idisp(green_filter_l)
+title('Filtro verde');
 
-for i=1:blobs_count
-    if(gfl_blobs(i).class && (gfl_blobs(i).area > 200))
-        gfl_blobs_white = [gfl_blobs_white; gfl_blobs(i)];
-    end
-end
+figure()
+idisp(red_filter_l)
+title('Filtro rojo');
 
 %% Busco bordes
 
@@ -82,36 +78,51 @@ close all
 imlin = Hough(green_filter_l,'suppress',30);
 idisp(green_filter_l)
 imlin.plot
+title('Lineas esquinas Hough');
 
 lineas = imlin.lines;
 
-%CODIGO RODO
+%-------CODIGO RODO-------
 % Genera 4 imagenes, una con cada linea que obtuvo
 imlinea1=generarlinea(lineas(1).rho,lineas(1).theta,size(green_filter_l,2),size(green_filter_l,1));
 imlinea2=generarlinea(lineas(2).rho,lineas(2).theta,size(green_filter_l,2),size(green_filter_l,1));
 imlinea3=generarlinea(lineas(3).rho,lineas(3).theta,size(green_filter_l,2),size(green_filter_l,1));
 imlinea4=generarlinea(lineas(4).rho,lineas(4).theta,size(green_filter_l,2),size(green_filter_l,1));
 
-% Imagen filtrara * linea que se superpone (para cada linea)
-idisp(green_filter_l.*imlinea1+green_filter_l.*imlinea2+green_filter_l.*imlinea3+green_filter_l.*imlinea4)
+% Imagen filtrara x linea (solo se ve donde se superponen)
 figure()
+idisp(green_filter_l.*imlinea1+green_filter_l.*imlinea2+green_filter_l.*imlinea3+green_filter_l.*imlinea4)
+title('Lineas esquinas Borde');
 
-% Donde se superponen, no vale 1, vale 2!!
-bordescartel=(imlinea1+imlinea2+imlinea3+imlinea4)==2;
-idisp(bordescartel)
-%CODIGO RODO
-[fil,col]=find(bordescartel);
-posi=zeros(2,4);
-posi(2,:)=fil;
-posi(1,:)=col;
+% Donde se superponen vale 2
+bordes_esquinas = (imlinea1+imlinea2+imlinea3+imlinea4)==2;
+figure()
+idisp(bordes_esquinas)
+title('Intersecciones');
+%-------CODIGO RODO-------
+
+[fil,col] = find(bordes_esquinas);
+posi = zeros(2,4);
+posi(2,:) = fil;
+posi(1,:) = col;
 
 posf=[1 1 938 938;630 1 630 1];
 
-matH=homography(posi,posf);
-warped=homwarp(matH,green_filter,'full');
-warpedth=warped>0.5;
+matH = homography(posi,posf);
+warped = homwarp(matH,green_filter,'full');
+warpedth = warped>0.5;
 idisp(warpedth)
 
+% gfl_blobs = iblobs(green_filter_l);
+% [~,blobs_count] = size(gfl_blobs);
+% gfl_blobs_white = [];
+% 
+% for i=1:blobs_count
+%     if(gfl_blobs(i).class && (gfl_blobs(i).area > 200))
+%         gfl_blobs_white = [gfl_blobs_white; gfl_blobs(i)];
+%     end
+% end
+%
 %Puede ser util para reescribir generar linea de Rodo
 % for i=1:total
 %     theta = lineas(i).theta;
