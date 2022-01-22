@@ -61,9 +61,9 @@ S = ones(3,3);
 % green_filter_l = iclose(iopen(green_filter, S), S);
 % green_filter_l = iopen(iclose(green_filter, S), S);
 green_filter_l = iopen(green_filter, S);
-red_filter_f = iclose(red_filter,S);
+red_filter_f = iopen(red_filter,S);
 title('Filtro verde limpia');
-imshow(red_filter_f)
+imshow(green_filter_l)
 
 gfl_blobs = iblobs(green_filter_l);
 [~,blobs_count] = size(gfl_blobs);
@@ -108,7 +108,7 @@ posi(1,:)=col;
 posf=[1 1 938 938;630 1 630 1];
 
 matH=homography(posi,posf);
-warped=homwarp(matH,green_filter,'full');
+warped=homwarp(matH,foto,'full');
 warpedth=warped>0.5;
 idisp(warpedth)
 

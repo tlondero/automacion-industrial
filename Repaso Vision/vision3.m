@@ -70,7 +70,7 @@ idisp(imthfoc)
 imlin.plot
 
 lineas=imlin.lines;
-lineas
+
 
 stop=input('continuar?');
 close all
