@@ -1,0 +1,107 @@
+%\input{../Informe/Header.tex}
+
+%\begin{document}
+
+\subsection{Caracterización del problema}
+Se desarrolla un control cartesiano no lineal para el manipulador RR. Además se debe considerar una zona prohibida, representada por todo aquel valor por encima de una pared, descrita en el plano XY pro la siguiente ecuación:
+\begin{equation}
+y=2-x
+\end{equation}
+
+Se busca que el manipulador se desplace desde el punto (1;-1;0) al (1;1;0). Para generar la trayectoria se utiliza la función \textbf{jtraj} del toolbox de matlab de Peter Corke.
+
+\subsection{Esquema de control}
+El modelo de control propuesto es el conocido como linealización por realimentación. Es fundamental para este tipo de control tener un gran conocimiento de la planta, ya que básicamente se realiza el control como si fuese lineal, con un esquema tipo PD, con la diferencia que se agrega a la acción de control la respuesta no lineal de la planta.
+%gracias al conocimiento del modelo no lineal de la planta y sus variables de estado.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/modelo_control_p}
+	\caption{Topología del control de posición cartesiano no lineal.}	
+	\label{fig:control_p_modelo}
+\end{figure}
+
+Cabe mencionar que las matrices $M_x,\ V_x, \ y \ G_x$ se encuentran en espacio cartesiano. La manera de pasar de las mismas en espacio joint es la siguiente:
+\begin{equation*}
+M_x(\Theta) = J^{-T}(\Theta) M(\Theta) J^{-1}(\Theta)
+\end{equation*} 
+\begin{equation*}
+V_x(\Theta , \dot{\Theta}) = J^{-T}(\Theta) \left( V(\Theta , \dot{\Theta}) - M(\Theta) J^{-1}(\Theta) \dot{J}(\Theta) \dot{\Theta} \right)
+\end{equation*} 
+\begin{equation*}
+G_x(\Theta) = J^{-T}(\Theta) G(\Theta) 
+\end{equation*}
+
+\observacion{\verObs}{HABLAR DE VALORES DE GANANCIAS}
+
+\label{sec:posic}
+Para obtener las ganancias del sistema se empleo el método de Ziegler-Nichols. De esta forma, los valores obtenidos fueron:
+\begin{multicols}{2}
+\begin{itemize}
+	\item $Kv = \begin{pmatrix}
+	80 & 0 \\
+	0 & 80
+	\end{pmatrix}$
+	\item $Kp = \begin{pmatrix}
+	250 & 0 \\
+	0 & 250
+	\end{pmatrix}$
+\end{itemize}
+\end{multicols}
+
+\subsection{Resultados}
+Se realizó el sistema en simulink. Se obtuvieron los siguientes gráficos.
+En estos se pueden observar los ángulos de los manipuladores en espacio de joint.
+
+Como el primer rotacional hace una trayectoria de $-\frac{\pi}{2}$ hacia $0$, y el segundo, si bien el punto inicial y final son el mismo, se desvía con el propósito de seguir la trayectoria cartesiana indicada.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_a}
+	\caption{Ángulos en función del tiempo en espacio joint.}	
+	\label{fig:athetas}
+\end{figure}
+
+
+En la Figura (\ref{fig:apos}) se ven tanto las referencias como las coordenadas reales que tomó el EE, con un error porcentual menor del 20$\%$ en el eje X y menor del 5$\%$ en el eje Y. 
+
+\observacion{\verObs}{Porcentaje desconocido.}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_b}
+	\caption{Posición deseada y real del EE.}	
+	\label{fig:apos}
+\end{figure}
+La trayectoria descripta por el EE se observa claramente en la siguiente imagen.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{ImagenesControl de posición no lineal/1_3_c}
+	\caption{Gráfico XY.}	
+	\label{fig:axy}
+\end{figure}
+
+Ademas se le incluyó un disturbio a la planta tanto en posición como en velocidad. Este disturbio sucede en el segundo 14. Se observa en los siguientes gráficos como el manipulador es afectado por el mismo y luego vuelve rápidamente a la referencia.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_e_a}
+	\caption{Ángulos en función del tiempo en espacio joint.}	
+	\label{fig:athetasd}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{ImagenesControl de posición no lineal/1_3_e_b}
+	\caption{Posición deseada y real del EE.}	
+	\label{fig:aposd}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{ImagenesControl de posición no lineal/1_3_e_c}
+	\caption{Gráfico XY.}	
+	\label{fig:axyd}
+\end{figure}
+
+%\end{document}

@@ -55,18 +55,9 @@ eig(A);
 Pmp=59.46/((s+10)*(s+3.761)^2)
 Pap = -(s+3.761)/(s-3.761)
 
-
-
 Control= -(1/Pmp)*(1/s)*(1/(s+100))^3*(s+20)*db2mag(105+8.39)
 
-
-
-%rlocus(Pmp*Pap*Control)
-
-
-
-
-
+rlocus(Pmp*Pap*Control)
 
 Pmp = -59.46/((s+10)*(s+3.761)^2);
 Pap = (s+3.761)/(s-3.761);
