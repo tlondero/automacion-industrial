@@ -20,14 +20,17 @@ BlackWidow=WidowXMKII(L1,L2,L3,L4,L5);
 i=1;
 totalcases=704970;
 points=zeros(totalcases,3);
-for x=-x0:0.01:x0
-    for y=-x0:0.01:x0
-        for z=-x0:0.01:x0
-           %if BlackWidow.isReachable([x;y;z]) 
-           % points(i,:)=[x;y;z];
-           %end
-           i=i+1;
-        end
-    end
-end
+
+%hay que hacer la cuenta generica para las coordenadas. Algo como lo
+%siguiente pero que sea para nuestro caso
+% l1=500;l2=600;l3=400;l4=191.03;
+% t1=linspace(-180,180,90)*pi/180;
+% t2=linspace(-90,90,90)*pi/180;
+% d3=linspace(-200,200,90);
+% t4=linspace(-180,180,90)*pi/180;
+% [T1,T2,D3,T4]=ndgrid(t1,t2,d3,t4); % Add t4 here
+% xM = round((-cos(T1).*cos(T2)).*((D3 + l2 + l3 + l4))); % and use it in x y z as T4
+% yM = round((-cos(T2).*sin(T1)).*(D3 + l2 + l3 + l4));
+% zM = round((l1 - l4.*sin(T2) - sin(T2).*(D3 + l2 + l3)));
+% plot3(xM(:),yM(:),zM(:),'.')
 %save('reachable.mat','points')
