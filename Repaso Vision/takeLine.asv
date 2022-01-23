@@ -1,0 +1,28 @@
+function [imagen]=takeLine(rho,theta,utot,vtot)  
+    
+    imagen = zeros(vtot,utot);
+    xc = rho*cos(theta);
+    yc = rho*sin(theta);
+    
+    pendiente = -tan(theta);
+    ordenada = rho/cos(theta);
+    
+    for i=1:utot
+        for j=1:vtot
+            y = int16(pendiente*i+ordenada);
+            if(y == j)
+                imagen(j,i) = 1;
+            end
+        end
+    end
+    
+    for j=1:vtot
+        for i=1:utot
+            x = int16(j-ordenada);
+            if(x == y)
+                imagen(j,i) = 1;
+            end
+        end
+    end
+    
+end

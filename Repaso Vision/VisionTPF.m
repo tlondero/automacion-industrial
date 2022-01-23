@@ -50,14 +50,6 @@ figure()
 idisp(foto)
 title('Imagen original');
 
-% figure()
-% idisp(green_filter)
-% title('Filtro verde sin limpiar');
-% 
-% figure()
-% idisp(red_filter)
-% title('Filtro rojo sin limpiar');
-
 %limpio las imagenes filtradas para tener menos error
 S = ones(3,3);
 green_filter_l = iopen(green_filter, S);
@@ -82,24 +74,17 @@ title('Lineas esquinas Hough');
 
 lineas = imlin.lines;
 
-%-------CODIGO RODO-------
 % Genera 4 imagenes, una con cada linea que obtuvo
-imlinea1=generarlinea(lineas(1).rho,lineas(1).theta,col,row);
-imlinea2=generarlinea(lineas(2).rho,lineas(2).theta,col,row);
-imlinea3=generarlinea(lineas(3).rho,lineas(3).theta,col,row);
-imlinea4=generarlinea(lineas(4).rho,lineas(4).theta,col,row);
-
-% Imagen filtrara x linea (solo se ve donde se superponen)
-% figure()
-% idisp(green_filter_l.*imlinea1+green_filter_l.*imlinea2+green_filter_l.*imlinea3+green_filter_l.*imlinea4)
-% title('Lineas esquinas Borde');
+imlinea1 = takeLine(lineas(1).rho,lineas(1).theta,col,row);
+imlinea2 = takeLine(lineas(2).rho,lineas(2).theta,col,row);
+imlinea3 = takeLine(lineas(3).rho,lineas(3).theta,col,row);
+imlinea4 = takeLine(lineas(4).rho,lineas(4).theta,col,row);
 
 % Donde se superponen vale 2
 bordes_esquinas = (imlinea1+imlinea2+imlinea3+imlinea4)==2;
 figure()
 idisp(bordes_esquinas)
 title('Intersecciones');
-%-------CODIGO RODO-------
 
 [fil,col] = find(bordes_esquinas);
 posi = zeros(2,4);
