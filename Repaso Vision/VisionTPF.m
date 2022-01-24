@@ -86,12 +86,13 @@ figure()
 idisp(bordes_esquinas)
 title('Intersecciones');
 
-[fil,col] = find(bordes_esquinas);
+[row_, col_] = find(bordes_esquinas);
 posi = zeros(2,4);
-posi(2,:) = fil;
-posi(1,:) = col;
-
-posf=[1 1 938 938;630 1 630 1];
+posi(2,:) = row_;
+posi(1,:) = col_;
+posf = [1 1 col-1 col-1;row-1 1 row-1 1];
+% posf = orderPoints(posi,row-1,col-1); %CHEQUEAR ESTA FUNCION Y QUE
+% FUNCIONE EN OTROS CASOS
 
 matH = homography(posi,posf);
 warped = homwarp(matH,green_filter,'full');
@@ -106,17 +107,6 @@ idisp(warpedth)
 %     if(gfl_blobs(i).class && (gfl_blobs(i).area > 200))
 %         gfl_blobs_white = [gfl_blobs_white; gfl_blobs(i)];
 %     end
-% end
-%
-%Puede ser util para reescribir generar linea de Rodo
-% for i=1:total
-%     theta = lineas(i).theta;
-%     rho = lineas(i).rho;
-%     xc = rho*cos(theta);
-%     yc = rho*sin(theta);
-%     
-%     pendiente = -tan(theta);
-%     ordenada = yc + tan(theta)*xc;         
 % end
 
 % close all
