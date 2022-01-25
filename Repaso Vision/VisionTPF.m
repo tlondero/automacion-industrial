@@ -4,43 +4,39 @@ clear all
 close all
 clc
 
-foto = iread('./Ejemplo.png'); 
+foto = iread('./Ejemplo3.png'); 
 foto = idouble(foto);
+[row,col,~] = size(foto);
 
 %% Filtro verde y rojo
 
 close all
 
-green_filter = foto;
-red_filter = foto;
+green_filter = zeros(row,col);
+red_filter = zeros(row,col);
+
 gf_rgb_th = [130, 70, 130]./255;        %threshold de los colores
 rf_rgb_th = [100, 70, 70]./255;        %threshold de los colores
-[row,col,~] = size(foto);
 
 for i=1:row
     for j=1:col
-        %chequeo si es verde
-        cond1 = gf_rgb_th(1) > green_filter(i,j,1);
-        cond2 = gf_rgb_th(2) < green_filter(i,j,2);
-        cond3 = gf_rgb_th(3) > green_filter(i,j,3);        
+        %filtro solo lo verde
+        cond1 = gf_rgb_th(1) > foto(i,j,1);
+        cond2 = gf_rgb_th(2) < foto(i,j,2);
+        cond3 = gf_rgb_th(3) > foto(i,j,3);        
         if (cond1 && cond2 && cond3)
-            green_filter(i,j,:) = [1,1,1];  %es verde
-        else
-            green_filter(i,j,:) = [0,0,0];  %no es verde
+            green_filter(i,j) = 1;  %es verde
         end
-        cond1 = rf_rgb_th(1) < red_filter(i,j,1);
-        cond2 = rf_rgb_th(2) > red_filter(i,j,2);
-        cond3 = rf_rgb_th(3) > red_filter(i,j,3);        
+        
+        %filtro solo lo rojo
+        cond1 = rf_rgb_th(1) < foto(i,j,1);
+        cond2 = rf_rgb_th(2) > foto(i,j,2);
+        cond3 = rf_rgb_th(3) > foto(i,j,3);        
         if (cond1 && cond2 && cond3)
-            red_filter(i,j,:) = [1,1,1];  %es rojo
-        else
-            red_filter(i,j,:) = [0,0,0];  %no es verde
+            red_filter(i,j) = 1;  %es rojo
         end
     end
 end
-
-green_filter = rgb2gray(green_filter);
-red_filter = rgb2gray(red_filter);
 
 %%
 
@@ -49,14 +45,6 @@ close all
 figure()
 idisp(foto)
 title('Imagen original');
-
-% figure()
-% idisp(green_filter)
-% title('Filtro verde sin limpiar');
-% 
-% figure()
-% idisp(red_filter)
-% title('Filtro rojo sin limpiar');
 
 %limpio las imagenes filtradas para tener menos error
 S = ones(3,3);
@@ -81,38 +69,34 @@ imlin.plot
 title('Lineas esquinas Hough');
 
 lineas = imlin.lines;
-
-%-------CODIGO RODO-------
 % Genera 4 imagenes, una con cada linea que obtuvo
-imlinea1=generarlinea(lineas(1).rho,lineas(1).theta,col,row);
-imlinea2=generarlinea(lineas(2).rho,lineas(2).theta,col,row);
-imlinea3=generarlinea(lineas(3).rho,lineas(3).theta,col,row);
-imlinea4=generarlinea(lineas(4).rho,lineas(4).theta,col,row);
-
-% Imagen filtrara x linea (solo se ve donde se superponen)
-% figure()
-% idisp(green_filter_l.*imlinea1+green_filter_l.*imlinea2+green_filter_l.*imlinea3+green_filter_l.*imlinea4)
-% title('Lineas esquinas Borde');
+% Se deberia chequear que en efecto haya 4 elementos...
+imlinea1 = takeLine(lineas(1).rho,lineas(1).theta,col,row);
+imlinea2 = takeLine(lineas(2).rho,lineas(2).theta,col,row);
+imlinea3 = takeLine(lineas(3).rho,lineas(3).theta,col,row);
+imlinea4 = takeLine(lineas(4).rho,lineas(4).theta,col,row);
 
 % Donde se superponen vale 2
 bordes_esquinas = (imlinea1+imlinea2+imlinea3+imlinea4)==2;
 figure()
 idisp(bordes_esquinas)
 title('Intersecciones');
-%-------CODIGO RODO-------
 
-[fil,col] = find(bordes_esquinas);
+[row_, col_] = find(bordes_esquinas);
 posi = zeros(2,4);
-posi(2,:) = fil;
-posi(1,:) = col;
-
-posf=[1 1 938 938;630 1 630 1];
+posi(2,:) = row_;
+posi(1,:) = col_;
+% posf = [1 1 col-1 col-1;row-1 1 row-1 1];
+% CHEQUEAR ESTA FUNCION Y QUE FUNCIONE EN OTROS CASOS
+posf = orderPoints(posi,row-1,col-1);
 
 matH = homography(posi,posf);
 warped = homwarp(matH,green_filter,'full');
 warpedth = warped>0.5;
 idisp(warpedth)
 
+%% Se toman las piezas de las esquinas 
+%
 % gfl_blobs = iblobs(green_filter_l);
 % [~,blobs_count] = size(gfl_blobs);
 % gfl_blobs_white = [];
@@ -123,17 +107,6 @@ idisp(warpedth)
 %     end
 % end
 %
-%Puede ser util para reescribir generar linea de Rodo
-% for i=1:total
-%     theta = lineas(i).theta;
-%     rho = lineas(i).rho;
-%     xc = rho*cos(theta);
-%     yc = rho*sin(theta);
-%     
-%     pendiente = -tan(theta);
-%     ordenada = yc + tan(theta)*xc;         
-% end
-
 % close all
 % 
 % figure(); idisp(green_filter_l)
