@@ -30,6 +30,6 @@ Widow.name = 'WidowXMKII';
 t = 0:0.1:pi*2;
 T=[sin(t)*x0;cos(t)*x0;z0+t.*0]';
 PORONGA=transl(T);
-Q = Widow.ikine(PORONGA, 'mask', [1 1 1 0 0 0]);
-%Q=[0,0,0,0,0]
+%Q = Widow.ikine(PORONGA);
+Q=[0,0,0,0,0]
 Widow.plot(Q);
