@@ -5,32 +5,37 @@ L3=0.053;
 L4=0.144;
 L5=0.144;
 Lp=sqrt(L2^2+L3^2);
-x0=Lp+L4+L5;
+x0=Lp+L4+L5-0.05;
 y0=0;
-z0=L1;
+z0=L1-0.05;
  
 
 BlackWidow=WidowXMKII(L1,L2,L3,L4,L5);
+hold on
+t1=linspace(-180,180,180)*pi/180;
+t2=linspace(-90,90,10)*pi/180;
+t3=linspace(-90,90,10)*pi/180;
+t4=linspace(-180,180,40)*pi/180;
+[T1,T2,T3,T4]=ndgrid(t1,t2,t3,t4); % Add t4 here
+xM = cos(T1).*(Lp*cos(T2)+L4*cos(T2+T3)+L5*cos(T2+T3+T4)); % and use it in x y z as T4
+yM = sin(T1).*(Lp*cos(T2)+L4*cos(T2+T3)+L5*cos(T2+T3+T4));
+zM = L1+Lp*sin(T2)+L4*sin(T2+T3)+L5*sin(T2+T3+T4);
+plot3(xM(:),yM(:),zM(:),'.')
 
-%  t = 0:0.5:pi*2;
-% T=[sin(t)*x0;cos(t)*x0;z0+t.*0]';
-% BlackWidow.moveWidow(T)
-% BlackWidow.getPosition()
+ t = 0:0.5:pi*2;
+T=[sin(t)*x0;cos(t)*x0;z0+t.*0]';
+BlackWidow.moveWidow(T)
 
-i=1;
-totalcases=704970;
-points=zeros(totalcases,3);
 
 %hay que hacer la cuenta generica para las coordenadas. Algo como lo
 %siguiente pero que sea para nuestro caso
-% l1=500;l2=600;l3=400;l4=191.03;
-% t1=linspace(-180,180,90)*pi/180;
-% t2=linspace(-90,90,90)*pi/180;
-% d3=linspace(-200,200,90);
-% t4=linspace(-180,180,90)*pi/180;
-% [T1,T2,D3,T4]=ndgrid(t1,t2,d3,t4); % Add t4 here
-% xM = round((-cos(T1).*cos(T2)).*((D3 + l2 + l3 + l4))); % and use it in x y z as T4
-% yM = round((-cos(T2).*sin(T1)).*(D3 + l2 + l3 + l4));
-% zM = round((l1 - l4.*sin(T2) - sin(T2).*(D3 + l2 + l3)));
-% plot3(xM(:),yM(:),zM(:),'.')
-%save('reachable.mat','points')
+t1=linspace(-180,180,180)*pi/180;
+t2=linspace(-90,90,10)*pi/180;
+t3=linspace(-90,90,10)*pi/180;
+t4=linspace(-180,180,40)*pi/180;
+[T1,T2,T3,T4]=ndgrid(t1,t2,t3,t4); % Add t4 here
+xM = cos(T1).*(Lp*cos(T2)+L4*cos(T2+T3)+L5*cos(T2+T3+T4)); % and use it in x y z as T4
+yM = sin(T1).*(Lp*cos(T2)+L4*cos(T2+T3)+L5*cos(T2+T3+T4));
+zM = L1+Lp*sin(T2)+L4*sin(T2+T3)+L5*sin(T2+T3+T4);
+plot3(xM(:),yM(:),zM(:),'.')
+hold off
