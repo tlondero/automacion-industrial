@@ -17,7 +17,6 @@ function [xmin, xmax, ymin, ymax]=trimImage(img)
     for i=1:4
         y = [y, blobs_white(i).umin, blobs_white(i).umax];
         x = [x, blobs_white(i).vmin, blobs_white(i).vmax];
-        % figure(); idisp(green_filter_l(xmin:xmax,ymin:ymax))
     end
     
     xmin = min(x);

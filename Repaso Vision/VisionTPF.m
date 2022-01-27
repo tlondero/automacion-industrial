@@ -99,7 +99,7 @@ warped = homwarp(matH,red_filter_l,'full');
 warpedth_r = warped>0.5;
 idisp(warpedth_r)
 
-%% Se toman las piezas de las esquinas 
+%% Se corta la imagen final
 
 close all
 
@@ -115,3 +115,25 @@ title('Resultado final bordes');
 figure()
 idisp(final_linea)
 title('Resultado final linea roja');
+
+%% Se busca los extremos de la linea roja
+
+close all
+
+% Esto de acá es para ser finoli
+% Se podria saltar a la linea 132 con final_linea
+[row_fin,col_fin,~] = size(final_linea);
+fl_hough = Hough(final_linea,'suppress',30);
+imlinea5 = takeLine(fl_hough.lines.rho,fl_hough.lines.theta,col_fin,row_fin);
+fin_sup = imlinea5.*final_linea;
+
+[x_min, y_min] = find(fin_sup,1,'first');
+[x_max, y_max] = find(fin_sup,1,'last');
+
+limits = zeros(row_fin,col_fin);
+limits(x_min,y_min) = 1;
+limits(x_max, y_max) = 1;
+
+figure()
+idisp(limits)
+title('Limites de linea roja');
