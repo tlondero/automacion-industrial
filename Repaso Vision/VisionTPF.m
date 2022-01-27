@@ -86,37 +86,32 @@ title('Intersecciones');
 posi = zeros(2,4);
 posi(2,:) = row_;
 posi(1,:) = col_;
-% posf = [1 1 col-1 col-1;row-1 1 row-1 1];
-% CHEQUEAR ESTA FUNCION Y QUE FUNCIONE EN OTROS CASOS
 posf = orderPoints(posi,row-1,col-1);
 
+% Se rota tanto la imagen verde como la roja
 matH = homography(posi,posf);
 warped = homwarp(matH,green_filter,'full');
-warpedth = warped>0.5;
-idisp(warpedth)
+warpedth_g = warped>0.5;
+idisp(warpedth_g)
+
+matH = homography(posi,posf);
+warped = homwarp(matH,red_filter_l,'full');
+warpedth_r = warped>0.5;
+idisp(warpedth_r)
 
 %% Se toman las piezas de las esquinas 
-%
-% gfl_blobs = iblobs(green_filter_l);
-% [~,blobs_count] = size(gfl_blobs);
-% gfl_blobs_white = [];
-% 
-% for i=1:blobs_count
-%     if(gfl_blobs(i).class && (gfl_blobs(i).area > 200))
-%         gfl_blobs_white = [gfl_blobs_white; gfl_blobs(i)];
-%     end
-% end
-%
-% close all
-% 
-% figure(); idisp(green_filter_l)
-% gfl_blobs_white
-% 
-% for i=1:4
-%     ymin = gfl_blobs_white(i).umin;
-%     ymax = gfl_blobs_white(i).umax;
-%     xmin = gfl_blobs_white(i).vmin;
-%     xmax = gfl_blobs_white(i).vmax;
-% 
-%     figure(); idisp(green_filter_l(xmin:xmax,ymin:ymax))
-% end
+
+close all
+
+[xmin, xmax, ymin, ymax] = trimImage(warpedth_g);
+
+final_bordes = warpedth_g(xmin:xmax,ymin:ymax);
+final_linea = warpedth_r(xmin:xmax,ymin:ymax);
+
+figure()
+idisp(final_bordes)
+title('Resultado final bordes');
+
+figure()
+idisp(final_linea)
+title('Resultado final linea roja');
