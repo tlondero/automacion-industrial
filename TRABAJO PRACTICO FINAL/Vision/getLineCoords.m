@@ -66,8 +66,8 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
     hsv_greenhue_hi = (85+45)/360; %40 grados arriba de 70 grados
     hsv_greenhue_lo = (85-45)/360; %30 grados arriba de 70 grados
     
-    hsv_sat_lo = 0.14;
-    hsv_val_hi = 0.55;
+    hsv_sat_lo = 0.134;
+    hsv_val_hi = 0.56;
     hsv_val_lo = 0.24;
     
     for i=1:row
