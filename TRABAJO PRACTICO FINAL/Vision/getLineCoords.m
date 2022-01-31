@@ -49,12 +49,16 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
 %     
 % 	% (RGB) Limpio las imagenes filtradas para tener menos error
 % 	
-% 	S = ones(3);
-% 	green_filter_l = iopen(green_filter, S);
-%   green_filter_l2 = iopen(green_filter, S, 2);
-%   green_filter_l3 = iopen(green_filter, S, 3);
-%   green_filter_l4 = iopen(green_filter, S, 5);
-% 	red_filter_l = iclose(red_filter,S);
+% 	%S = ones(3);
+% 	%green_filter_l = iopen(green_filter, S);
+%     green_filter_cl = iclose(green_filter, ones(5));
+%     green_filter_cl2 = iclose(green_filter, ones(7));
+% 	  green_filter_l = iopen(green_filter_cl, ones(3));
+%     green_filter_l2 = iopen(green_filter_cl, ones(3), 2);
+%     green_filter_l3 = iopen(green_filter_cl, ones(3), 3);
+%     green_filter_l4 = iopen(green_filter_cl2, ones(11));
+%     red_filter_l = iclose(red_filter,ones(7));
+%     red_filter_l = iopen(red_filter_l,ones(3));
     
     %% Filtro hsv
     hsv_foto = rgb2hsv(foto);
