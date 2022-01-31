@@ -51,6 +51,9 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
 % 	
 % 	S = ones(3);
 % 	green_filter_l = iopen(green_filter, S);
+%   green_filter_l2 = iopen(green_filter, S, 2);
+%   green_filter_l3 = iopen(green_filter, S, 3);
+%   green_filter_l4 = iopen(green_filter, S, 5);
 % 	red_filter_l = iclose(red_filter,S);
     
     %% Filtro hsv
@@ -60,15 +63,15 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
 	hsv_red_filter = zeros(row,col);
     
     %0 grados hue = rojo
-    hsv_redhue_hi = (0+30)/360; %30 grados adelante de 0 grados
-    hsv_redhue_lo = (360-30)/360; %30 grados atras de 0 grados
-    %70 grados hue = verde
-    hsv_greenhue_hi = (85+45)/360; %40 grados arriba de 70 grados
-    hsv_greenhue_lo = (85-45)/360; %30 grados arriba de 70 grados
+    hsv_redhue_hi = (-7.5+27.5)/360; %20 grados adelante de 0 grados
+    hsv_redhue_lo = ((-7.5+360)-27.5)/360; %30 grados atras de 0 grados
+    %~120 grados hue = verde
+    hsv_greenhue_hi = (110+80)/360; %80 grados arriba de 110 grados
+    hsv_greenhue_lo = (110-75)/360; %75 grados abajo de 110 grados
     
-    hsv_sat_lo = 0.134;
-    hsv_val_hi = 0.56;
-    hsv_val_lo = 0.24;
+    hsv_sat_lo = 0.14;
+    hsv_val_hi = 0.55;
+    hsv_val_lo = 0.25;
     
     for i=1:row
 		for j=1:col
@@ -98,64 +101,39 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
     green_filter = hsv_green_filter;
     
 	% (HSV) Limpio las imagenes filtradas para tener menos error
-	
-	S = ones(3);
-	green_filter_l = iopen(green_filter, S);
-	red_filter_l = iopen(red_filter,S);
+    green_filter_cl = iclose(green_filter, ones(5));
+    green_filter_cl2 = iclose(green_filter, ones(7));
+	green_filter_l = iopen(green_filter_cl, ones(3));
+    green_filter_l2 = iopen(green_filter_cl, ones(3), 2);
+    green_filter_l3 = iopen(green_filter_cl, ones(3), 3);
+    green_filter_l4 = iopen(green_filter_cl2, ones(11));
+    red_filter_l = iclose(red_filter,ones(7));
+    red_filter_l = iopen(red_filter_l,ones(3));
     
 
 	%% Busco bordes
+    
+    %Intento 1: Filtrado + limpiado
+    [pos1, pos2] = getBorders(green_filter_l, red_filter_l);
+    
+    %Esto se podría hacer recursivo, pero no tiene sentido porque si se
+    %limpia con N mas grande que ~3 las lineas empiezan a desaparecer
+    if(isnan(pos1))
+        %Intento 2: Filtrado + limpiado x2
+        [pos1, pos2] = getBorders(green_filter_l2, red_filter_l);
+        if(isnan(pos1))
+            %Intento 3: Filtrado solo
+            [pos1, pos2] = getBorders(green_filter, red_filter_l);
+            if(isnan(pos1))
+                %Intento 4: Filtrado + limpiado x3
+                [pos1, pos2] = getBorders(green_filter_l3, red_filter_l);
+                if(isnan(pos1))
+                    %Intento 5: Filtrado + limpiado grande
+                    [pos1, pos2] = getBorders(green_filter_l4, red_filter_l);
+                end
+            end
+        end
+    end
 
-	imlin = Hough(green_filter_l,'suppress',30);
-	lineas = imlin.lines;
-	[~,line_count,~] = size(lineas);
-	
-	x_min = NaN;
-	y_min = NaN;
-	x_max = NaN;
-	y_max = NaN;
-	
-	if(line_count==4)   % Chequeo que haya 4 elementos
-
-		% Genera 4 imagenes, una con cada linea que obtuvo
-		imlinea1 = takeLine(lineas(1).rho,lineas(1).theta,col,row);
-		imlinea2 = takeLine(lineas(2).rho,lineas(2).theta,col,row);
-		imlinea3 = takeLine(lineas(3).rho,lineas(3).theta,col,row);
-		imlinea4 = takeLine(lineas(4).rho,lineas(4).theta,col,row);
-
-		% Donde se superponen vale 2
-		bordes_esquinas = (imlinea1+imlinea2+imlinea3+imlinea4)==2;
-
-		[row_, col_] = find(bordes_esquinas);
-		posi = zeros(2,4);
-		posi(2,:) = row_;
-		posi(1,:) = col_;
-		posf = orderPoints(posi,row-1,col-1);
-
-		% Se rota tanto la imagen verde como la roja
-		matH = homography(posi,posf);
-		warpedth_g = (homwarp(matH,green_filter,'full'))>0.5;
-		warpedth_r = (homwarp(matH,red_filter_l,'full'))>0.5;
-
-		% Se corta y reescala la imagen 
-		[xmin, xmax, ymin, ymax] = trimImage(warpedth_g);
-		final_linea = warpedth_r(xmin:xmax,ymin:ymax);
-        final_linea = imresize(final_linea,[umax,vmax]);
-		
-		% Se busca los extremos de la linea roja
-        
-		% [row_fin,col_fin,~] = size(final_linea);	% Esto de acá es para ser finoli
-		% fl_hough = Hough(final_linea,'suppress',30); % Se podria saltar a la linea 132 con final_linea
-		% imlinea5 = takeLine(fl_hough.lines.rho,fl_hough.lines.theta,col_fin,row_fin);
-		% fin_sup = imlinea5.*final_linea;
-
-		[x_min, y_min] = find(final_linea,1,'first');
-		[x_max, y_max] = find(final_linea,1,'last');
-	else
-		% Ver que se puede hacer cuando no se encuentran las 4 lineas
-	end
-	
-	pos1 = [x_min, y_min];
-	pos2 = [x_max, y_max];
 	
 end
