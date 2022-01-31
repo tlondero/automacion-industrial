@@ -19,39 +19,34 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
 	foto = idouble(foto);
 	[row,col,~] = size(foto);
 
-% 	%% Filtro verde y rojo
-% 
-% 	green_filter = zeros(row,col);
-% 	red_filter = zeros(row,col);
-% 	
-% 	gf_rgb_th = [130, 70, 130]./255;        %threshold de verde
-% 	rf_rgb_th = [100, 70, 70]./255;        %threshold de rojo
-% 
-% 	for i=1:row
-% 		for j=1:col
-% 			%filtro solo lo verde
-% 			cond1 = gf_rgb_th(1) > foto(i,j,1);
-% 			cond2 = gf_rgb_th(2) < foto(i,j,2);
-% 			cond3 = gf_rgb_th(3) > foto(i,j,3);        
-% 			if (cond1 && cond2 && cond3)
-% 				green_filter(i,j) = 1;  %es verde
-% 			end
-% 			
-% 			%filtro solo lo rojo
-% 			cond1 = rf_rgb_th(1) < foto(i,j,1);
-% 			cond2 = rf_rgb_th(2) > foto(i,j,2);
-% 			cond3 = rf_rgb_th(3) > foto(i,j,3);        
-% 			if (cond1 && cond2 && cond3)
-% 				red_filter(i,j) = 1;  %es rojo
-% 			end
-% 		end
-%     end
-%     
-% 	% (RGB) Limpio las imagenes filtradas para tener menos error
-% 	
-% 	S = ones(3);
-% 	green_filter_l = iopen(green_filter, S);
-% 	red_filter_l = iclose(red_filter,S);
+	%% Filtro verde y rojo
+
+	green_filter = zeros(row,col);
+	red_filter = zeros(row,col);
+	
+	gf_rgb_th = [130, 70, 130]./255;        %threshold de verde
+	rf_rgb_th = [100, 70, 70]./255;        %threshold de rojo
+
+	for i=1:row
+		for j=1:col
+			%filtro solo lo verde
+			cond1 = gf_rgb_th(1) > foto(i,j,1);
+			cond2 = gf_rgb_th(2) < foto(i,j,2);
+			cond3 = gf_rgb_th(3) > foto(i,j,3);        
+			if (cond1 && cond2 && cond3)
+				green_filter(i,j) = 1;  %es verde
+			end
+			
+			%filtro solo lo rojo
+			cond1 = rf_rgb_th(1) < foto(i,j,1);
+			cond2 = rf_rgb_th(2) > foto(i,j,2);
+			cond3 = rf_rgb_th(3) > foto(i,j,3);        
+			if (cond1 && cond2 && cond3)
+				red_filter(i,j) = 1;  %es rojo
+			end
+		end
+    end
+
     
     %% Filtro hsv
     hsv_foto = rgb2hsv(foto);
@@ -63,12 +58,12 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
     hsv_redhue_hi = (0+30)/360; %30 grados adelante de 0 grados
     hsv_redhue_lo = (360-30)/360; %30 grados atras de 0 grados
     %70 grados hue = verde
-    hsv_greenhue_hi = (85+45)/360; %40 grados arriba de 70 grados
-    hsv_greenhue_lo = (85-45)/360; %30 grados arriba de 70 grados
+    hsv_greenhue_hi = (70+40)/360; %40 grados arriba de 70 grados
+    hsv_greenhue_lo = (70-30)/360; %30 grados arriba de 70 grados
     
-    hsv_sat_lo = 0.14;
-    hsv_val_hi = 0.55;
-    hsv_val_lo = 0.24;
+    hsv_sat_lo = 0.15;
+    hsv_val_hi = 0.5;
+    hsv_val_lo = 0.3;
     
     for i=1:row
 		for j=1:col
@@ -97,12 +92,11 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
     red_filter = hsv_red_filter;
     green_filter = hsv_green_filter;
     
-	% (HSV) Limpio las imagenes filtradas para tener menos error
+	%% Limpio las imagenes filtradas para tener menos error
 	
-	S = ones(3);
+	S = ones(3,3);
 	green_filter_l = iopen(green_filter, S);
-	red_filter_l = iopen(red_filter,S);
-    
+	red_filter_l = iclose(red_filter,S);
 
 	%% Busco bordes
 
