@@ -47,13 +47,13 @@ imlin = Hough(green_filter_l,'suppress',30);
 		
 		% Se busca los extremos de la linea roja
         
-		% [row_fin,col_fin,~] = size(final_linea);	% Esto de acá es para ser finoli
-		% fl_hough = Hough(final_linea,'suppress',30); % Se podria saltar a la linea 132 con final_linea
-		% imlinea5 = takeLine(fl_hough.lines.rho,fl_hough.lines.theta,col_fin,row_fin);
-		% fin_sup = imlinea5.*final_linea;
+		 [row_fin,col_fin,~] = size(final_linea);	
+		 fl_hough = Hough(final_linea,'suppress',30);
+		 imlinea5 = takeLine(fl_hough.lines.rho,fl_hough.lines.theta,col_fin,row_fin);
+		 fin_sup = imlinea5.*final_linea;
 
-		[x_min, y_min] = find(final_linea,1,'first');
-		[x_max, y_max] = find(final_linea,1,'last');
+		[x_min, y_min] = find(fin_sup,1,'first');
+		[x_max, y_max] = find(fin_sup,1,'last');
 	else
 		% Ver que se puede hacer cuando no se encuentran las 4 lineas
 	end

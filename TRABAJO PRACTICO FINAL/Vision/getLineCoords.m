@@ -67,8 +67,8 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
 	hsv_red_filter = zeros(row,col);
     
     %0 grados hue = rojo
-    hsv_redhue_hi = (-7.5+27.5)/360; %20 grados adelante de 0 grados
-    hsv_redhue_lo = ((-7.5+360)-27.5)/360; %30 grados atras de 0 grados
+    hsv_redhue_hi = (-7.5+27.5)/360; %27.5 grados adelante de -7.5 grados
+    hsv_redhue_lo = ((-7.5+360)-27.5)/360; %27.5 grados atras de -7.5 grados
     %~120 grados hue = verde
     hsv_greenhue_hi = (110+80)/360; %80 grados arriba de 110 grados
     hsv_greenhue_lo = (110-75)/360; %75 grados abajo de 110 grados
