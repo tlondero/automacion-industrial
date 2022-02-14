@@ -118,22 +118,22 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
 	%% Busco bordes
     
     %Intento 1: Filtrado + limpiado
-    [pos1, pos2] = getBorders(green_filter_l, red_filter_l);
+    [pos1, pos2] = getBorders(green_filter_l, red_filter_l, umax, vmax);
     
     %Esto se podría hacer recursivo, pero no tiene sentido porque si se
     %limpia con N mas grande que ~3 las lineas empiezan a desaparecer
     if(isnan(pos1))
         %Intento 2: Filtrado + limpiado x2
-        [pos1, pos2] = getBorders(green_filter_l2, red_filter_l);
+        [pos1, pos2] = getBorders(green_filter_l2, red_filter_l, umax, vmax);
         if(isnan(pos1))
             %Intento 3: Filtrado solo
-            [pos1, pos2] = getBorders(green_filter, red_filter_l);
+            [pos1, pos2] = getBorders(green_filter, red_filter_l, umax, vmax);
             if(isnan(pos1))
                 %Intento 4: Filtrado + limpiado x3
-                [pos1, pos2] = getBorders(green_filter_l3, red_filter_l);
+                [pos1, pos2] = getBorders(green_filter_l3, red_filter_l, umax, vmax);
                 if(isnan(pos1))
                     %Intento 5: Filtrado + limpiado grande
-                    [pos1, pos2] = getBorders(green_filter_l4, red_filter_l);
+                    [pos1, pos2] = getBorders(green_filter_l4, red_filter_l, umax, vmax);
                 end
             end
         end

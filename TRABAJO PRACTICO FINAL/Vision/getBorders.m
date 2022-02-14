@@ -1,15 +1,9 @@
-function [pos1, pos2]=getBorders(green_filter_l, red_filter_l)
+function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax)
 
-green_filter = green_filter_l;
-[row,col] = size(green_filter_l);
-if ~exist('umax','var')
-    umax = 1500;
-end
-if ~exist('vmax','var')
-    vmax = 2000;
-end
-    
-imlin = Hough(green_filter_l,'suppress',30);
+    green_filter = green_filter_l;
+    [row,col] = size(green_filter_l);
+
+    imlin = Hough(green_filter_l,'suppress',30);
 	lineas = imlin.lines;
 	[~,line_count,~] = size(lineas);
 	
@@ -54,8 +48,6 @@ imlin = Hough(green_filter_l,'suppress',30);
 
 		[x_min, y_min] = find(fin_sup,1,'first');
 		[x_max, y_max] = find(fin_sup,1,'last');
-	else
-		% Ver que se puede hacer cuando no se encuentran las 4 lineas
 	end
 	
 	pos1 = [x_min, y_min];
