@@ -1,7 +1,7 @@
 function [pos1, pos2]=getLineCoords(foto,umax,vmax)
 % GETLINECOORDS Encuentra la linea roja en la imagen
 %     [pos1, pos2] = getLineCoords(foto) Devuelve coordenadas de inicio y
-%     fin de la linea roja de la imagen reescalada a 1500 x 2000.
+%     fin de la linea roja de la imagen reescalada a 150 x 200.
 %      
 %     [pos1, pos2] = getLineCoords(foto,umax,vmax) Devuelve coordenadas de
 %     inicio y fin de la linea roja de la imagen reescalada a umax x vmax.
@@ -10,10 +10,10 @@ function [pos1, pos2]=getLineCoords(foto,umax,vmax)
 %     verde, retorna las dos coordenadas con NaN.
     
     if ~exist('umax','var')
-        umax = 1500;
+        umax = 150;
     end
     if ~exist('vmax','var')
-        vmax = 2000;
+        vmax = 200;
     end
 
 	foto = idouble(foto);
