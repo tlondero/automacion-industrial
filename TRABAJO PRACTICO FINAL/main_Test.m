@@ -20,7 +20,7 @@ t4=linspace(-180,180,40)*pi/180;
 xM = cos(T1).*(Lp*cos(T2)+L4*cos(T2+T3)+L5*cos(T2+T3+T4)); % and use it in x y z as T4
 yM = sin(T1).*(Lp*cos(T2)+L4*cos(T2+T3)+L5*cos(T2+T3+T4));
 zM = L1+Lp*sin(T2)+L4*sin(T2+T3)+L5*sin(T2+T3+T4);
-plot3(xM(:),yM(:),zM(:),'.')
+%plot3(xM(:),yM(:),zM(:),'.')
 
  t = 0:0.5:pi*2;
 T=[sin(t)*x0;cos(t)*x0;z0+t.*0]';
@@ -34,8 +34,13 @@ t2=linspace(-90,90,10)*pi/180;
 t3=linspace(-90,90,10)*pi/180;
 t4=linspace(-180,180,40)*pi/180;
 [T1,T2,T3,T4]=ndgrid(t1,t2,t3,t4); % Add t4 here
+TT = ndgrid(t1,t2,t3,t4);
 xM = cos(T1).*(Lp*cos(T2)+L4*cos(T2+T3)+L5*cos(T2+T3+T4)); % and use it in x y z as T4
 yM = sin(T1).*(Lp*cos(T2)+L4*cos(T2+T3)+L5*cos(T2+T3+T4));
 zM = L1+Lp*sin(T2)+L4*sin(T2+T3)+L5*sin(T2+T3+T4);
-plot3(xM(:),yM(:),zM(:),'.')
+R = [[cos(T1).*cos(T2+T3+T4) -cos(T1).*sin(T2+T3+T4) sin(T1)];
+    [sin(T1).*cos(T2+T3+T4) -sin(T1).*sin(T2+T3+T4) -cos(T1)];
+    [sin(T2+T3+T4) cos(T2+T3+T4) zeros(size(T1))]];
+
+plot3(xM(:),yM(:),zM(:),'o')
 hold off

@@ -24,12 +24,11 @@ Widow.name = 'WidowXMKII';
  y0=0;
  z0=L1-L1/4;
  
-%t = 0:0.001:0.01;
+t = 0:0.001:0.01;
 %T = [-t.*1+x0; t.*0+y0; t.*0+z0].';
-% 
 t = 0:0.1:pi*2;
-T=[sin(t)*x0;cos(t)*x0;z0+t.*0]';
+T=[sin(t)*x0;cos(t)*x0;z0+t.*0]';   
 PORONGA=transl(T);
-%Q = Widow.ikine(PORONGA);
-Q=[0,0,0,0,0]
+Q = Widow.ikine(PORONGA,[1 1 1 0 0 0]);
+%Q=[0,0,0,0,0]
 Widow.plot(Q);
