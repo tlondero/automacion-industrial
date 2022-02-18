@@ -42,4 +42,5 @@ classdef WidowXMKII < handle
             y=x*b+m;
             T=[y,x];
          end
+	end
 end
