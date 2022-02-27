@@ -18,7 +18,7 @@ L5 = 0.144;
 % Parametros de la hoja
 w_hoja = 0.2;
 l_hoja = 0.15;
-init_pos = [0.15, -0.05]; %x e y de la hoja (respectivamente)
+init_pos = [0.1,-0.15/2.0]; %x e y de la hoja (respectivamente)
 table_height = 0;
 
 hold on
@@ -57,7 +57,9 @@ else
     drawTable(w_hoja, l_hoja, init_pos(1), init_pos(2), table_height);
     [~,n] = size(T);
     for i=1:n
-        BlackWidow.moveWidow(T(:,i)' + init_pos);
+        x_ = T(1,i) + init_pos(1);
+        y_ = T(2,i) + init_pos(2);
+        BlackWidow.moveWidow([x_, y_]);
     end
     hold off    
 end

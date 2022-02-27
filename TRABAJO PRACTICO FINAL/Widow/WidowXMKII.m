@@ -53,7 +53,7 @@ classdef WidowXMKII < handle
             obj.Widow.plot(obj.Qtarget);
             xlim([-obj.Lp-obj.L4*2-0.2, obj.Lp+obj.L4*2+0.2]);
             ylim([-obj.Lp-obj.L4*2-0.2, obj.Lp+obj.L4*2+0.2]);
-            zlim([-0.6, obj.Lp+obj.L4+obj.L1]);
+            zlim([0, obj.Lp+obj.L4+obj.L1]);
             obj.currPos = [position, obj.currPos(3)];
         end
         function pos=getPosition(obj)
@@ -99,7 +99,7 @@ classdef WidowXMKII < handle
             m=yo-xo*b;
             x=linspace(xi,xo,100);
             y=x*b+m;
-            T=[y;x];
+            T=[x;y];
         end
     end
 end

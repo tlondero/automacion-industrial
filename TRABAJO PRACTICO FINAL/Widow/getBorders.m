@@ -37,7 +37,7 @@ function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax)
 		% Se corta y reescala la imagen 
 		[xmin, xmax, ymin, ymax] = trimImage(warpedth_g);
 		final_linea = warpedth_r(xmin:xmax,ymin:ymax);
-        final_linea = imresize(final_linea,[umax,vmax]);
+        final_linea = flip(imresize(final_linea,[umax,vmax]),1);
 		
 		% Se busca los extremos de la linea roja
         
