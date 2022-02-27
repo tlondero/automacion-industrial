@@ -35,6 +35,8 @@ hold on
 drawTable(w_hoja, l_hoja, x_hoja, y_hoja, z_hoja);
 Q = Widow.ikine(T, 'mask', [1 1 1 1 0 1]);
 Widow.plot(Q);
+xlim([-Lp-L4*2-0.2, Lp+L4*2+0.2]);
+ylim([-Lp-L4*2-0.2, Lp+L4*2+0.2]);
 zlim([-0.6, Lp+L4+L1]);
 
 hold off
