@@ -76,7 +76,7 @@ else
     
     hold on
     
-    drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);   
+    drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);    
     BlackWidow.moveWidow(T);    
     BlackWidow.getWidowInPosition(0)
     hold off    
@@ -90,7 +90,7 @@ hold on
 X = [table_origin(1)+start_pos(2),table_origin(1)+end_pos(2)];
 Y = [table_origin(2)-start_pos(1),table_origin(2)-end_pos(1)];
 Z = [table_height,table_height];
-plot3(X,Y,Z);
+plot3(X,Y,Z,'Color','red');
 hold off
 
 %% Llevo el manipulador al origen

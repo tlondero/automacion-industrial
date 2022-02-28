@@ -27,7 +27,7 @@ function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax)
 		posi = zeros(2,4);
 		posi(2,:) = row_;
 		posi(1,:) = col_;
-		posf = orderPoints(posi,row-1,col-1);
+		posf = orderPoints(posi,[col-1,row-1]);
 
 		% Se rota tanto la imagen verde como la roja
 		matH = homography(posi,posf);
