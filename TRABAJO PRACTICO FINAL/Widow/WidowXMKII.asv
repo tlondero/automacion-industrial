@@ -33,32 +33,21 @@ classdef WidowXMKII < handle
             
             obj.rotation = [1, 0, 0;
                             0, 0, -1;
-                            0, 1, 0]; 
+                            0, 1, 0];
             
             obj.table_height = table_height;
-            obj.currPos = [init_pos, obj.table_height+0.05];
-            T = [obj.rotation, obj.currPos';
-                    0, 0, 0, 1];
-            obj.moveWidow(T);
+            obj.currPos = [0,0,obj.table_height+0.05];            
+            %obj.moveWidow(init_pos);
         end
-        function moveWidow(obj,T)             
+        function moveWidow(obj,T)    
+            
+            
             obj.Qtarget = obj.Widow.ikine(T, 'mask', [1 1 1 1 0 1]);
             obj.Widow.plot(obj.Qtarget);
             xlim([-obj.Lp-obj.L4*2-0.2, obj.Lp+obj.L4*2+0.2]);
             ylim([-obj.Lp-obj.L4*2-0.2, obj.Lp+obj.L4*2+0.2]);
             zlim([-0.6, obj.Lp+obj.L4+obj.L1]);
-            obj.currPos = T(1:3,4,end);
-        end
-        function moveWidowXY(obj,pos)
-            obj.currPos(1) = pos(1);
-            obj.currPos(2) = pos(2);            
-            T = [obj.rotation, obj.currPos; 0, 0, 0, 1];
-            obj.Qtarget = obj.Widow.ikine(T, 'mask', [1 1 1 1 0 1]);
-            obj.Widow.plot(obj.Qtarget);
-            xlim([-obj.Lp-obj.L4*2-0.2, obj.Lp+obj.L4*2+0.2]);
-            ylim([-obj.Lp-obj.L4*2-0.2, obj.Lp+obj.L4*2+0.2]);
-            zlim([-0.6, obj.Lp+obj.L4+obj.L1]);
-            obj.currPos = T(1:3,4,end);
+            obj.currPos = [position, obj.currPos(3)];
         end
         function pos=getPosition(obj)
             pos=obj.currPos;
@@ -93,7 +82,7 @@ classdef WidowXMKII < handle
         end
     end 
     methods(Static)
-        function T=createLineTrajectory(InitialPosition,FinalPosition,step)
+        function T=createLineTrajectory(InitialPosition,FinalPosition)
             %T = [-t.*1+x0; t.*0+y0; t.*0+z0].';
             xi=InitialPosition(1);
             yi=InitialPosition(2);
@@ -101,7 +90,7 @@ classdef WidowXMKII < handle
             yo=FinalPosition(2);
             b=(yo-yi)/(xo-xi);
             m=yo-xo*b;
-            x=linspace(xi,xo,step);
+            x=linspace(xi,xo,100);
             y=x*b+m;
             T=[x;y];
         end

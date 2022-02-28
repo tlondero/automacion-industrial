@@ -58,15 +58,26 @@ else
     xf = table_origin(1) + end_pos(2);
     yf = table_origin(2) - end_pos(1);
     
-    T = BlackWidow.createLineTrajectory([x0, y0],[xf, yf]);
     BlackWidow.getWidowInPosition(1)
     
-    hold on
-    drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);
-    [~,n] = size(T);
-    for i=1:n
-        BlackWidow.moveWidow(T(:,i)');
+    P_ = BlackWidow.createLineTrajectory([x0, y0],[xf, yf],20);
+    [row_P, col_P] = size(P_);
+    R = [1, 0, 0;
+         0, 0, -1;
+         0, 1, 0];
+    cur_pos = BlackWidow.getPosition();
+    
+    P = [P_', ones(col_P,1).*cur_pos(3)]';    
+    T = zeros(4,4,col_P);
+    
+    for i=1:col_P
+        T(:,:,i) = [R, P(:,i); 0, 0, 0, 1];
     end
+    
+    hold on
+    
+    drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);   
+    BlackWidow.moveWidow(T);    
     BlackWidow.getWidowInPosition(0)
     hold off    
 end
@@ -86,5 +97,12 @@ hold off
 
 hold on
 drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);
-BlackWidow.moveWidow([table_origin(1),table_origin(2)]);
+BlackWidow.moveWidowXY([table_origin(1),table_origin(2)]);
+hold off
+
+%% Llevo el manipulador al extremo opuesto
+
+hold on
+drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);
+BlackWidow.moveWidowXY([table_origin(1)+w_hoja,table_origin(2)-l_hoja]);
 hold off    
