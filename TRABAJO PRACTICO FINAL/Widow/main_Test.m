@@ -5,7 +5,10 @@ clc; clear all; close all;
 foto = iread('../Vision/Ejemplo1.png'); 
 foto = idouble(foto);
 [start_pos, end_pos] = getLineCoords(foto);
-    
+
+start_pos = start_pos./1000;
+end_pos = end_pos./1000;
+
 %% Se inicializa el manipulador
 
 % Parametros del manipulador
@@ -18,7 +21,7 @@ L5 = 0.144;
 % Parametros de la hoja
 w_hoja = 0.2;
 l_hoja = 0.15;
-init_pos = [0.1,-0.15/2.0]; %x e y de la hoja (respectivamente)
+init_pos = [0.1, 0.1]; %x e y de la hoja (respectivamente)
 table_height = 0;
 
 hold on
@@ -50,17 +53,32 @@ clc; close all;
 if(isnan(start_pos))
     disp('No se encontraron las esquinas')
 else    
-    T = BlackWidow.createLineTrajectory(start_pos./1000,end_pos./1000);
+    T = BlackWidow.createLineTrajectory(start_pos,end_pos);
     BlackWidow.getWidowInPosition(1)
     
     hold on
     drawTable(w_hoja, l_hoja, init_pos(1), init_pos(2), table_height);
     [~,n] = size(T);
     for i=1:n
-        x_ = T(1,i) + init_pos(1);
-        y_ = T(2,i) + init_pos(2);
+        x_ = T(1,i) + init_pos(1) + start_pos(2);
+        y_ = T(2,i) + init_pos(2) - start_pos(1) + l_hoja;
         BlackWidow.moveWidow([x_, y_]);
     end
     hold off    
 end
 
+%%
+
+clc
+hold on
+x_ = init_pos(1) + start_pos(2);
+y_ = init_pos(2) - start_pos(1) + l_hoja;
+
+BlackWidow.moveWidow([x_, y_])
+
+Y = [init_pos(1)-start_pos(1)+l_hoja,init_pos(1)-end_pos(1)+l_hoja];
+X = [init_pos(2)+start_pos(2),init_pos(2)+end_pos(2)];
+Z = [table_height,table_height];
+
+plot3(X,Y,Z);
+hold off
