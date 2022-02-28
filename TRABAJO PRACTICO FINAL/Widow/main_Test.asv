@@ -1,7 +1,7 @@
 clc; clear all; close all;
 
 % Analisis de la imagen
-foto = iread('../Vision/Ejemplo1.png'); 
+foto = iread('../Vision/Ejemplo5.png'); 
 foto = idouble(foto);
 [start_pos, end_pos] = getLineCoords(foto);
 
@@ -20,13 +20,14 @@ L5 = 0.144;
 w_hoja = 0.2;
 l_hoja = 0.15;
 table_origin = [0,0.35]; %x e y de la hoja (respectivamente)
-table_height = L1+0.05;
+table_height = L1;
+marker_offset = 0.05;
 
 % Inicializacion del manipulador y dibujo de hoja
 
 hold on
 drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);
-BlackWidow = WidowXMKII(L1,L2,L3,L4,L5,table_height,table_origin);
+BlackWidow = WidowXMKII(L1,L2,L3,L4,L5,table_height,table_origin+marker_offset);
 hold off
 
 %% Espacio alcanzable del manipulador
@@ -52,13 +53,10 @@ if(isnan(start_pos))
     disp('No se encontraron las esquinas')
 else
     
-    X = [,table_origin(1)+end_pos(2)];
-    Y = [table_origin(2)-start_pos(1),table_origin(2)-end_pos(1)];
-    
-    x0 = table_origin(1)+start_pos(2);
-    y0 = table_origin(2) - start_pos(1) + l_hoja;
+    x0 = table_origin(1) + start_pos(2);
+    y0 = table_origin(2) - start_pos(1);
     xf = table_origin(1) + end_pos(2);
-    yf = table_origin(2) - end_pos(1) + l_hoja;
+    yf = table_origin(2) - end_pos(1);
     
     T = BlackWidow.createLineTrajectory([x0, y0],[xf, yf]);
     BlackWidow.getWidowInPosition(1)
@@ -73,66 +71,8 @@ else
     hold off    
 end
 
-%%
 
-clc
-hold on
-x_ = table_origin(1) + start_pos(2);
-y_ = table_origin(2) - start_pos(1) + l_hoja;
-
-BlackWidow.moveWidow([x_, y_])
-
-Y = [table_origin(1)-start_pos(1)+l_hoja,table_origin(1)-end_pos(1)+l_hoja];
-X = [table_origin(2)+start_pos(2),table_origin(2)+end_pos(2)];
-Z = [table_height,table_height];
-
-plot3(X,Y,Z);
-hold off
-
-%%
-
-clc
-hold on
-x_ = table_origin(1) + end_pos(2);
-y_ = table_origin(2) - end_pos(1) + l_hoja;
-
-BlackWidow.moveWidow([x_, y_])
-
-Y = [table_origin(1)-start_pos(1)+l_hoja,table_origin(1)-end_pos(1)+l_hoja];
-X = [table_origin(2)+start_pos(2),table_origin(2)+end_pos(2)];
-Z = [table_height,table_height];
-
-plot3(X,Y,Z);
-hold off
-
-%%
-
-clc
-hold on
-x_ = table_origin(1);
-y_ = table_origin(2);
-BlackWidow.moveWidow([x_, y_]);
-hold off
-
-%%
-
-clc
-hold on
-x_ = table_origin(1)+w_hoja;
-y_ = table_origin(2)+l_hoja;
-BlackWidow.moveWidow([x_, y_]);
-hold off
-
-%%
-
-clc
-hold on
-x_ = table_origin(1)+w_hoja;
-y_ = table_origin(2);
-BlackWidow.moveWidow([x_, y_]);
-hold off
-
-%%
+%% Dibujo linea en la mesa
 
 clc
 hold on
@@ -141,3 +81,4 @@ Y = [table_origin(2)-start_pos(1),table_origin(2)-end_pos(1)];
 Z = [table_height,table_height];
 plot3(X,Y,Z);
 hold off
+
