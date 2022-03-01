@@ -1,4 +1,4 @@
-function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax)
+function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug)
 
     green_filter = green_filter_l;
     [row,col] = size(green_filter_l);
@@ -39,18 +39,47 @@ function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax)
 		final_linea = warpedth_r(xmin:xmax,ymin:ymax);
         final_linea = imresize(final_linea,[umax,vmax]);
 		
-		% Se busca los extremos de la linea roja
-        
-		 [row_fin,col_fin,~] = size(final_linea);	
-		 fl_hough = Hough(final_linea,'suppress',30);
-		 imlinea5 = takeLine(fl_hough.lines.rho,fl_hough.lines.theta,col_fin,row_fin);
-		 fin_sup = imlinea5.*final_linea;
+		% Se busca los extremos de la linea roja        
+        [row_fin,col_fin,~] = size(final_linea);	
+        fl_hough = Hough(final_linea,'suppress',30);
+        imlinea5 = takeLine(fl_hough.lines.rho,fl_hough.lines.theta,col_fin,row_fin);
+        fin_sup = imlinea5.*final_linea;
 
 		[x_min, y_min] = find(fin_sup,1,'first');
 		[x_max, y_max] = find(fin_sup,1,'last');
+        
+        if (debug)
+            figure();
+            subplot(2,3,1);
+            imshow(green_filter_l)
+            title('Filtro verde')
+
+            subplot(2,3,2);
+            imshow(red_filter_l)
+            title('Filtro rojo')
+            
+            subplot(2,3,3);
+            imshow(imlinea1+imlinea2+imlinea3+imlinea4)
+            title('Bordes de la hoja')
+            
+            subplot(2,3,4);
+            imshow(warpedth_g)
+            title('Filtro verde rotado')
+            
+            subplot(2,3,5);
+            imshow(warpedth_r)
+            title('Filtro rojo rotado')
+            
+            subplot(2,3,6);
+            imshow(final_linea)
+            title('Imagen final')
+            
+        end
+        
 	end
 	
 	pos1 = [x_min, y_min];
 	pos2 = [x_max, y_max];
+    
 end
 

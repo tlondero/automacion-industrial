@@ -1,34 +1,57 @@
 clc; clear all; close all;
 
 % Analisis de la imagen
-foto = iread('../Vision/Ejemplo5.png'); 
-foto = idouble(foto);
-[start_pos, end_pos] = getLineCoords(foto);
 
-start_pos = start_pos./1000;    % Cambio de escala
-end_pos = end_pos./1000;
+disp('Seleccionar una imagen para trabajar.')
+[file,path] = uigetfile({'*.png;*.jpeg;*.jpg','Image files'});
 
-% Parametros de inicializacion
-% Del manipulador
-L1 = 0.130;
-L2 = 0.144;
-L3 = 0.053;
-L4 = 0.144;
-L5 = 0.144;
+if (file ~= 0)
+    disp(['Se preocesa la imagen: ' file])
+    
+    foto = iread([path file]); 
+    foto = idouble(foto);
+    
+    prompt = 'Desea ver los filtros de vision? S/N: ';
+    str = input(prompt,'s');
+    if ((str == 'S') || (str == 's'))
+        debug = 1;
+    else
+        debug = 0;
+    end
+    
+    [start_pos, end_pos] = getLineCoords(foto,debug);    
+    if(isnan(start_pos))
+        disp(['No se pudo encontrar esquinas en ' file])
+    end
+    
+    start_pos = start_pos./1000;    % Cambio de escala
+    end_pos = end_pos./1000;
 
-% De la hoja
-w_hoja = 0.2;
-l_hoja = 0.15;
-table_origin = [0,0.35]; %x e y de la hoja (respectivamente)
-table_height = L1;
-marker_offset = 0.05;
+    % Parametros de inicializacion
+    % Del manipulador
+    L1 = 0.130;
+    L2 = 0.144;
+    L3 = 0.053;
+    L4 = 0.144;
+    L5 = 0.144;
 
-% Inicializacion del manipulador y dibujo de hoja
+    % De la hoja
+    w_hoja = 0.2;
+    l_hoja = 0.15;
+    table_origin = [0,0.35]; %x e y de la hoja (respectivamente)
+    table_height = L1;
+    marker_offset = 0.05;
 
-hold on
-drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);
-BlackWidow = WidowXMKII(L1,L2,L3,L4,L5,table_height+marker_offset,table_origin);
-hold off
+    % Inicializacion del manipulador y dibujo de hoja
+    figure();
+    hold on
+    drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);
+    BlackWidow = WidowXMKII(L1,L2,L3,L4,L5,table_height+marker_offset,table_origin);
+    hold off   
+    
+else
+    disp('No se selecciono una imagen.')
+end
 
 %% Espacio alcanzable del manipulador
 
@@ -50,7 +73,7 @@ hold off
 %% Se mueve el manipulador
 
 if(isnan(start_pos))
-    disp('No se encontraron las esquinas')
+    disp(['No se pudo encontrar esquinas en ' file])
 else
     
     x0 = table_origin(1) + start_pos(2);

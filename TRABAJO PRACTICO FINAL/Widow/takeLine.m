@@ -5,8 +5,6 @@ function [imagen]=takeLine(rho,theta,utot,vtot)
 %     de las lineas de Houg, mientras que utot y vtot son el tamaño de la imagen.
     
     imagen = zeros(vtot,utot);
-    xc = rho*cos(theta);
-    yc = rho*sin(theta);
     
     pendiente = -tan(theta);
     ordenada = rho/cos(theta);

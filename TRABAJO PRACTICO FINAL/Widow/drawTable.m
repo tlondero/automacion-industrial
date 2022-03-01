@@ -4,7 +4,7 @@ function drawTable(width,length,x0,y0,z0,color)
 %     ancho de la mesa. X0, Y0 y Z0 es la coordenada superior izquierda de la
 %     mesa en el plano y la altura. Color: opcional, array de RGB double.
 
-    if ~exist('color')
+    if ~exist('color','var')
         color = [0, 0, 1];
     end
 	
