@@ -1,4 +1,4 @@
-function [pos1, pos2]=getLineCoords(foto,debug,umax,vmax)
+function [pos1, pos2,green_filter_l,red_filter_l,Bordes,warpedth_g,warpedth_r,final_linea]=getLineCoords(foto,debug_state,umax,vmax)
 % GETLINECOORDS Encuentra la linea roja en la imagen
 %     [pos1, pos2] = getLineCoords(foto) Devuelve coordenadas de inicio y
 %     fin de la linea roja de la imagen reescalada a 150 x 200.
@@ -15,8 +15,8 @@ function [pos1, pos2]=getLineCoords(foto,debug,umax,vmax)
     if ~exist('vmax','var')
         vmax = 200;
     end
-    if ~exist('debug','var')
-        debug = 0;
+    if ~exist('debug_state','var')
+        debug_state = 0;
     end
 
 	foto = idouble(foto);
@@ -80,22 +80,22 @@ function [pos1, pos2]=getLineCoords(foto,debug,umax,vmax)
 	%% Busco bordes
     
     %Intento 1: Filtrado + limpiado
-    [pos1, pos2] = getBorders(green_filter_l, red_filter_l, umax, vmax, debug);
+    [pos1, pos2,green_filter_l,red_filter_l,Bordes,warpedth_g,warpedth_r,final_linea] = getBorders(green_filter_l, red_filter_l, umax, vmax, debug_state);
     
     %Esto se podría hacer recursivo, pero no tiene sentido porque si se
     %limpia con N mas grande que ~3 las lineas empiezan a desaparecer
     if(isnan(pos1))
         %Intento 2: Filtrado + limpiado x2
-        [pos1, pos2] = getBorders(green_filter_l2, red_filter_l, umax, vmax, debug);
+        [pos1, pos2,green_filter_l,red_filter_l,Bordes,warpedth_g,warpedth_r,final_linea] = getBorders(green_filter_l2, red_filter_l, umax, vmax, debug_state);
         if(isnan(pos1))
             %Intento 3: Filtrado solo
-            [pos1, pos2] = getBorders(green_filter, red_filter_l, umax, vmax, debug);
+            [pos1, pos2,green_filter_l,red_filter_l,Bordes,warpedth_g,warpedth_r,final_linea] = getBorders(green_filter, red_filter_l, umax, vmax, debug_state);
             if(isnan(pos1))
                 %Intento 4: Filtrado + limpiado x3
-                [pos1, pos2] = getBorders(green_filter_l3, red_filter_l, umax, vmax, debug);
+                [pos1, pos2,green_filter_l,red_filter_l,Bordes,warpedth_g,warpedth_r,final_linea] = getBorders(green_filter_l3, red_filter_l, umax, vmax, debug_state);
                 if(isnan(pos1))
                     %Intento 5: Filtrado + limpiado grande
-                    [pos1, pos2] = getBorders(green_filter_l4, red_filter_l, umax, vmax, debug);
+                    [pos1, pos2,green_filter_l,red_filter_l,Bordes,warpedth_g,warpedth_r,final_linea] = getBorders(green_filter_l4, red_filter_l, umax, vmax, debug_state);
                 end
             end
         end

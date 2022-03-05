@@ -1,4 +1,4 @@
-function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug)
+function [pos1, pos2,green_filter_l,red_filter_l,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug_state)
 
     green_filter = green_filter_l;
     [row,col] = size(green_filter_l);
@@ -22,7 +22,7 @@ function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug
 
 		% Donde se superponen vale 2
 		bordes_esquinas = (imlinea1+imlinea2+imlinea3+imlinea4)==2;
-
+        Bordes = imlinea1+imlinea2+imlinea3+imlinea4;
 		[row_, col_] = find(bordes_esquinas);
 		posi = zeros(2,4);
 		posi(2,:) = row_;
@@ -48,7 +48,7 @@ function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug
 		[x_min, y_min] = find(fin_sup,1,'first');
 		[x_max, y_max] = find(fin_sup,1,'last');
         
-        if (debug)
+        if (debug_state)
             figure();
             subplot(2,3,1);
             imshow(green_filter_l)
@@ -61,6 +61,7 @@ function [pos1, pos2]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug
             subplot(2,3,3);
             imshow(imlinea1+imlinea2+imlinea3+imlinea4)
             title('Bordes de la hoja')
+            
             
             subplot(2,3,4);
             imshow(warpedth_g)

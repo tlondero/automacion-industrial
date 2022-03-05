@@ -19,7 +19,7 @@ if (file ~= 0)
         debug = 0;
     end
     
-    [start_pos, end_pos] = getLineCoords(foto,debug);    
+    [start_pos, end_pos,~,~,~,~,~,~] = getLineCoords(foto,debug);    
     if(isnan(start_pos))
         disp(['No se pudo encontrar esquinas en ' file])
     end
@@ -54,21 +54,21 @@ else
 end
 
 %% Espacio alcanzable del manipulador
-
-hold on
-
-% BlackWidow.showReachableSpace()
-
-Lp = sqrt(L2^2+L3^2);    
-x0 = Lp+L4+L5-0.05;
-y0 = 0;
-z0 = L1-0.05;
-
-t = 0:0.5:pi*2;
-T = [sin(t)*x0;cos(t)*x0;z0+t.*0]';
-BlackWidow.moveWidow(T)
-
-hold off
+% 
+% hold on
+% 
+% % BlackWidow.showReachableSpace()
+% 
+% Lp = sqrt(L2^2+L3^2);    
+% x0 = Lp+L4+L5-0.05;
+% y0 = 0;
+% z0 = L1-0.05;
+% 
+% t = 0:0.5:pi*2;
+% T = [sin(t)*x0;cos(t)*x0;z0+t.*0]';
+% BlackWidow.moveWidow(T)
+% 
+% hold off
 
 %% Se mueve el manipulador
 
