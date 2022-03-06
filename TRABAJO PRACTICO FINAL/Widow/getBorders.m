@@ -11,7 +11,10 @@ function [pos1, pos2,green_filter_l,red_filter_l,Bordes,warpedth_g,warpedth_r,fi
 	y_min = NaN;
 	x_max = NaN;
 	y_max = NaN;
-	
+	Bordes = NaN;
+    warpedth_g = NaN;
+    warpedth_r = NaN;
+    final_linea = NaN;
 	if(line_count==4)   % Chequeo que haya 4 elementos
 
 		% Genera 4 imagenes, una con cada linea que obtuvo

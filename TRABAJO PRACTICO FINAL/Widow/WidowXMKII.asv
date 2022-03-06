@@ -91,19 +91,6 @@ classdef WidowXMKII < handle
 
             plot3(xM(:),yM(:),zM(:),'o')
         end
-         function P=createDownwardTrajectory(obj,xyCoords,step,downward)
-            %T = [-t.*1+x0; t.*0+y0; t.*0+z0].';
-            xi=xyCoords(1);
-            yi=xyCoords(2);
-            if(downward)
-                z=linspace(obj.table_height + 0.05,obj.table_height,step);
-            else
-                z=linspace(obj.table_height,obj.table_height + 0.05,step);
-            end
-            x=z*0+xi;
-            y=z*0+yi;
-            P=[x;y;z];
-        end
     end 
     methods(Static)
         function T=createLineTrajectory(InitialPosition,FinalPosition,step)
@@ -118,6 +105,21 @@ classdef WidowXMKII < handle
             y=x*b+m;
             T=[x;y];
         end
-       
+        function P=createDownwardTrajectory(InitialPosition,FinalPosition,step,downward)
+            %T = [-t.*1+x0; t.*0+y0; t.*0+z0].';
+            xi=InitialPosition(1);
+            yi=InitialPosition(2);
+            xo=FinalPosition(1);
+            yo=FinalPosition(2);
+            if(downward)
+                z=linspace(obj.table_height + 0.05,obj.table_height,step);
+            else
+                z=linspace(obj.table_height,obj.table_height + 0.05,step)
+            end
+            x=z*0+xi;
+            y=z*;
+
+            P=[x;y;z];
+        end
     end
 end
