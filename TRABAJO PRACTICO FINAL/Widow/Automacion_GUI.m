@@ -113,8 +113,8 @@ if (file ~= 0)
     original=foto;
     foto = idouble(foto);
     debug_state=0;
-    [green_filter_l,green_filter_l2,green_filter_l3,red_filter_l] = filterImage(foto,0,0,0);
-    [start_pos, end_pos,Bordes,warpedth_g,warpedth_r,final_linea] = getLineCoords(green_filter_l,green_filter_l2,green_filter_l3,red_filter_l,debug_state);
+    [green_filter,green_filter_l,green_filter_l2,green_filter_l3,red_filter_l] = filterImage(foto,0,0,0);
+    [start_pos, end_pos,Bordes,warpedth_g,warpedth_r,final_linea] = getLineCoords(green_filter,green_filter_l,green_filter_l2,green_filter_l3,red_filter_l,debug_state);
     start_pos = start_pos./1000;    % Cambio de escala
     end_pos = end_pos./1000;
     imshow(green_filter_l)
