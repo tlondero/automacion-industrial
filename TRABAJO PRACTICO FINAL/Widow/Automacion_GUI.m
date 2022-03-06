@@ -92,7 +92,7 @@ if (file ~= 0)
     foto = idouble(foto);
     debug_state=0;
     f = msgbox('Procesando imagen...','Busy','help');
-    [green_filter,vision_images.green_filter_l,green_filter_l2,green_filter_l3,vision_images.red_filter_l] = filterImage(foto,0,0,0);
+    [green_filter,vision_images.green_filter_l,green_filter_l2,green_filter_l3,vision_images.red_filter_l] = filterImage(foto,0,0,0,0,0,0,0);
     [start_pos, end_pos,vision_images.Bordes,vision_images.warpedth_g,vision_images.warpedth_r,vision_images.final_linea] = getLineCoords(green_filter,vision_images.green_filter_l,green_filter_l2,green_filter_l3,vision_images.red_filter_l,debug_state);
     delete(f);
 
