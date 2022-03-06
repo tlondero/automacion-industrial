@@ -22,7 +22,7 @@ function varargout = Automacion_GUI(varargin)
 
 % Edit the above text to modify the response to help Automacion_GUI
 
-% Last Modified by GUIDE v2.5 06-Mar-2022 14:14:11
+% Last Modified by GUIDE v2.5 06-Mar-2022 18:38:41
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -84,6 +84,7 @@ global end_pos;
 global BlackWidow;
 global references;
 global flags
+global foto
 if (file ~= 0)
     persistent first_time;
 
@@ -171,15 +172,11 @@ selection = questdlg(['Close ' get(handles.figure1,'Name') '?'],...
 if strcmp(selection,'No')
     return;
 end
-
 delete(handles.figure1)
 
 
 % --- Executes on selection change in popupmenu1.
 function popupmenu1_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
 % Hints: contents = get(hObject,'String') returns popupmenu1 contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from popupmenu1
@@ -217,12 +214,6 @@ set(hObject, 'String', {'Filtro verde', 'Filtro rojo', 'Bordes de la hoja', 'Fil
 
 % --- Executes on selection change in popupmenu3.
 function popupmenu3_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu3 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu3 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu3
 axes(handles.axes6);
 popup_sel_index = get(handles.popupmenu3, 'Value');
 global vision_images;
@@ -245,12 +236,6 @@ end
 
 % --- Executes during object creation, after setting all properties.
 function popupmenu3_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu3 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -266,12 +251,7 @@ t3=70;
 t4=70;
 flags.ReachableShown=false;
 
-% hObject    handle to figure1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-
-% --- Executes on button press in pushbutton2 (Mover manipulador).
 function pushbutton2_Callback(hObject, eventdata, handles)
     global references;
     global start_pos;
@@ -398,7 +378,6 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-
 % --- Executes on slider movement.
 function slider4_Callback(hObject, eventdata, handles)
 global t3;
@@ -410,7 +389,6 @@ function slider4_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
-
 
 % --- Executes on slider movement.
 function slider5_Callback(hObject, eventdata, handles)
@@ -434,3 +412,9 @@ end
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
     pert = str2double(get(handles.edit2, 'String'));
+
+
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+Filters
+
