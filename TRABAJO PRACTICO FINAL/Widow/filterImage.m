@@ -1,4 +1,4 @@
-function [green_filter,green_filter_l,green_filter_l2, green_filter_l3,red_filter_l]=filterImage(foto,hsv_sat_lo,hsv_val_hi,hsv_val_lo,hsv_redhue_hi,hsv_redhue_lo,hsv_greenhue_hi,hsv_greenhue_lo)
+function [green_filter,green_filter_l,green_filter_l2, green_filter_l3,green_filter_l4,red_filter_l]=filterImage(foto,hsv_sat_lo,hsv_val_hi,hsv_val_lo,hsv_redhue_hi,hsv_redhue_lo,hsv_greenhue_hi,hsv_greenhue_lo)
 % FILTERIMAGE Realiza un filtrado de la imagen que se le provee. 
 %     [green_filter,green_filter_l,green_filter_l2, green_filter_l3,red_filter_l]=filterImage(foto,hsv_sat_lo,hsv_val_hi,hsv_val_lo,hsv_val_lo,hsv_redhue_hi,hsv_redhue_lo,hsv_greenhue_hi,hsv_greenhue_lo)
 %     Devuelve los filtros procesados de la imagen original
