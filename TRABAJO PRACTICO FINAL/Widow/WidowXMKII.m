@@ -74,22 +74,21 @@ classdef WidowXMKII < handle
                 obj.currPos(3) = obj.table_height + 0.05;
             end            
         end                 
-        function showReachableSpace(obj)
-            t1 = linspace(-180,180,180)*pi/180;
-            t2 = linspace(-90,90,10)*pi/180;
-            t3 = linspace(-90,90,10)*pi/180;
-            t4 = linspace(-180,180,40)*pi/180;            
+        function showReachableSpace(obj,abst1,abst2,abst3,abst4)
+            hold on
+            cla
+            obj.moveWidowXY(obj.currPos);
+            t1 = linspace(-double(abst1),double(abst1),double(abst1))*pi/180;
+            t2 = linspace(-double(abst2),double(abst2),10.0)*pi/180;
+            t3 = linspace(-double(abst3),double(abst3),10.0)*pi/180;
+            t4 = linspace(-double(abst4),double(abst4),40.0)*pi/180;            
             [T1,T2,T3,T4] = ndgrid(t1,t2,t3,t4);
             
             xM = cos(T1).*(obj.Lp*cos(T2)+obj.L4*cos(T2+T3)+obj.L5*cos(T2+T3+T4)); % and use it in x y z as T4
             yM = sin(T1).*(obj.Lp*cos(T2)+obj.L4*cos(T2+T3)+obj.L5*cos(T2+T3+T4));
             zM = obj.L1+obj.Lp*sin(T2)+obj.L4*sin(T2+T3)+obj.L5*sin(T2+T3+T4);
-
-    %             R = [[cos(T1).*cos(T2+T3+T4) -cos(T1).*sin(T2+T3+T4) sin(T1)];
-    %                 [sin(T1).*cos(T2+T3+T4) -sin(T1).*sin(T2+T3+T4) -cos(T1)];
-    %                 [sin(T2+T3+T4) cos(T2+T3+T4) zeros(size(T1))]];
-
             plot3(xM(:),yM(:),zM(:),'o')
+            hold off
         end
          function P=createDownwardTrajectory(obj,xyCoords,step,downward)
             %T = [-t.*1+x0; t.*0+y0; t.*0+z0].';

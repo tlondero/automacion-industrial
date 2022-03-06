@@ -22,7 +22,7 @@ function varargout = Automacion_GUI(varargin)
 
 % Edit the above text to modify the response to help Automacion_GUI
 
-% Last Modified by GUIDE v2.5 06-Mar-2022 12:11:47
+% Last Modified by GUIDE v2.5 06-Mar-2022 14:14:11
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -83,14 +83,14 @@ function varargout = Automacion_GUI_OutputFcn(hObject, eventdata, handles)
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
-% --- Executes on button press in pushbutton1.
+% --- Executes on button press in pushbutton1.(Cargar imagen)
 function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 axes(handles.axes4);
 
-[file,path] = uigetfile({'*.png;*.jpeg;*.jpg','Image files'});
+[file,path] = uigetfile('*.png;*.jpeg;*.jpg','Image files','~/Vision');
 global green_filter_l;
 global Bordes;
 global red_filter_l;
@@ -105,6 +105,7 @@ global BlackWidow;
 global w_hoja;
 global l_hoja;
 global table_height;
+global Robot_initialized;
 if (file ~= 0)
     persistent first_time;
 
@@ -144,6 +145,7 @@ if (file ~= 0)
         drawTable(w_hoja, l_hoja, table_origin(1), table_origin(2), table_height);
         BlackWidow = WidowXMKII(L1,L2,L3,L4,L5,table_height+marker_offset,table_origin);
         first_time = false;
+        Robot_initialized=true;
     end
     hold off
     else
@@ -286,6 +288,11 @@ set(hObject, 'String', {'Filtro rojo', 'Filtro verde', 'Bordes de la hoja', 'Fil
 
 % --- Executes during object creation, after setting all properties.
 function figure1_CreateFcn(hObject, eventdata, handles)
+global t1 t2 t3 t4;
+t1=70;
+t2=70;
+t3=70;
+t4=70;
 
 % hObject    handle to figure1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -305,9 +312,13 @@ function pushbutton2_Callback(hObject, eventdata, handles)
     global w_hoja;
     global l_hoja;
     global table_height;
-    
+    global ReachableShown
     if (~isnan(start_pos))
     axes(handles.axes1);
+    if(ReachableShown==true)
+        ReachableShown=false;
+        cla
+    end
     %Aca muevo el manipulador desde donde este hasta donde comenzara a
     %dibujar.
     cur_pos = BlackWidow.getPosition();
@@ -412,5 +423,159 @@ function popupmenu1_CreateFcn(hObject, eventdata, handles)
 % --------------------------------------------------------------------
 function Automacion_GUI_1_Callback(hObject, eventdata, handles)
 % hObject    handle to Automacion_GUI_1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton4.(Espacio Alcanzable)
+function pushbutton4_Callback(hObject, eventdata, handles)
+    global BlackWidow
+    global ReachableShown
+    global t1 t2 t3 t4;
+    global Robot_initialized;
+    if(Robot_initialized)
+    ReachableShown=true;
+    axes(handles.axes1);   
+    BlackWidow.showReachableSpace(t1,t2,t3,t4);
+    else
+      f = msgbox('Debe seleccionar una imagen primero.', 'Atención','help');
+    end
+    
+% hObject    handle to pushbutton4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on slider movement.
+function slider2_Callback(hObject, eventdata, handles)
+global t1;
+t1 = int32(get(handles.slider2, 'Value'));
+set(handles.text7, 'String', t1);
+
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider3_Callback(hObject, eventdata, handles)
+% hObject    handle to slider3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global t2;
+t2 = int32(get(handles.slider3, 'Value'));
+set(handles.text8, 'String', t2);
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider4_Callback(hObject, eventdata, handles)
+% hObject    handle to slider4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global t3;
+t3 = int32(get(handles.slider4, 'Value'));
+set(handles.text9, 'String', t3);
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider4_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider4 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider5_Callback(hObject, eventdata, handles)
+% hObject    handle to slider5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global t4;
+t4 = int32(get(handles.slider5, 'Value'));
+set(handles.text10, 'String', t4);
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider5_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+
+
+
+function edit2_Callback(hObject, eventdata, handles)
+% hObject    handle to edit2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit2 as text
+%        str2double(get(hObject,'String')) returns contents of edit2 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton5.
+function pushbutton5_Callback(hObject, eventdata, handles)
+    pert = str2double(get(handles.edit2, 'String'));
+
+% hObject    handle to pushbutton5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
