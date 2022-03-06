@@ -1,6 +1,6 @@
-function [green_filter,green_filter_l,green_filter_l2, green_filter_l3,red_filter_l]=filterImage(foto,hsv_sat_lo,hsv_val_hi,hsv_val_lo)
+function [green_filter,green_filter_l,green_filter_l2, green_filter_l3,red_filter_l]=filterImage(foto,hsv_sat_lo,hsv_val_hi,hsv_val_lo,hsv_redhue_hi,hsv_redhue_lo,hsv_greenhue_hi,hsv_greenhue_lo)
 % FILTERIMAGE Realiza un filtrado de la imagen que se le provee. 
-%     [green_filter,green_filter_l,green_filter_l2, green_filter_l3,red_filter_l]=filterImage(foto,hsv_sat_lo,hsv_val_hi,hsv_val_lo)
+%     [green_filter,green_filter_l,green_filter_l2, green_filter_l3,red_filter_l]=filterImage(foto,hsv_sat_lo,hsv_val_hi,hsv_val_lo,hsv_val_lo,hsv_redhue_hi,hsv_redhue_lo,hsv_greenhue_hi,hsv_greenhue_lo)
 %     Devuelve los filtros procesados de la imagen original
     
 	foto = idouble(foto);
@@ -12,13 +12,18 @@ function [green_filter,green_filter_l,green_filter_l2, green_filter_l3,red_filte
     hsv_green_filter = zeros(row,col);
 	hsv_red_filter = zeros(row,col);
     
-    %0 grados hue = rojo
-    hsv_redhue_hi = (-7.5+27.5)/360; %27.5 grados adelante de -7.5 grados
-    hsv_redhue_lo = ((-7.5+360)-27.5)/360; %27.5 grados atras de -7.5 grados
-    %~120 grados hue = verde
-    hsv_greenhue_hi = (110+80)/360; %80 grados arriba de 110 grados
-    hsv_greenhue_lo = (110-75)/360; %75 grados abajo de 110 grados
-    
+    if(hsv_redhue_hi == 0)
+       hsv_redhue_hi = (-7.5+27.5)/360; %27.5 grados adelante de -7.5 grados
+    end
+    if(hsv_redhue_lo == 0)
+        hsv_redhue_lo = ((-7.5+360)-27.5)/360; %27.5 grados atras de -7.5 grados
+    end    
+    if(hsv_greenhue_hi == 0)    
+        hsv_greenhue_hi = (110+80)/360; %80 grados arriba de 110 grados
+    end
+    if(hsv_greenhue_lo == 0)  
+        hsv_greenhue_lo = (110-75)/360; %75 grados abajo de 110 grados
+    end    
 	if(hsv_sat_lo == 0)
 		hsv_sat_lo = 0.14;
 	end
