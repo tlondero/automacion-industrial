@@ -1,5 +1,9 @@
 function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug_state)
 
+    if ~exist('debug_state','var')
+        umax = 0;
+    end
+
     green_filter = green_filter_l;
     [row,col] = size(green_filter_l);
 
