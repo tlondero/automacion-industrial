@@ -1,4 +1,4 @@
-function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getLineCoords(green_filter,green_filter_l,green_filter_l2,green_filter_l3.green_filter_l4,red_filter_l,debug_state,umax,vmax)
+function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getLineCoords(green_filter,green_filter_l,green_filter_l2,green_filter_l3,green_filter_l4,red_filter_l,debug_state,umax,vmax)
 % GETLINECOORDS Encuentra la linea roja en la imagen
 %     [pos1, pos2, Bordes, warpedth_g, warpedth_r, final_linea]=getLineCoords(green_filter_l,green_filter_l2, green_filter_l3,red_filter_l)
 %     Devuelve coordenadas de inicio y fin de la linea roja de la imagen

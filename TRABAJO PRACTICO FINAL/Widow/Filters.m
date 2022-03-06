@@ -22,7 +22,7 @@ function varargout = Filters(varargin)
 
 % Edit the above text to modify the response to help Filters
 
-% Last Modified by GUIDE v2.5 06-Mar-2022 18:32:54
+% Last Modified by GUIDE v2.5 06-Mar-2022 18:58:29
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -237,15 +237,18 @@ end
 % --- Executes on button press in pushbutton1.
 function pushbutton1_Callback(hObject, eventdata, handles)
 global foto
-    hsv_sat_lo = str2double(get(handles.edit1, 'String'));
-    hsv_val_hi= str2double(get(handles.edit2, 'String'));
-    hsv_val_lo= str2double(get(handles.edit3, 'String'));
-    hsv_redhue_hi= str2double(get(handles.edit4, 'String'));
-    hsv_redhue_lo= str2double(get(handles.edit5, 'String'));
-    hsv_greenhue_hi= str2double(get(handles.edit6, 'String'));
-    hsv_greenhue_lo= str2double(get(handles.edit7, 'String'));
-    [~,green_filter_l,~,~,red_filter_l] =filterImage(foto,hsv_sat_lo,hsv_val_hi,hsv_val_lo,hsv_redhue_hi,hsv_redhue_lo,hsv_greenhue_hi,hsv_greenhue_lo);
+global filter_parameters
+    filter_parameters.hsv_sat_lo = str2double(get(handles.edit1, 'String'));
+    filter_parameters.hsv_val_hi= str2double(get(handles.edit2, 'String'));
+    filter_parameters.hsv_val_lo= str2double(get(handles.edit3, 'String'));
+    filter_parameters.hsv_redhue_hi= str2double(get(handles.edit4, 'String'));
+    filter_parameters.hsv_redhue_lo= str2double(get(handles.edit5, 'String'));
+    filter_parameters.hsv_greenhue_hi= str2double(get(handles.edit6, 'String'));
+    filter_parameters.hsv_greenhue_lo= str2double(get(handles.edit7, 'String'));
+    f = msgbox('Procesando imagen...','Busy','help');
+    [vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2, vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l] =filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
+    delete(f);
     axes(handles.axes1);
-    imshow(green_filter_l);
+    imshow(vision_images.green_filter_l);
     axes(handles.axes2);
-    imshow(red_filter_l);
+    imshow(vision_images.red_filter_l);

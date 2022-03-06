@@ -22,7 +22,7 @@ function varargout = Automacion_GUI(varargin)
 
 % Edit the above text to modify the response to help Automacion_GUI
 
-% Last Modified by GUIDE v2.5 06-Mar-2022 18:38:41
+% Last Modified by GUIDE v2.5 06-Mar-2022 19:05:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -79,8 +79,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 axes(handles.axes4);
 [file,path] = uigetfile('*.png;*.jpeg;*.jpg','Image files','~/Vision');
 global vision_images
-global start_pos;
-global end_pos;
+
 global BlackWidow;
 global references;
 global flags
@@ -94,19 +93,14 @@ if (file ~= 0)
     debug_state=0;
     f = msgbox('Procesando imagen...','Busy','help');
     [green_filter,vision_images.green_filter_l,green_filter_l2,green_filter_l3,green_filter_l4,vision_images.red_filter_l] = filterImage(foto,0,0,0,0,0,0,0);
-    [start_pos, end_pos,vision_images.Bordes,vision_images.warpedth_g,vision_images.warpedth_r,vision_images.final_linea] = getLineCoords(green_filter,vision_images.green_filter_l,green_filter_l2,green_filter_l3,green_filter_l4,vision_images.red_filter_l,debug_state);
     delete(f);
 
-    start_pos = start_pos./1000;    % Cambio de escala
-        end_pos = end_pos./1000;
-        axes(handles.axes4);
-        imshow(vision_images.green_filter_l)
-        axes(handles.axes6);
-        imshow(vision_images.red_filter_l)
-    if (isnan(start_pos))
-        f = msgbox('No se encontraron esquinas\nIntente nuevamente', 'Error','error');
-    end
-    
+    axes(handles.axes4);
+    imshow(vision_images.green_filter_l)
+    axes(handles.axes6);
+    imshow(vision_images.red_filter_l)
+
+
     % Parametros de inicializacion
     % Del manipulador
     L1 = 0.130;
@@ -133,6 +127,7 @@ if (file ~= 0)
         flags.Robot_initialized=true;
     end
     hold off
+
     else
      f = msgbox('No se selecciono una imagen.', 'Advertencia','warn');
 end
@@ -244,12 +239,20 @@ set(hObject, 'String', {'Filtro rojo', 'Filtro verde', 'Bordes de la hoja', 'Fil
 
 % --- Executes during object creation, after setting all properties.
 function figure1_CreateFcn(hObject, eventdata, handles)
-global t1 t2 t3 t4 flags;
+global t1 t2 t3 t4 flags filter_parameters;
 t1=70;
 t2=70;
 t3=70;
 t4=70;
 flags.ReachableShown=false;
+flags.debug_state=false;
+filter_parameters.hsv_redhue_hi = (-7.5+27.5)/360; %27.5 grados adelante de -7.5 grados
+filter_parameters.hsv_redhue_lo = ((-7.5+360)-27.5)/360; %27.5 grados atras de -7.5 grados
+filter_parameters.hsv_greenhue_hi = (110+80)/360; %80 grados arriba de 110 grados
+filter_parameters.hsv_greenhue_lo = (110-75)/360; %75 grados abajo de 110 grados
+filter_parameters.hsv_sat_lo = 0.14;
+filter_parameters.hsv_val_hi = 0.55;
+filter_parameters.hsv_val_lo = 0.25;
 
 
 function pushbutton2_Callback(hObject, eventdata, handles)
@@ -417,4 +420,24 @@ function pushbutton5_Callback(hObject, eventdata, handles)
 % --- Executes on button press in pushbutton7.
 function pushbutton7_Callback(hObject, eventdata, handles)
 Filters
+
+
+
+% --- Executes on button press in pushbutton8.
+function pushbutton8_Callback(hObject, eventdata, handles)
+global start_pos;
+global end_pos;
+global vision_images;
+global foto
+global filter_parameters;
+global flags;
+f = msgbox('Procesando imagen...','Busy','help');
+[vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2, vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l] =filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
+[start_pos, end_pos,vision_images.Bordes,vision_images.warpedth_g,vision_images.warpedth_r,vision_images.final_linea] = getLineCoords(vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2,vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l,flags.debug_state);
+delete(f);
+start_pos = start_pos./1000;    % Cambio de escala
+end_pos = end_pos./1000;
+if (isnan(start_pos))
+    f = msgbox('No se encontraron esquinas\nIntente nuevamente', 'Error','error');
+end
 
