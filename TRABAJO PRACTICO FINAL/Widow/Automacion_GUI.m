@@ -1,15 +1,15 @@
 function varargout = Automacion_GUI(varargin)
-% UNTITLED MATLAB code for Automacion_GUI.fig
-%      UNTITLED, by itself, creates a new UNTITLED or raises the existing
+% AUTOMACION_GUI MATLAB code for Automacion_GUI.fig
+%      AUTOMACION_GUI, by itself, creates a new AUTOMACION_GUI or raises the existing
 %      singleton*.
 %
-%      H = UNTITLED returns the handle to a new UNTITLED or the handle to
+%      H = AUTOMACION_GUI returns the handle to a new AUTOMACION_GUI or the handle to
 %      the existing singleton*.
 %
-%      UNTITLED('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in UNTITLED.M with the given input arguments.
+%      AUTOMACION_GUI('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in AUTOMACION_GUI.M with the given input arguments.
 %
-%      UNTITLED('Property','Value',...) creates a new UNTITLED or raises the
+%      AUTOMACION_GUI('Property','Value',...) creates a new AUTOMACION_GUI or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
 %      applied to the GUI before Automacion_GUI_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
@@ -22,7 +22,7 @@ function varargout = Automacion_GUI(varargin)
 
 % Edit the above text to modify the response to help Automacion_GUI
 
-% Last Modified by GUIDE v2.5 06-Mar-2022 10:31:36
+% Last Modified by GUIDE v2.5 06-Mar-2022 12:11:47
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -410,7 +410,7 @@ function popupmenu1_CreateFcn(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 % --------------------------------------------------------------------
-function Untitled_1_Callback(hObject, eventdata, handles)
-% hObject    handle to Untitled_1 (see GCBO)
+function Automacion_GUI_1_Callback(hObject, eventdata, handles)
+% hObject    handle to Automacion_GUI_1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
