@@ -92,8 +92,10 @@ if (file ~= 0)
     foto = idouble(foto);
     debug_state=0;
     f = msgbox('Procesando imagen...','Busy','help');
-    [start_pos, end_pos,vision_images.green_filter_l,vision_images.red_filter_l,vision_images.Bordes,vision_images.warpedth_g,vision_images.warpedth_r,vision_images.final_linea] = getLineCoords(foto,debug_state);
+    [green_filter,vision_images.green_filter_l,green_filter_l2,green_filter_l3,vision_images.red_filter_l] = filterImage(foto,0,0,0);
+    [start_pos, end_pos,vision_images.Bordes,vision_images.warpedth_g,vision_images.warpedth_r,vision_images.final_linea] = getLineCoords(green_filter,vision_images.green_filter_l,green_filter_l2,green_filter_l3,vision_images.red_filter_l,debug_state);
     delete(f);
+
     start_pos = start_pos./1000;    % Cambio de escala
         end_pos = end_pos./1000;
         axes(handles.axes4);
@@ -368,7 +370,7 @@ function pushbutton4_Callback(hObject, eventdata, handles)
     axes(handles.axes1);   
     BlackWidow.showReachableSpace(t1,t2,t3,t4);
     else
-      f = msgbox('Debe seleccionar una imagen primero.', 'Atención','help');
+      f = msgbox('Debe seleccionar una imagen primero.', 'Atenciï¿½n','help');
     end
     
 % --- Executes on slider movement.
