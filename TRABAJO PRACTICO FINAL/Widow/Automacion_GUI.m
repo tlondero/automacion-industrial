@@ -92,7 +92,7 @@ if (file ~= 0)
     foto = idouble(foto);
     debug_state=0;
     f = msgbox('Procesando imagen...','Busy','help');
-    [green_filter,vision_images.green_filter_l,green_filter_l2,green_filter_l3,green_filter_l4,vision_images.red_filter_l] = filterImage(foto,0,0,0,0,0,0,0);
+    [vision_images.green_filter_l,~,~,~,~,~,vision_images.red_filter_l] = filterImage(foto,0,0,0,0,0,0,0);
     delete(f);
 
     axes(handles.axes4);
@@ -204,7 +204,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
      set(hObject,'BackgroundColor','white');
 end
 
-set(hObject, 'String', {'Filtro verde', 'Filtro rojo', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+set(hObject, 'String', {'Filtro verde sin limpiado', 'Filtro rojo sin limpiado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
 
 
 % --- Executes on selection change in popupmenu3.
@@ -234,7 +234,7 @@ function popupmenu3_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject, 'String', {'Filtro rojo', 'Filtro verde', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+set(hObject, 'String', {'Filtro rojo sin limpiado', 'Filtro verde sin limpiado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
 
 
 % --- Executes during object creation, after setting all properties.
@@ -341,6 +341,10 @@ function pushbutton2_Callback(hObject, eventdata, handles)
     
 
 function popupmenu1_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+set(hObject, 'String', {'Filtro verde sin limpiado', 'Filtro rojo sin limpiado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
 
 function Automacion_GUI_1_Callback(hObject, eventdata, handles)
 
@@ -456,7 +460,7 @@ global foto
 global filter_parameters;
 global flags;
 f = msgbox('Procesando imagen...','Busy','help');
-[vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2, vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l] =filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
+[vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2, vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l,~] =filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
 [start_pos, end_pos,vision_images.Bordes,vision_images.warpedth_g,vision_images.warpedth_r,vision_images.final_linea] = getLineCoords(vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2,vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l,flags.debug_state);
 delete(f);
 start_pos = start_pos./1000;    % Cambio de escala
