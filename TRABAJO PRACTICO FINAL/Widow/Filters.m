@@ -238,6 +238,7 @@ end
 function pushbutton1_Callback(hObject, eventdata, handles)
 global foto
 global filter_parameters
+global vision_images
     filter_parameters.hsv_sat_lo = str2double(get(handles.edit1, 'String'));
     filter_parameters.hsv_val_hi= str2double(get(handles.edit2, 'String'));
     filter_parameters.hsv_val_lo= str2double(get(handles.edit3, 'String'));
@@ -246,7 +247,7 @@ global filter_parameters
     filter_parameters.hsv_greenhue_hi= str2double(get(handles.edit6, 'String'));
     filter_parameters.hsv_greenhue_lo= str2double(get(handles.edit7, 'String'));
     f = msgbox('Procesando imagen...','Busy','help');
-    [vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2, vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l] =filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
+        [vision_images.green_filter_l,~,~,~,~,~,vision_images.red_filter_l] = filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
     delete(f);
     axes(handles.axes1);
     imshow(vision_images.green_filter_l);

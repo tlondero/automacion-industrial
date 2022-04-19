@@ -22,7 +22,7 @@ function varargout = Automacion_GUI(varargin)
 
 % Edit the above text to modify the response to help Automacion_GUI
 
-% Last Modified by GUIDE v2.5 06-Mar-2022 19:05:18
+% Last Modified by GUIDE v2.5 20-Mar-2022 12:03:54
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -92,7 +92,7 @@ if (file ~= 0)
     foto = idouble(foto);
     debug_state=0;
     f = msgbox('Procesando imagen...','Busy','help');
-    [green_filter,vision_images.green_filter_l,green_filter_l2,green_filter_l3,green_filter_l4,vision_images.red_filter_l] = filterImage(foto,0,0,0,0,0,0,0);
+    [vision_images.green_filter_l,~,~,~,~,~,vision_images.red_filter_l] = filterImage(foto,0,0,0,0,0,0,0);
     delete(f);
 
     axes(handles.axes4);
@@ -129,7 +129,7 @@ if (file ~= 0)
     hold off
 
     else
-     f = msgbox('No se selecciono una imagen.', 'Advertencia','warn');
+     msgbox('No se selecciono una imagen.', 'Advertencia','warn');
 end
 
 % --------------------------------------------------------------------
@@ -204,7 +204,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
      set(hObject,'BackgroundColor','white');
 end
 
-set(hObject, 'String', {'Filtro verde', 'Filtro rojo', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+set(hObject, 'String', {'Filtro verde sin limpiado', 'Filtro rojo sin limpiado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
 
 
 % --- Executes on selection change in popupmenu3.
@@ -234,7 +234,7 @@ function popupmenu3_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject, 'String', {'Filtro rojo', 'Filtro verde', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+set(hObject, 'String', {'Filtro rojo sin limpiado', 'Filtro verde sin limpiado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
 
 
 % --- Executes during object creation, after setting all properties.
@@ -246,6 +246,7 @@ t3=70;
 t4=70;
 flags.ReachableShown=false;
 flags.debug_state=false;
+flags.Robot_initialized=false;
 filter_parameters.hsv_redhue_hi = (-7.5+27.5)/360; %27.5 grados adelante de -7.5 grados
 filter_parameters.hsv_redhue_lo = ((-7.5+360)-27.5)/360; %27.5 grados atras de -7.5 grados
 filter_parameters.hsv_greenhue_hi = (110+80)/360; %80 grados arriba de 110 grados
@@ -335,26 +336,32 @@ function pushbutton2_Callback(hObject, eventdata, handles)
     BlackWidow.moveWidow(T);
     hold off    
     else
-        f = msgbox('No se encontraron esquinas', 'Error','error');
+        msgbox('No se encontraron esquinas', 'Error','error');
     end
     
 
 function popupmenu1_CreateFcn(hObject, eventdata, handles)
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+set(hObject, 'String', {'Filtro verde sin limpiado', 'Filtro rojo sin limpiado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
 
 function Automacion_GUI_1_Callback(hObject, eventdata, handles)
 
 % --- Executes on button press in pushbutton4.(Espacio Alcanzable)
 function pushbutton4_Callback(hObject, eventdata, handles)
-    global BlackWidow
-    global t1 t2 t3 t4;
-    global flags;
-    if(flags.Robot_initialized)
+global BlackWidow
+global t1 t2 t3 t4;
+global flags;
+if(flags.Robot_initialized)
     flags.ReachableShown=true;
-    axes(handles.axes1);   
+    axes(handles.axes1);
     BlackWidow.showReachableSpace(t1,t2,t3,t4);
-    else
-      f = msgbox('Debe seleccionar una imagen primero.', 'Atenci�n','help');
-    end
+else
+    msgbox('Debe seleccionar una imagen primero.', 'Atencion','help');
+end
+
+    
     
 % --- Executes on slider movement.
 function slider2_Callback(hObject, eventdata, handles)
@@ -382,7 +389,7 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
 end
 
 % --- Executes on slider movement.
-function slider4_Callback(hObject, eventdata, handles)
+function slider4_Callback(~, eventdata, handles)
 global t3;
 t3 = int32(get(handles.slider4, 'Value'));
 set(handles.text9, 'String', t3);
@@ -394,37 +401,58 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
 end
 
 % --- Executes on slider movement.
-function slider5_Callback(hObject, eventdata, handles)
+function slider5_Callback(~, eventdata, handles)
 global t4;
 t4 = int32(get(handles.slider5, 'Value'));
 set(handles.text10, 'String', t4);
 
 % --- Executes during object creation, after setting all properties.
-function slider5_CreateFcn(hObject, eventdata, handles)
+function slider5_CreateFcn(hObject, ~, ~)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
 
-function edit2_Callback(hObject, eventdata, handles)
+function edit2_Callback(~, ~, ~)
 
-function edit2_CreateFcn(hObject, eventdata, handles)
+function edit2_CreateFcn(hObject, ~, ~) %#ok<DEFNU>
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 % --- Executes on button press in pushbutton5.
-function pushbutton5_Callback(hObject, eventdata, handles)
-    pert = str2double(get(handles.edit2, 'String'));
+function pushbutton5_Callback(~, ~, handles)
+global BlackWidow;
+global l1 l2 l3 l4 l5;
+global flags
+if(flags.Robot_initialized)
+    BlackWidow.Widow.links(1).d=double(l1)/1000.0;
+    BlackWidow.Widow.links(3).a=sqrt(double(l2^2+l3^2))/1000.0;
+    BlackWidow.Widow.links(4).a=double(l4)/1000.0;
+    BlackWidow.Widow.links(5).a=double(l5)/1000.0;
+    BlackWidow.L1=double(l1)/1000.0;
+    BlackWidow.L2=double(l2)/1000.0;
+    BlackWidow.L3=double(l3)/1000.0;
+    BlackWidow.Lp=sqrt(double(l2^2+l3^2))/1000.0;
+    BlackWidow.L4=double(l4)/1000.0;
+    BlackWidow.L5=double(l5)/1000.0;
+    q=BlackWidow.Widow.getpos;
+    axes(handles.axes1);
+    BlackWidow.Widow.plot(q);
+else
+    msgbox('Debe seleccionar una imagen primero.', 'Atencion','help');
+end
+    
+    %ACA es el boton de fonrirmar cambios en las medidas del robot
 
 
 % --- Executes on button press in pushbutton7.
-function pushbutton7_Callback(hObject, eventdata, handles)
+function pushbutton7_Callback(~, ~, ~)
 Filters
 
 
 
 % --- Executes on button press in pushbutton8.
-function pushbutton8_Callback(hObject, eventdata, handles)
+function pushbutton8_Callback(~, ~, ~)
 global start_pos;
 global end_pos;
 global vision_images;
@@ -432,12 +460,187 @@ global foto
 global filter_parameters;
 global flags;
 f = msgbox('Procesando imagen...','Busy','help');
-[vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2, vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l] =filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
+[vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2, vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l,~] =filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
 [start_pos, end_pos,vision_images.Bordes,vision_images.warpedth_g,vision_images.warpedth_r,vision_images.final_linea] = getLineCoords(vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2,vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l,flags.debug_state);
 delete(f);
 start_pos = start_pos./1000;    % Cambio de escala
 end_pos = end_pos./1000;
 if (isnan(start_pos))
-    f = msgbox('No se encontraron esquinas\nIntente nuevamente', 'Error','error');
+    msgbox('No se encontraron esquinas\nIntente nuevamente', 'Error','error');
 end
 
+
+
+% --- Executes on button press in pushbutton9.
+function pushbutton9_Callback(~, eventdata, handles) 
+% hObject    handle to pushbutton9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on slider movement.
+function slider7_Callback(~, eventdata, handles)
+global l1;
+l1 = int32(get(handles.slider7, 'Value'));
+set(handles.text17, 'String', l1);
+
+% hObject    handle to slider7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider7_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider8_Callback(~, eventdata, handles)
+global l2;
+l2 = int32(get(handles.slider8, 'Value'));
+set(handles.text18, 'String', l2);
+% hObject    handle to slider8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider8_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider9_Callback(~, eventdata, handles)
+global l3;
+l3 = int32(get(handles.slider9, 'Value'));
+set(handles.text19, 'String', l3);
+% ~    handle to slider9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(~,'Value') returns position of slider
+%        get(~,'Min') and get(~,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider9_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider10_Callback(hObject, eventdata, handles)
+global l4;
+l4 = int32(get(handles.slider10, 'Value'));
+set(handles.text20, 'String', l4);
+% hObject    handle to slider10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider10_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on slider movement.
+function slider11_Callback(hObject, eventdata, handles)
+global l5;
+l5 = int32(get(handles.slider11, 'Value'));
+set(handles.text22, 'String', l5);
+% hObject    handle to slider11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider11_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on button press in pushbutton10.
+function pushbutton10_Callback(hObject, eventdata, handles)
+global BlackWidow;
+global flags
+if(flags.Robot_initialized)
+    L1 = 0.130;
+    L2 = 0.144;
+    L3 = 0.053;
+    L4 = 0.144;
+    L5 = 0.144;
+    BlackWidow.Widow.links(1).d=double(L1);
+    BlackWidow.Widow.links(3).a=sqrt(double(L2^2+L3^2));
+    BlackWidow.Widow.links(4).a=double(L4);
+    BlackWidow.Widow.links(5).a=double(L5);
+    BlackWidow.L1=double(L1)/1000.0;
+    BlackWidow.L2=double(L2)/1000.0;
+    BlackWidow.L3=double(L3)/1000.0;
+    BlackWidow.Lp=sqrt(double(L2^2+L3^2))/1000.0;
+    BlackWidow.L4=double(L4)/1000.0;
+    BlackWidow.L5=double(L5)/1000.0;
+    q=BlackWidow.Widow.getpos;
+    axes(handles.axes1);
+    BlackWidow.Widow.plot(q);
+else
+    msgbox('Debe seleccionar una imagen primero.', 'Atencion','help');
+end
+% hObject    handle to pushbutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object creation, after setting all properties.
+function axes7_CreateFcn(hObject, eventdata, handles)
+I = imread('ITBA_LOGO.png');
+imshow(I);
+% hObject    handle to axes7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: place code in OpeningFcn to populate axes7
