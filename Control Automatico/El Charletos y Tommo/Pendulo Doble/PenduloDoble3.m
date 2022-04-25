@@ -2,22 +2,19 @@ clear all; clc;
 
 %Constantes de simulink
 
-M = 0.5;
-m = 0.2;
-b = 0; % 0.1;
-I = 0.006;
+M = 1.5;
 g = 9.8;
-L = 0.3;
-l = L/2;
+b = 0;
+l = 0.15;
 
-L1 = L;
-L2 = L;
-l1 = l;
-l2 = l;
-m1 = m;
-m2 = m;
-I1 = 0; %(m1*L1^2)/12;
-I2 = 0; %(m2*L2^2)/12;
+L1 = 0.5;
+L2 = 0.75;
+l1 = L1/2;
+l2 = L2/2;
+m1 = 0.5;
+m2 = 0.75;
+I1 = (m1*L1^2)/12;
+I2 = (m2*L2^2)/12;
 
 syms t1 t2;
 
@@ -34,22 +31,22 @@ H = [1;0;0];
 inv_d0 = inv(double(subs(D, {'t1' 't2'}, {0 0})));
 jacobian_g0 = double(subs(jacobian(G, [t1 t2]), {'t1' 't2'}, {0 0}));
 
-A = [ zeros(3,3), eye(3);
-    [ zeros(3,1), -1*inv_d0*jacobian_g0, zeros(3)] ];
+Ad = [ zeros(3,3), eye(3);
+    [ zeros(3,1), -1*inv_d0*jacobian_g0, zeros(3)] ]
 
-B = [ 0;
+Bd = [ 0;
       0;
       0;
-     inv_d0*H ];
+     inv_d0*H ]
 
-Ad = [A(:,1) A(:,4) A(:,2) A(:,5) A(:,3) A(:,6)];
-Ad = [Ad(1,:); -1.*Ad(4,:); Ad(2,:); Ad(5,:); Ad(3,:); Ad(6,:)]
-%Ad(:,3) = Ad(:,3)./2;
-%Ad(2,:) = -1.*Ad(2,:);
+% Ad = [A(:,1) A(:,4) A(:,2) A(:,5) A(:,3) A(:,6)];
+% Ad = [Ad(1,:); -1.*Ad(4,:); Ad(2,:); Ad(5,:); Ad(3,:); Ad(6,:)]
+% %Ad(:,3) = Ad(:,3)./2;
+% %Ad(2,:) = -1.*Ad(2,:);
 
-Bd = [B(1); B(4); B(2); -1*B(5); B(3); -1*B(6)]
-%Bd(4,:) = Bd(4,:).*(-1);
-%Bd(6,:) = Bd(6,:).*(2);
+% Bd = [B(1); B(4); B(2); -1*B(5); B(3); -1*B(6)]
+% %Bd(4,:) = Bd(4,:).*(-1);
+% %Bd(6,:) = Bd(6,:).*(2);
 
 Cd = [1 0 0 0 0 0];
 
@@ -57,9 +54,9 @@ Dd = 0;
 
 %% Transferencias Pendulo Doble
 
-[num, den] = ss2tf(Ad,Bd,[0 0 1 0 0 0],0); Tt1d = zpk(minreal(tf(num,den)))
-[num, den] = ss2tf(Ad,Bd,[0 0 0 0 1 0],0); Tt2d = zpk(minreal(tf(num,den)))
-[num, den] = ss2tf(Ad,Bd,[1 0 0 0 0 0],0); Tcd = zpk(minreal(tf(num,den)))
+[num, den] = ss2tf(Ad,Bd,[1 0 0 0 0 0],0); Tt1d = zpk(minreal(tf(num,den)))
+[num, den] = ss2tf(Ad,Bd,[0 1 0 0 0 0],0); Tt2d = zpk(minreal(tf(num,den)))
+[num, den] = ss2tf(Ad,Bd,[0 0 1 0 0 0],0); Tcd = zpk(minreal(tf(num,den)))
 
 %% Estabilidad, controlabilidad y observabilidad Pendulo Doble
 
@@ -71,11 +68,13 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 
 %% Realimentacion de estados y observador Pendulo Doble
 
-pKd = [-5 -10 -10 -1 -15 -15];
+%pKd = [-15 -5 -1 -10 -25 -10];
+%pKd = [-5 -15 -5 -1 -20 -5];
+pKd = [-1 -15 -1 -10 -2.756 -1];
 Kd = acker(Ad, Bd, pKd)
 
 pLd = pKd.*10;
-Ld = (acker(Ad', Cd', pLd))'
+Ld = (acker(Ad', Cd', pLd))';
 
 %%
 
