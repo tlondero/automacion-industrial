@@ -86,7 +86,7 @@ global flags
 global foto
 if (file ~= 0)
     persistent first_time;
-
+    flags.Processed = false;
     foto = iread([path file]); 
     vision_images.original=foto;
     foto = idouble(foto);
@@ -127,7 +127,8 @@ if (file ~= 0)
         flags.Robot_initialized=true;
     end
     hold off
-
+        set(handles.popupmenu1, 'String', {'Filtro verde basico', 'Filtro rojo basico'});
+        set(handles.popupmenu3, 'String', {'Filtro rojo basico', 'Filtro verde basico'});
     else
      msgbox('No se selecciono una imagen.', 'Advertencia','warn');
 end
@@ -177,7 +178,7 @@ function popupmenu1_Callback(hObject, eventdata, handles)
 %        contents{get(hObject,'Value')} returns selected item from popupmenu1
 axes(handles.axes4);
 popup_sel_index = get(handles.popupmenu1, 'Value');
-global vision_images;
+global vision_images flags;
 switch popup_sel_index
     case 1
         imshow(vision_images.green_filter_l);
@@ -203,15 +204,18 @@ end
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
      set(hObject,'BackgroundColor','white');
 end
-
-set(hObject, 'String', {'Filtro verde sin limpiado', 'Filtro rojo sin limpiado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
-
+if(flags.Processed)
+            set(hObject, 'String', {'Filtro verde procesado', 'Filtro rojo procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+else 
+set(hObject, 'String', {'Filtro verde basico', 'Filtro rojo basico'});
+end
 
 % --- Executes on selection change in popupmenu3.
 function popupmenu3_Callback(hObject, eventdata, handles)
 axes(handles.axes6);
 popup_sel_index = get(handles.popupmenu3, 'Value');
 global vision_images;
+
 switch popup_sel_index
     case 1
         imshow(vision_images.red_filter_l);
@@ -234,7 +238,7 @@ function popupmenu3_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject, 'String', {'Filtro rojo sin limpiado', 'Filtro verde sin limpiado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+set(hObject, 'String', '');
 
 
 % --- Executes during object creation, after setting all properties.
@@ -247,6 +251,7 @@ t4=70;
 flags.ReachableShown=false;
 flags.debug_state=false;
 flags.Robot_initialized=false;
+flags.Processed=false;
 filter_parameters.hsv_redhue_hi = (-7.5+27.5)/360; %27.5 grados adelante de -7.5 grados
 filter_parameters.hsv_redhue_lo = ((-7.5+360)-27.5)/360; %27.5 grados atras de -7.5 grados
 filter_parameters.hsv_greenhue_hi = (110+80)/360; %80 grados arriba de 110 grados
@@ -254,6 +259,7 @@ filter_parameters.hsv_greenhue_lo = (110-75)/360; %75 grados abajo de 110 grados
 filter_parameters.hsv_sat_lo = 0.14;
 filter_parameters.hsv_val_hi = 0.55;
 filter_parameters.hsv_val_lo = 0.25;
+
 
 
 function pushbutton2_Callback(hObject, eventdata, handles)
@@ -344,7 +350,7 @@ function popupmenu1_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-set(hObject, 'String', {'Filtro verde sin limpiado', 'Filtro rojo sin limpiado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+set(hObject, 'String', '');
 
 function Automacion_GUI_1_Callback(hObject, eventdata, handles)
 
@@ -452,7 +458,7 @@ Filters
 
 
 % --- Executes on button press in pushbutton8.
-function pushbutton8_Callback(~, ~, ~)
+function pushbutton8_Callback(~, ~, handles)
 global start_pos;
 global end_pos;
 global vision_images;
@@ -467,7 +473,52 @@ start_pos = start_pos./1000;    % Cambio de escala
 end_pos = end_pos./1000;
 if (isnan(start_pos))
     msgbox('No se encontraron esquinas\nIntente nuevamente', 'Error','error');
+else
+flags.Processed=true;
+        set(handles.popupmenu1, 'String', {'Filtro verde procesado', 'Filtro rojo procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+        set(handles.popupmenu3, 'String', {'Filtro rojo procesado', 'Filtro verde procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+axes(handles.axes4);
+
+popup_sel_index = get(handles.popupmenu1, 'Value');
+switch popup_sel_index
+    case 1
+        imshow(vision_images.green_filter_l);
+    case 2
+        imshow(vision_images.red_filter_l);
+    case 3
+        imshow(vision_images.Bordes);
+    case 4
+        imshow(vision_images.warpedth_g);
+    case 5
+        imshow(vision_images.warpedth_r);
+    case 6
+        imshow(vision_images.final_linea);
+    case 7
+        imshow(vision_images.original);
 end
+
+
+axes(handles.axes6);
+popup_sel_index = get(handles.popupmenu3, 'Value');
+switch popup_sel_index
+    case 1
+        imshow(vision_images.red_filter_l);
+    case 2
+        imshow(vision_images.green_filter_l);
+    case 3
+        imshow(vision_images.Bordes);
+    case 4
+        imshow(vision_images.warpedth_g);
+    case 5
+        imshow(vision_images.warpedth_r);
+    case 6
+        imshow(vision_images.final_linea);
+    case 7
+        imshow(vision_images.original);
+end
+
+end
+
 
 
 
