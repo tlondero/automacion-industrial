@@ -54,9 +54,11 @@ Dd = 0;
 
 %% Transferencias Pendulo Doble
 
-[num, den] = ss2tf(Ad,Bd,[1 0 0 0 0 0],0); Tt1d = zpk(minreal(tf(num,den)))
-[num, den] = ss2tf(Ad,Bd,[0 1 0 0 0 0],0); Tt2d = zpk(minreal(tf(num,den)))
-[num, den] = ss2tf(Ad,Bd,[0 0 1 0 0 0],0); Tcd = zpk(minreal(tf(num,den)))
+% x t1 t2 x_d t1_d t2_d
+
+[num, den] = ss2tf(Ad,Bd,[1 0 0 0 0 0],0); Tx = zpk(minreal(tf(num,den)))
+[num, den] = ss2tf(Ad,Bd,[0 1 0 0 0 0],0); Tt1 = zpk(minreal(tf(num,den)))
+[num, den] = ss2tf(Ad,Bd,[0 0 1 0 0 0],0); Tt2 = zpk(minreal(tf(num,den)))
 
 %% Estabilidad, controlabilidad y observabilidad Pendulo Doble
 
@@ -68,29 +70,16 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 
 %% Realimentacion de estados y observador Pendulo Doble
 
-%pKd = [-15 -5 -1 -10 -25 -10];
+clc;
+pKd = [-15 -5 -1 -10 -25 -10];
 %pKd = [-5 -15 -5 -1 -20 -5];
-pKd = [-1 -15 -1 -10 -2.756 -1];
+%pKd = [-1 -15 -1 -10 -2.756 -1];
+
+% pKd = [-1 -1.75 -5.6 -1.75 -1.75 -1.75];
+% Kd = acker(Ad, Bd, pKd).*(1.125)
+
+%pKd = [-2.5 -2.5 -2.5 -2.5 -2.5 -7.5];
 Kd = acker(Ad, Bd, pKd)
 
 pLd = pKd.*10;
 Ld = (acker(Ad', Cd', pLd))';
-
-%%
-
-% 1.0e+03 *
-% 
-%          0    0.0010         0         0         0         0
-%          0         0    0.0078         0   -0.0039         0
-%          0         0         0    0.0010         0         0
-%          0         0    0.2354         0   -0.3139         0
-%          0         0         0         0         0    0.0010
-%          0         0   -0.4709         0    1.0202         0
-%          
-%          
-%                   0         0
-%     2.0000    0.0000
-%          0         0
-%    26.6667    0.0000
-%          0         0
-%   -53.3333  -66.6667
