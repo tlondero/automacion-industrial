@@ -71,4 +71,5 @@ pKd = [-15 -5 -1 -10 -25 -10];
 Kd = acker(Ad, Bd, pKd)
 
 pLd = pKd.*10;
-Ld = (acker(Ad', Cd', pLd))';
+Ld = (acker(Ad', Cd', pLd))
+Ld = Ld';
