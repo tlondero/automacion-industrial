@@ -22,35 +22,33 @@ p3 = 2*m2*L1*L2;
 p4 = (m1+4*m2)*L1*L2;
 p5 = m2*L1^2;
 
-den = M*p4*p5 + 2*p1*p2*p3 - (p2^2)*p4 - M*(p3^2) - (p1^2)*p5;
+den_inv = 1/(M*p4*p5 + 2*p1*p2*p3 - (p2^2)*p4 - M*(p3^2) - (p1^2)*p5);
 
-A42 = ((p2*p3 - p1*p5)*p1*g)/den;
-A43 = ((p1*p3 + p2*p4)*p2*g)/den;
-A52 = ((M*p5 - p2^2)*p1*g)/den;
-A53 = -((M*p3 - p1*p2)*p2*g)/den;
-A62 = ((M*p3 - p1*p2)*p1*g)/den;
-A63 = ((M*p4 - p1^2)*p2*g)/den;
+A42 = (p2*p3 - p1*p5)*p1;
+A43 = (p1*p3 + p2*p4)*p2;
+A52 = (M*p5 - p2^2)*p1;
+A53 = -(M*p3 - p1*p2)*p2;
+A62 = (M*p3 - p1*p2)*p1;
+A63 = (M*p4 - p1^2)*p2;
 
-Ad = [0 0   0   1 0 0;
-      0 0   0   0 1 0;
-      0 0   0   0 0 1;
-      0 A42 A43 0 0 0;
-      0 A52 A53 0 0 0;
-      0 A62 A63 0 0 0;];
+Aaux = [0 A42 A43;
+        0 A52 A53;
+        0 A62 A63];
 
-B41 = (p4*p5 - p3^2)/den;
-B51 = (p1*p5 - p2*p3)/den;
-B61 = (p1*p3 + p2*p4)/den;
+Ad = [zeros(3,3)        eye(3);
+      Aaux.*(g*den_inv) zeros(3,3)];
+  
+B4 = p4*p5 - p3^2;
+B5 = p1*p5 - p2*p3;
+B6 = p1*p3 + p2*p4;
    
-Bd = [0; 0; 0; B41; B51; B61];
+Bd = [0 0 0 B4 B5 B6]'.*(1/den);
 
-Cd = [1 0 0 0 0 0];
+Cd = [1 0 0 0 0 0];     % x t1 t2 x_d t1_d t2_d
 
 Dd = 0;
 
 %% Transferencias Pendulo Doble
-
-% x t1 t2 x_d t1_d t2_d
 
 [num, den] = ss2tf(Ad,Bd,[1 0 0 0 0 0],0); Tx = zpk(minreal(tf(num,den)))
 [num, den] = ss2tf(Ad,Bd,[0 1 0 0 0 0],0); Tt1 = zpk(minreal(tf(num,den)))
@@ -66,10 +64,9 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 
 %% Realimentacion de estados y observador Pendulo Doble
 
-clc;
 pKd = [-15 -5 -1 -10 -25 -10];
 Kd = acker(Ad, Bd, pKd)
 
-pLd = pKd.*10;
-Ld = (acker(Ad', Cd', pLd))
+pLd = [-500 -1.425 -1.425 -500 -100 -50];
+Ld = acker(Ad', Cd', pLd)
 Ld = Ld';
