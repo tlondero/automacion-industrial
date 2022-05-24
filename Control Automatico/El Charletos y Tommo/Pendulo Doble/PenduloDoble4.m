@@ -71,10 +71,16 @@ Kd = acker(Ad, Bd, pKd)
 %pLd = [-500 -1.425 -1.425 -500 -100 -50];
 %pLd = [-655.5 -1.311 -1.311 -655.5 -131.1 -131.1];
 
+%pLd = [-650 -1.4 -1.2 -650 -164.1 -120];
 pLd = [-650 -1.3 -1.3 -650 -130 -130];
 Ld = acker(Ad', Cd', pLd).*0.675
 Ld = Ld';
 
+if exist('runSimuLink','var')
+    sim('DoublePendulum4',50)
+end
+
+runSimuLink = 0;
 %% Analizo control integral
 
 Aai = [Ad Bd; -Cd Dd];
