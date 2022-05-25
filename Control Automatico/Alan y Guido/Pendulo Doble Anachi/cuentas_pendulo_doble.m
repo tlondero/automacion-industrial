@@ -4,7 +4,7 @@ s = tf('s');
 %% Define variables
 
 syms m0 m1 m2 l1 l2 L1 L2 I1 I2 g theta0 theta1 theta2 dtheta0 dtheta1 dtheta2;
-
+%X0 Theta1 THeta2 dx0 dt1 dt2
 %% Matrices Alineales
 % M(theta)*ddtheta+V(theta,dtheta)+G(theta)
 M=[m0+m1+m2, (m1*l1+m2*L1)*cos(theta1), m2*l2*cos(theta2);
@@ -40,24 +40,24 @@ L=[zeros(3,1);
 %%
 p=1/(4*m0*m1+3*m0*m2+m1^2+m1*m2);
 Asublinear=[
-    0, -3/2*p*(2*m1^2+5*m1*m2+2*m2^2)*g,3/2*p*m1*m2*g ;
-    0, 3/2*p/L1*(4*m0*m1+8*m0*m2+4*m1^2+9*m1*m2+2*m2^2)*g,-9/2*p/L1*(2*m0*m2+m1*m2)*g
-    0,-9/2*p/L2*(2*m0*m1+4*m0*m2+m1^2+2*m1*m2),3/2*p/L2*(m1^2+4*m0*m1+12*m0*m2+4*m1*m2)];
+    0,-3/2*p*(2*m1^2+5*m1*m2+2*m2^2)*g,3/2*p*m1*m2*g;
+    0,3/2*p/L1*(4*m0*m1+8*m0*m2+4*m1^2+9*m1*m2+2*m2^2)*g,-9/2*p/L1*(2*m0*m2+m1*m2)*g;
+    0,-g*9/2*p/L2*(2*m0*m1+4*m0*m2+m1^2+2*m1*m2),g*3/2*p/L2*(m1^2+4*m0*m1+12*m0*m2+4*m1*m2)]
 Bsublinear=[p*(4*m1+3*m2);
     -3*p/L1*(2*m1+m2);
-    3*p*m2/L2];
+    2*p*m2/L2];
 A=[zeros(3) eye(3);
-    Asublinear zeros(3)]
+    Asublinear zeros(3)];
 B=[zeros(3,1);Bsublinear];
 C=eye(6);
 D=zeros(1,6);
 
-m0_value=0.5;
+m0_value=1.5;
 m1_value=0.5;
-m2_value=0.5;
-L1_value=1;
-L2_value=1;
-g_value=10;
+m2_value=0.75;
+L1_value=0.5;
+L2_value=0.75;
+g_value=9.8;
 
 A=double(subs(A, {'m0' 'm1' 'm2','L1','L2' 'g'}, {m0_value m1_value m2_value L1_value L2_value g_value}))
 B=double(subs(B, {'m0' 'm1' 'm2','L1','L2' 'g'}, {m0_value m1_value m2_value L1_value L2_value g_value}))
@@ -66,4 +66,4 @@ disp('Rango de matriz de controlabilidad')
 rank(ctrb(A,B))
 disp('Rango de matriz de observabilidad')
 rank(obsv(A,C))
-
+K=acker(A,B,[-0.1,-0.1,-0.01,-0.01,-0.0001,-0.0001])
