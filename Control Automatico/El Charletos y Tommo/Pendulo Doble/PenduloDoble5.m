@@ -70,8 +70,8 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 
 %% Realimentacion de estados y observador Pendulo Doble
 
-pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
-%pKd = [-25 -15 -10 -10 -5 -1];
+%pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
+pKd = [-25 -15 -10 -10 -5 -1];
 Kd = acker(Ad, Bd, pKd)
 
 pLd = pKd.*10;
