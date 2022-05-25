@@ -23,6 +23,9 @@ m2 = 0.75;
 I1 = (m1*L1^2)/12;
 I2 = (m2*L2^2)/12;
 
+in1 = m1*(L1^2 + (L1/12)^2)/12;
+in2 = m2*(L2^2 + (L2/12)^2)/12;
+
 syms t1 t2;
 
 D = [ M+m1+m2,                  (m1*l1+m2*L1)*cos(t1),  m2*l2*cos(t2);
@@ -69,15 +72,14 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 %% Realimentacion de estados y observador Pendulo Doble
 
 %pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
-%pKd = [-25 -15 -10 -10 -5 -1];
-pKd = [1 1 1 1 1 10];
+pKd = [-25 -15 -10 -10 -5 -1];
 Kd = acker(Ad, Bd, pKd)
 
-pLd = pKd.*10;
-Ld = (acker(Ad', [1 0 0 0 0 0]', pLd))';
+pLd = pKd.*1;
+Ld = (acker(Ad', Cd', pLd))';
 
 if exist('runSimuLink','var')   % Si esta todo inicializado corro SimuLink
-    sim(simulation,10)
+    sim(simulation,20)
 end
 
 %% Analizo control integral
