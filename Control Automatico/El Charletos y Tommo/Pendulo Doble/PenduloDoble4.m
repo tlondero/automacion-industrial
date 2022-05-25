@@ -1,4 +1,8 @@
-clear all; clc; 
+clear all; clc;
+
+if ~bdIsLoaded('DoublePendulum4')   % Abro SimuLink si no está abierto
+    open_system('DoublePendulum4')
+end
 
 % Constantes de simulink
 
@@ -36,13 +40,13 @@ Aaux = [0 A42 A43;
         0 A62 A63];
 
 Ad = [zeros(3,3)        eye(3);
-      Aaux.*(g*den_inv) zeros(3,3)];
+      Aaux.*(g*den_inv) zeros(3,3)]
   
 B4 = p4*p5 - p3^2;
 B5 = p1*p5 - p2*p3;
 B6 = p1*p3 + p2*p4;
    
-Bd = [0 0 0 B4 B5 B6]'.*den_inv;
+Bd = [0 0 0 B4 B5 B6]'.*den_inv
 
 Cd = [1 0 0 0 0 0];     % x t1 t2 x_d t1_d t2_d
 
@@ -64,23 +68,21 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 
 %% Realimentacion de estados y observador Pendulo Doble
 
-%pKd = [-15 -5 -5 -10 -20 -5];
 pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
-Kd = acker(Ad, Bd, pKd)
+pKd = [-25 -15 -10 -10 -5 -1];
+Kd = acker(Ad, Bd, pKd')
 
-%pLd = [-500 -1.425 -1.425 -500 -100 -50];
-%pLd = [-655.5 -1.311 -1.311 -655.5 -131.1 -131.1];
-
-%pLd = [-650 -1.4 -1.2 -650 -164.1 -120];
-pLd = [-650 -1.3 -1.3 -650 -130 -130];
+pLd = [-650 -1.2 -1.3 -650 -130 -130];
 Ld = acker(Ad', Cd', pLd).*0.675
 Ld = Ld';
 
-if exist('runSimuLink','var')
+[V,D] = eig(Ad-Cd*Ld);
+p = diag(D)
+
+if exist('runSimuLink','var')   % Si esta todo inicializado corro SimuLink
     sim('DoublePendulum4',50)
 end
 
-runSimuLink = 0;
 %% Analizo control integral
 
 Aai = [Ad Bd; -Cd Dd];
@@ -95,5 +97,7 @@ disp(['Observabilidad: ' num2str(rank(obsv(Aai,Cai)))])    %Es observable
 Kaid = acker(Aai, Bai, [pKd -0.1]);
 %Aaicl= (Aai-Bai*Kaid);
 %eig(Aaicl)
-Kd = Kaid(1:6);
+%Kd = Kaid(1:6);
 Kai = -Kaid(7);
+
+runSimuLink = 1;    % Esta todo inicializado, ahora puedo correr SimuLink

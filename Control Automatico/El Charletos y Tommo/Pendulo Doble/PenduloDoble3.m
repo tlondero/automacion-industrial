@@ -1,4 +1,8 @@
-clear all; clc; 
+clear all; clc;
+
+if ~bdIsLoaded('DoublePendulum4')   % Abro SimuLink si no está abierto
+    open_system('DoublePendulum4')
+end
 
 %Constantes de simulink
 
@@ -13,6 +17,7 @@ l1 = L1/2;
 l2 = L2/2;
 m1 = 0.5;
 m2 = 0.75;
+
 I1 = (m1*L1^2)/12;
 I2 = (m2*L2^2)/12;
 
@@ -39,15 +44,6 @@ Bd = [ 0;
       0;
      inv_d0*H ]
 
-% Ad = [A(:,1) A(:,4) A(:,2) A(:,5) A(:,3) A(:,6)];
-% Ad = [Ad(1,:); -1.*Ad(4,:); Ad(2,:); Ad(5,:); Ad(3,:); Ad(6,:)]
-% %Ad(:,3) = Ad(:,3)./2;
-% %Ad(2,:) = -1.*Ad(2,:);
-
-% Bd = [B(1); B(4); B(2); -1*B(5); B(3); -1*B(6)]
-% %Bd(4,:) = Bd(4,:).*(-1);
-% %Bd(6,:) = Bd(6,:).*(2);
-
 Cd = [1 0 0 0 0 0];
 
 Dd = 0;
@@ -70,16 +66,37 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 
 %% Realimentacion de estados y observador Pendulo Doble
 
-clc;
-pKd = [-15 -5 -1 -10 -25 -10];
-%pKd = [-5 -15 -5 -1 -20 -5];
-%pKd = [-1 -15 -1 -10 -2.756 -1];
-
-% pKd = [-1 -1.75 -5.6 -1.75 -1.75 -1.75];
-% Kd = acker(Ad, Bd, pKd).*(1.125)
-
-%pKd = [-2.5 -2.5 -2.5 -2.5 -2.5 -7.5];
+pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
 Kd = acker(Ad, Bd, pKd)
+
+% pKd = [5.9763 0.0673 -0.0084+0.0440i -0.0084-0.0440i -0.0440 -0.0185].*100;
+% Kd = [68.0314   -0.5425  -87.6485  102.5007  655.6131   66.6835]
+% Kd = [78.2815   65.0188  -80.9801  102.4689  654.7031   66.5858]
+% [V,D] = eig(Ad-Bd*Kd);
+% p = diag(D)
 
 pLd = pKd.*10;
 Ld = (acker(Ad', Cd', pLd))';
+
+if exist('runSimuLink','var')   % Si esta todo inicializado corro SimuLink
+    sim('DoublePendulum4',10)
+end
+
+%% Analizo control integral
+
+Aai = [Ad Bd; -Cd Dd];
+Bai = [Bd; 0];
+Cai = [Cd 0];
+Dai = Dd;
+
+disp(['Estabilidad: ' num2str(eig(Aai)')])
+disp(['Controlabilidad: ' num2str(rank(ctrb(Aai,Bai)))])   %Es controlable
+disp(['Observabilidad: ' num2str(rank(obsv(Aai,Cai)))])    %Es observable
+
+Kaid = acker(Aai, Bai, [pKd -0.1]);
+%Aaicl= (Aai-Bai*Kaid);
+%eig(Aaicl)
+%Kd = Kaid(1:6);
+Kai = -Kaid(7);
+
+runSimuLink = 1;    % Esta todo inicializado, ahora puedo correr SimuLink
