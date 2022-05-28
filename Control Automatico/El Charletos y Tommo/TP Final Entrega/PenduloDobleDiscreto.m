@@ -88,8 +88,8 @@ Dd = sysd.D;
 pKd = exp(pK.*Ts);
 Kd = acker(Ad, Bd, pKd)
 
-pLd = exp(pK.*(1.05*Ts));
-Ld = (acker(Ad', Cd', pLd))
+pLd = exp([-25 -5 -0.1 -5 -5 -0.1].*(1.5*Ts));
+Ld = acker(Ad', Cd', pLd)
 Ld = Ld';
 
 sim(simulation,10);
