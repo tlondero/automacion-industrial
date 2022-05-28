@@ -1,7 +1,9 @@
 clear all; clc;
 
-if ~bdIsLoaded('DoublePendulum4')   % Abro SimuLink si no está abierto
-    open_system('DoublePendulum4')
+simulation = 'DoublePendulum5'
+
+if ~bdIsLoaded(simulation)   % Abro SimuLink si no está abierto
+    open_system(simulation)
 end
 
 % Constantes de simulink
@@ -48,9 +50,11 @@ B6 = p1*p3 + p2*p4;
    
 Bd = [0 0 0 B4 B5 B6]'.*den_inv
 
-Cd = [1 0 0 0 0 0];     % x t1 t2 x_d t1_d t2_d
+Cdo = [1 0 0 0 0 0];     % x t1 t2 x_d t1_d t2_d
+Cd = eye(6);     % x t1 t2 x_d t1_d t2_d
 
-Dd = 0;
+Ddo = 0;
+Dd = zeros(6,1);
 
 %% Transferencias Pendulo Doble
 
@@ -68,26 +72,23 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 
 %% Realimentacion de estados y observador Pendulo Doble
 
-pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
+% pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
 pKd = [-25 -15 -10 -10 -5 -1];
 Kd = acker(Ad, Bd, pKd')
 
-pLd = [-650 -1.2 -1.3 -650 -130 -130];
-Ld = acker(Ad', Cd', pLd).*0.675
+pLd = pKd.*10;
+Ld = acker(Ad', Cdo', pLd)
 Ld = Ld';
 
-[V,D] = eig(Ad-Cd*Ld);
-p = diag(D)
-
 if exist('runSimuLink','var')   % Si esta todo inicializado corro SimuLink
-    sim('DoublePendulum4',50)
+    sim(simulation,10)
 end
 
 %% Analizo control integral
 
-Aai = [Ad Bd; -Cd Dd];
+Aai = [Ad Bd; -Cdo Ddo];
 Bai = [Bd; 0];
-Cai = [Cd 0];
+Cai = [Cdo 0];
 Dai = Dd;
 
 disp(['Estabilidad: ' num2str(eig(Aai)')])
