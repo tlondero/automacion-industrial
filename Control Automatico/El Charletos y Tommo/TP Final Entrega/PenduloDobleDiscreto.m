@@ -85,10 +85,13 @@ Bd = sysd.B;
 Cd = sysd.C;
 Dd = sysd.D;
 
-pKd = exp(pK.*Ts);
+pKd = pK;
+pKd = exp(pKd.*Ts);
 Kd = acker(Ad, Bd, pKd)
 
-pLd = exp([-25 -5 -0.1 -5 -5 -0.1].*(1.5*Ts));
+% pLd = [-25 -1.25 -2.5 -25 -1.25 -2.5];
+pLd = [-10 -0.1 -1 -10 -10 -1];
+pLd = exp(pLd.*Ts);
 Ld = acker(Ad', Cd', pLd)
 Ld = Ld';
 
