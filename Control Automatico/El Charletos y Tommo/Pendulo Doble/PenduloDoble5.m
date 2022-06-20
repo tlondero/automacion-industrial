@@ -1,12 +1,12 @@
 clear all; clc;
 
-simulation = 'DoublePendulum5'
+simulation = 'DoublePendulum5';
 
 if ~bdIsLoaded(simulation)   % Abro SimuLink si no está abierto
     open_system(simulation)
 end
 
-% Constantes de simulink
+%Constantes de simulink
 
 M = 1.5;
 g = 9.8;
@@ -20,43 +20,41 @@ l2 = L2/2;
 m1 = 0.5;
 m2 = 0.75;
 
-% Sistema
+I1 = (m1*L1^2)/12;
+I2 = (m2*L2^2)/12;
 
-p1 = (m1 + 2*m2)*L1;
-p2 = m2*L2;
-p3 = 2*m2*L1*L2;
-p4 = (m1+4*m2)*L1*L2;
-p5 = m2*L1^2;
+syms t1 t2;
 
-den_inv = 1/(M*p4*p5 + 2*p1*p2*p3 - (p2^2)*p4 - M*(p3^2) - (p1^2)*p5);
-
-A42 = (p2*p3 - p1*p5)*p1;
-A43 = (p1*p3 + p2*p4)*p2;
-A52 = (M*p5 - p2^2)*p1;
-A53 = -(M*p3 - p1*p2)*p2;
-A62 = (M*p3 - p1*p2)*p1;
-A63 = (M*p4 - p1^2)*p2;
-
-Aaux = [0 A42 A43;
-        0 A52 A53;
-        0 A62 A63];
-
-Ad = [zeros(3,3)        eye(3);
-      Aaux.*(g*den_inv) zeros(3,3)]
+D = [ M+m1+m2,                  (m1*l1+m2*L1)*cos(t1),  m2*l2*cos(t2);
+      (m1*l1+m2*L1)*cos(t1),    m1*(l1^2)+m2*(L1^2)+I1, m2*L1*l2*cos(t1-t2);
+      m2*l2*cos(t2),            m2*L1*l2*cos(t1-t2),    m2*(l2^2)+I2];
   
-B4 = p4*p5 - p3^2;
-B5 = p1*p5 - p2*p3;
-B6 = p1*p3 + p2*p4;
-   
-Bd = [0 0 0 B4 B5 B6]'.*den_inv
+G = [ 0;
+      -g*(m1*l1+m2*L1)*sin(t1);
+      -m2*l2*g*sin(t2)];
+  
+H = [1;0;0];
+  
+inv_d0 = inv(double(subs(D, {'t1' 't2'}, {0 0})));
+jacobian_g0 = double(subs(jacobian(G, [t1 t2]), {'t1' 't2'}, {0 0}));
 
-Cdo = [1 0 0 0 0 0];     % x t1 t2 x_d t1_d t2_d
-Cd = eye(6);     % x t1 t2 x_d t1_d t2_d
+Ad = [ zeros(3,3), eye(3);
+     [ zeros(3,1), -1*inv_d0*jacobian_g0, zeros(3)] ]
 
-Ddo = 0;
+Bd = [ 0;
+       0;
+       0;
+       inv_d0*H ]
+
+Cd = eye(6);
+Cdo = [1 0 0 0 0 0];
+
 Dd = zeros(6,1);
+Ddo = 0;
 
 %% Transferencias Pendulo Doble
+
+% x t1 t2 x_d t1_d t2_d
 
 [num, den] = ss2tf(Ad,Bd,[1 0 0 0 0 0],0); Tx = zpk(minreal(tf(num,den)))
 [num, den] = ss2tf(Ad,Bd,[0 1 0 0 0 0],0); Tt1 = zpk(minreal(tf(num,den)))
@@ -72,13 +70,12 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 
 %% Realimentacion de estados y observador Pendulo Doble
 
-% pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
+%pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
 pKd = [-25 -15 -10 -10 -5 -1];
-Kd = acker(Ad, Bd, pKd')
+Kd = acker(Ad, Bd, pKd)
 
 pLd = pKd.*10;
-Ld = acker(Ad', Cdo', pLd)
-Ld = Ld';
+Ld = (acker(Ad', [1 0 0 0 0 0]', pLd))';
 
 if exist('runSimuLink','var')   % Si esta todo inicializado corro SimuLink
     sim(simulation,10)
@@ -89,7 +86,7 @@ end
 Aai = [Ad Bd; -Cdo Ddo];
 Bai = [Bd; 0];
 Cai = [Cdo 0];
-Dai = Dd;
+Dai = 0;
 
 disp(['Estabilidad: ' num2str(eig(Aai)')])
 disp(['Controlabilidad: ' num2str(rank(ctrb(Aai,Bai)))])   %Es controlable

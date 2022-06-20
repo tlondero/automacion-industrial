@@ -1,4 +1,10 @@
-clear all; clc; 
+clear all; clc;
+
+simulation = 'DoublePendulum4';
+
+if ~bdIsLoaded(simulation)   % Abro SimuLink si no está abierto
+    open_system(simulation)
+end
 
 %Constantes de simulink
 
@@ -13,8 +19,12 @@ l1 = L1/2;
 l2 = L2/2;
 m1 = 0.5;
 m2 = 0.75;
+
 I1 = (m1*L1^2)/12;
 I2 = (m2*L2^2)/12;
+
+in1 = m1*(L1^2 + (L1/12)^2)/12;
+in2 = m2*(L2^2 + (L2/12)^2)/12;
 
 syms t1 t2;
 
@@ -32,23 +42,14 @@ inv_d0 = inv(double(subs(D, {'t1' 't2'}, {0 0})));
 jacobian_g0 = double(subs(jacobian(G, [t1 t2]), {'t1' 't2'}, {0 0}));
 
 Ad = [ zeros(3,3), eye(3);
-    [ zeros(3,1), -1*inv_d0*jacobian_g0, zeros(3)] ]
+     [ zeros(3,1), -1*inv_d0*jacobian_g0, zeros(3)] ]
 
 Bd = [ 0;
-      0;
-      0;
-     inv_d0*H ]
+       0;
+       0;
+       inv_d0*H ]
 
-% Ad = [A(:,1) A(:,4) A(:,2) A(:,5) A(:,3) A(:,6)];
-% Ad = [Ad(1,:); -1.*Ad(4,:); Ad(2,:); Ad(5,:); Ad(3,:); Ad(6,:)]
-% %Ad(:,3) = Ad(:,3)./2;
-% %Ad(2,:) = -1.*Ad(2,:);
-
-% Bd = [B(1); B(4); B(2); -1*B(5); B(3); -1*B(6)]
-% %Bd(4,:) = Bd(4,:).*(-1);
-% %Bd(6,:) = Bd(6,:).*(2);
-
-Cd = [1 0 0 0 0 0];
+Cd =  [1 0 0 0 0 0];
 
 Dd = 0;
 
@@ -70,16 +71,32 @@ disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(Ad,Cd)))])    %Se pued
 
 %% Realimentacion de estados y observador Pendulo Doble
 
-clc;
-pKd = [-15 -5 -1 -10 -25 -10];
-%pKd = [-5 -15 -5 -1 -20 -5];
-%pKd = [-1 -15 -1 -10 -2.756 -1];
-
-% pKd = [-1 -1.75 -5.6 -1.75 -1.75 -1.75];
-% Kd = acker(Ad, Bd, pKd).*(1.125)
-
-%pKd = [-2.5 -2.5 -2.5 -2.5 -2.5 -7.5];
+%pKd = [-15 -5 -1 -10 -25 -10];      %Con error permanente pero bastante chico
+pKd = [-25 -15 -10 -10 -5 -1];
 Kd = acker(Ad, Bd, pKd)
 
-pLd = pKd.*10;
+pLd = pKd.*1;
 Ld = (acker(Ad', Cd', pLd))';
+
+if exist('runSimuLink','var')   % Si esta todo inicializado corro SimuLink
+    sim(simulation,20)
+end
+
+%% Analizo control integral
+
+Aai = [Ad Bd; -Cd Dd];
+Bai = [Bd; 0];
+Cai = [Cd 0];
+Dai = 0;
+
+disp(['Estabilidad: ' num2str(eig(Aai)')])
+disp(['Controlabilidad: ' num2str(rank(ctrb(Aai,Bai)))])   %Es controlable
+disp(['Observabilidad: ' num2str(rank(obsv(Aai,Cai)))])    %Es observable
+
+Kaid = acker(Aai, Bai, [pKd -0.1]);
+%Aaicl= (Aai-Bai*Kaid);
+%eig(Aaicl)
+%Kd = Kaid(1:6);
+Kai = -Kaid(7);
+
+runSimuLink = 1;    % Esta todo inicializado, ahora puedo correr SimuLink
