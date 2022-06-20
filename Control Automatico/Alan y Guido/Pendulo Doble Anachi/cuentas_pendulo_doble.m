@@ -52,9 +52,9 @@ B=[zeros(3,1);Bsublinear];
 C=eye(6);
 D=zeros(1,6);
 
-m0_value=1.5;
-m1_value=0.5;
-m2_value=0.75;
+m0_value=0.10;
+m1_value=0.10;
+m2_value=0.075;
 L1_value=0.5;
 L2_value=0.75;
 g_value=9.8;
@@ -66,4 +66,4 @@ disp('Rango de matriz de controlabilidad')
 rank(ctrb(A,B))
 disp('Rango de matriz de observabilidad')
 rank(obsv(A,C))
-K=acker(A,B,[-0.1,-0.1,-0.01,-0.01,-0.0001,-0.0001])
+K=acker(A,B,[0.002,-0.001,-0.001,-0.001,-0.001,-0.001])
