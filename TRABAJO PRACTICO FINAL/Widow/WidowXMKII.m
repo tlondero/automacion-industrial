@@ -91,7 +91,6 @@ classdef WidowXMKII < handle
             hold off
         end
          function P=createDownwardTrajectory(obj,xyCoords,step,downward)
-            %T = [-t.*1+x0; t.*0+y0; t.*0+z0].';
             xi=xyCoords(1);
             yi=xyCoords(2);
             if(downward)
@@ -106,7 +105,6 @@ classdef WidowXMKII < handle
     end 
     methods(Static)
         function T=createLineTrajectory(InitialPosition,FinalPosition,step)
-            %T = [-t.*1+x0; t.*0+y0; t.*0+z0].';
             xi=InitialPosition(1);
             yi=InitialPosition(2);
             xo=FinalPosition(1);
