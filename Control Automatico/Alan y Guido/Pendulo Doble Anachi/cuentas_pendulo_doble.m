@@ -7,13 +7,13 @@ syms m0 m1 m2 l1 l2 L1 L2 I1 I2 g theta0 theta1 theta2 dtheta0 dtheta1 dtheta2;
 %X0 Theta1 THeta2 dx0 dt1 dt2
 %% Matrices Alineales
 % M(theta)*ddtheta+V(theta,dtheta)+G(theta)
-M=[m0+m1+m2, (m1*l1+m2*L1)*cos(theta1), m2*l2*cos(theta2);
+M = [m0+m1+m2, (m1*l1+m2*L1)*cos(theta1), m2*l2*cos(theta2);
     (m1*l1+m2*L1)*cos(theta1), m1*l1^2+m2*L1^2+I1, m2*L1*l2*cos(theta1-theta2);
     m2*l2*cos(theta2), m2*L1*l2*cos(theta1-theta2), m2*l2^2+I2];
-V=[0,-(m1*l1+m2*L1)*sin(theta1)*dtheta1,-m2*l2*sin(theta2)*dtheta2;
+V =[0,-(m1*l1+m2*L1)*sin(theta1)*dtheta1,-m2*l2*sin(theta2)*dtheta2;
     0,0,m2*L1*l2*sin(theta1-theta2)*dtheta2;
     0,-m2*L1*l2*sin(theta1-theta2)*dtheta1,0];
-G=[0;
+G = [0;
     -(m1*l1+m2*L1)*g*sin(theta1);
     -m2*g*l2*sin(theta2)];
 H=[1;
@@ -66,4 +66,20 @@ disp('Rango de matriz de controlabilidad')
 rank(ctrb(A,B))
 disp('Rango de matriz de observabilidad')
 rank(obsv(A,C))
-K=acker(A,B,[0.002,-0.001,-0.001,-0.001,-0.001,-0.001])
+%% Acker
+%K=acker(A,B,[0.002,-0.001,-0.001,-0.001,-0.001,-0.001])
+%% LQR
+R=1
+Q = diag([5 50 50 20 700 700]);
+K= lqr(A,B,Q,R)
+%% LQG
+% nx = 6;    %Number of states
+% ny = 6;    %Number of outputs
+% Qn = diag([1,1, 0, 0.1, 1,0,2,1,0.5,0.4,1])%%[4 2 0 1 2 0 1 1 1 0 0; 2 1 0 4 1 0 1 1 1 0 0; 0 0 1 0 0.5 0 1 1 1 0 0; 1 0 0 2 1 0 1 1 1 0 0; 1 0 1 0 0 0 1 1 1 0 0;4 2 0 1 2 0 1 1 1 0 0 ; 2 1 0 4 1 0 1 1 1 0 0 ; 0 0 1 0 0.5 0 1 1 1 0 0 ; 1 0 0 2 1 0 1 1 1 0 0 ; 1 0 1 0 0 0 1 1 1 0 0; 0 0 0 0 0 0 0 0 0 0 0 ];
+% Rn = 0.7;
+% R = 1;
+% QXU = blkdiag(0.1*eye(nx),R);
+% QWV = blkdiag(Qn,Rn)
+% QI = eye(ny);
+% D=B*0;
+% K = lqg(ss(A,B,C,D),QXU,QWV)
