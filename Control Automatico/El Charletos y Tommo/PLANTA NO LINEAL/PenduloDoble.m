@@ -60,9 +60,7 @@ D = 0;
 
 %% Estabilidad, controlabilidad y observabilidad Pendulo Doble
 
-disp('Estabildiad pendulo simple:')        %Es inestable, tengo un polo en SPD
-eig(A)
-
+disp(['Estabilidad pendulo doble: ' num2str(eig(A)')])        %Es inestable, tengo dos polos en SPD
 disp(['Controlabilidad pendulo simple: ' num2str(rank(ctrb(A,B)))])    %Es controlable
 disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(A,C)))])    %Se puede estimar las variables de estado observando la posición
 

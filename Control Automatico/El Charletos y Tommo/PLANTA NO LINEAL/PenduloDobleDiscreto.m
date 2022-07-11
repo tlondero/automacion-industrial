@@ -44,7 +44,7 @@ A = [ zeros(3,3), eye(3);
 B = [ 0;
       0;
       0;
-      D0\H ]
+      D0\H]
 
 C = [1 0 0 0 0 0];
 
@@ -60,16 +60,13 @@ D = 0;
 
 %% Estabilidad, controlabilidad y observabilidad Pendulo Doble
 
-disp('Estabildiad pendulo simple:')        %Es inestable, tengo un polo en SPD
-eig(A)
-
+disp(['Estabilidad pendulo doble: ' num2str(eig(A)')])        %Es inestable, tengo dos polos en SPD
 disp(['Controlabilidad pendulo simple: ' num2str(rank(ctrb(A,B)))])    %Es controlable
 disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(A,C)))])    %Se puede estimar las variables de estado observando la posición
 
 %% Realimentacion de estados y observador DISCRETO
 
 Ts = 1e-3;
-
 X0 = [0 5*pi/180 5*pi/180 0 0 0];
 
 sysd = c2d(ss(A,B,C,0), Ts, 'tustin');
@@ -82,9 +79,10 @@ pK = [-40 -8 -8 -1 -1 -0.5];
 pKd = exp(pK.*Ts);
 Kd = acker(Ad, Bd, pKd)
 
-pL = [-400 -80 -0.001 -10 -10 -0.1];
-% pL = [-400 -80 -0.01 -10 -10 -0.01];
+% pL = [-10 -100 -10 -1000 -0.01 -0.1];
+pL = [-400 -80 -0.01 -10 -10 -0.01];
 % pL = [-200 -40 -0.1 -5 -5 -0.05];
+
 pLd = exp(pL.*Ts);
 Ld = acker(Ad', Cd', pLd)
 Ld = Ld';
