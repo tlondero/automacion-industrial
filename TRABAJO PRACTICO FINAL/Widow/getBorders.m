@@ -61,15 +61,21 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
                    end
                end
             end      
-        end
+        end 
                 
-        [row_fin,col_fin,~] = size(final_linea);	
+        [row_fin,col_fin,~] = size(final_linea);
         fl_hough = Hough(final_linea,'suppress',30);
         imlinea5 = takeLine(fl_hough.lines.rho,fl_hough.lines.theta,col_fin,row_fin);
         fin_sup = imlinea5.*final_linea;
-
-		[x_min, y_min] = find(fin_sup,1,'first');
-		[x_max, y_max] = find(fin_sup,1,'last');
+        
+        [~, biggest_index] = max(blobs.area);        
+        if blobs(biggest_index).a > blobs(biggest_index).b
+            [x_min, y_min] = find(fin_sup,1,'first');
+            [x_max, y_max] = find(fin_sup,1,'last');
+        else
+            [y_min, x_min] = find(fin_sup',1,'first');
+            [y_max, x_max] = find(fin_sup',1,'last');
+        end
         
         if (debug_state)
             figure();
