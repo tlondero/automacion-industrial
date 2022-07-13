@@ -22,8 +22,7 @@
 %%%%%%%%%%%%%%%%%%%%%
 %		Informe		%
 %%%%%%%%%%%%%%%%%%%%%
-
-\Aection{Introducción}
+\Section{Introducción}
 En el presente se explica que cosas son necesarias para correr el trabajo, asi mismo tambien como correrlo y utlizarlo.
 \Section{Dependencias}
 Las dependencias necesarias son:
@@ -37,8 +36,78 @@ Para poder correr el trabajo satisfactoriamente se debe abrir la carpeta "Widow"
 Luego se da al correr, y se abrirá la siguiente interfaz:
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{GUI}
+	\includegraphics[width=\linewidth]{GUI}
 	\caption{GUI.}	
 	\label{fig:GUI}
 \end{figure}
+\Section{Utilización}
+\Subsection{Flujo natural}
+Lo primero a hacer es cargar una imagen, al presionar el botón "Cargar Imagen" y elegir una imagen que cumpla con las hipótesis de la consigna.
+Al hacer esto se verá la siguiente pantalla:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{init}
+	\caption{Inicializaci\'on.}	
+	\label{fig:Inicializacion}
+\end{figure}
+Al cargar la imagen se hace un filtrado b\'asico de los colores y se muestra el manipulador.\\
+Una vez hecho esto se accede a las opciones de "Mostrar espacio alcanzable" y "Modificar manipulador" si asi se quisiera.\\
+Se puede ver en los DropDownMenus que en ambos marcos se puede variar entre que imagen se esta visualzando.
+Si se desea continuar hay que presionar el bot\'on de "Procesar Imagen". Al hacer esto se procesa la imagen definitivamente, quitando todo el ruido posible y obteniendo tantos las coordenadas de las esquinas como la de la linea.
+Adem\'as se accede a un menu con todos los pasos intermedios en el filtrado.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{ddm}
+	\caption{Imagen procesada y opciones.}	
+	\label{fig:ddm}
+\end{figure}
+Lo que basta ahora es utilizar el bot\'on "Mover manipulador" para que el robot recree el movimiento, como se ve en la mesa dibujada en pantalla.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{linea}
+	\caption{Manipulador una vez dibujado.}	
+	\label{fig:linea}
+\end{figure}
+Si se quisiera se puede cargar una nueva imagen y repetir el proceso.
+\Subsection{Configuración de longitudes}
+Es posible configurar las longitudes del manipulador durante la ejecuci\'on al cambiar los valores en la GUI
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.35\linewidth]{mm}
+	\caption{Mofificaci\'on de par\'ametros.}	
+	\label{fig:mm}
+\end{figure}
+Esta modificaci\'on es para valores dentro de un desvio del 10$\%$ del nominal para cada dimensi\'on del manipulador.\\
+Al tocar en "Confirmar" se guardan los valores ingresados mediante el slider.
+Para volver a valores por defecto se debe tocar el bot\'on "Reset"
+
+\Subsection{Visualización de espacio alcanzable}
+Para visualizar el espacio alcanzable del manipulador, basta con presionar el botón "Mostrar espacio alcanzable". Los ángulos de libertad que tienen los joints son configurables, es importante mencionar que la variación de dicho parametro es en módulo.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{alcanzable}
+	\caption{Espacio Alcanzable.}	
+	\label{fig:alcanzable}
+\end{figure}
+\Subsection{Configuraci\'on de filtros}
+Para la configuraci\'on de filtros se exponen todos los par\'ametros de los filtros para que sean modificados, al tocar try filter se puede ver un preview de los filtros.
+El bot\'on de "confirmar" guarda los valores nuevos, mientras que "cancelar" utiliza los por defecto.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{filtros}
+	\caption{Pantalla de configuraci\'on de filtros.}	
+	\label{fig:filtros}
+\end{figure}
+
+\Section{Errores comunes}
+\begin{itemize}
+\item El programa debe ser corrido desde main.m y no desde otro .m
+\item No aparece le manipulador al cargar la imagen:\\
+Existen veces que el Matlab y el Robotics Toolbox no interaccionan correctamente y no carga el manipulador, para resolver este problema basta con reiniciar matlab hasta que funcione o reinstalar el toolbox.
+\item El mismo gr\'afico se muestra en mas de un cuadro:\\
+Sucede cuando se mueve el manipulador y se rota otra imagen, esto se debe a que el toolbox grafica en el cuadro que esta siendo seleccionado, y no deja que se configure, por lo que no debe tocarse otro cuadro mientras se mueve el manipulador.
+\item Cuando se filtra una imagen aparece el error "Assignment not supported because the result method 'umin' is a temporary value":\\
+Existen veces que el Matlab y el Vision Toolbox no interaccionan correctamente y no carga el manipulador, para resolver este problema basta con reiniciar matlab hasta que funcione o reinstalar el toolbox.
+\end{itemize}
 \end{document}
