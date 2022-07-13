@@ -69,7 +69,7 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
         fin_sup = imlinea5.*final_linea;
         
         [~, biggest_index] = max(blobs.area);        
-        if blobs(biggest_index).a > blobs(biggest_index).b
+        if blobs(biggest_index).a < blobs(biggest_index).b
             [x_min, y_min] = find(fin_sup,1,'first');
             [x_max, y_max] = find(fin_sup,1,'last');
         else
