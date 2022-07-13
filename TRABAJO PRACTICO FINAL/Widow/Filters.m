@@ -22,7 +22,7 @@ function varargout = Filters(varargin)
 
 % Edit the above text to modify the response to help Filters
 
-% Last Modified by GUIDE v2.5 13-Jul-2022 12:40:59
+% Last Modified by GUIDE v2.5 13-Jul-2022 14:10:01
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -85,6 +85,9 @@ function edit1_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function edit1_CreateFcn(hObject, eventdata, handles)
+global filter_parameters
+set(hObject,'string',num2str(filter_parameters.hsv_sat_lo));
+
 % hObject    handle to edit1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -93,6 +96,7 @@ function edit1_CreateFcn(hObject, eventdata, handles)
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
+
 end
 
 
@@ -108,6 +112,9 @@ function edit2_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function edit2_CreateFcn(hObject, eventdata, handles)
+global filter_parameters
+set(hObject,'string',num2str(filter_parameters.hsv_val_hi));
+
 % hObject    handle to edit2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -131,6 +138,9 @@ function edit3_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function edit3_CreateFcn(hObject, eventdata, handles)
+global filter_parameters
+set(hObject,'string',num2str(filter_parameters.hsv_val_lo));
+
 % hObject    handle to edit3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -154,6 +164,9 @@ function edit4_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function edit4_CreateFcn(hObject, eventdata, handles)
+global filter_parameters
+set(hObject,'string',num2str(filter_parameters.hsv_redhue_hi));
+
 % hObject    handle to edit4 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -177,6 +190,9 @@ function edit5_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function edit5_CreateFcn(hObject, eventdata, handles)
+global filter_parameters
+set(hObject,'string',num2str(filter_parameters.hsv_redhue_lo));
+
 % hObject    handle to edit5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -200,6 +216,9 @@ function edit6_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function edit6_CreateFcn(hObject, eventdata, handles)
+global filter_parameters
+set(hObject,'string',num2str(filter_parameters.hsv_greenhue_hi));
+
 % hObject    handle to edit6 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -223,6 +242,9 @@ function edit7_Callback(hObject, eventdata, handles)
 
 % --- Executes during object creation, after setting all properties.
 function edit7_CreateFcn(hObject, eventdata, handles)
+global filter_parameters
+set(hObject,'string',num2str(filter_parameters.hsv_greenhue_lo));
+
 % hObject    handle to edit7 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
@@ -277,3 +299,11 @@ closereq();
 % hObject    handle to pushbutton3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes during object creation, after setting all properties.
+function uipanel1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to uipanel1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+

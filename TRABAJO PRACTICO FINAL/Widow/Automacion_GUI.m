@@ -130,7 +130,7 @@ if (file ~= 0)
     hold off
         set(handles.popupmenu1, 'String', {'Filtro verde basico', 'Filtro rojo basico'});
         set(handles.popupmenu3, 'String', {'Filtro rojo basico', 'Filtro verde basico'});
-    else
+     else
      msgbox('No se selecciono una imagen.', 'Advertencia','warn');
 end
 
