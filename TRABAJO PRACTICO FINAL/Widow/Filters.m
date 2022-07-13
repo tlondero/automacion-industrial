@@ -22,7 +22,7 @@ function varargout = Filters(varargin)
 
 % Edit the above text to modify the response to help Filters
 
-% Last Modified by GUIDE v2.5 06-Mar-2022 18:58:29
+% Last Modified by GUIDE v2.5 13-Jul-2022 12:40:59
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -253,3 +253,27 @@ global vision_images
     imshow(vision_images.green_filter_l);
     axes(handles.axes2);
     imshow(vision_images.red_filter_l);
+
+
+% --- Executes on button press in pushbutton2.
+function pushbutton2_Callback(hObject, eventdata, handles)
+closereq();
+% hObject    handle to pushbutton2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in pushbutton3.
+function pushbutton3_Callback(hObject, eventdata, handles)
+global filter_parameters
+filter_parameters.hsv_redhue_hi = (-7.5+27.5)/360; %27.5 grados adelante de -7.5 grados
+filter_parameters.hsv_redhue_lo = ((-7.5+360)-27.5)/360; %27.5 grados atras de -7.5 grados
+filter_parameters.hsv_greenhue_hi = (110+80)/360; %80 grados arriba de 110 grados
+filter_parameters.hsv_greenhue_lo = (110-75)/360; %75 grados abajo de 110 grados
+filter_parameters.hsv_sat_lo = 0.14;
+filter_parameters.hsv_val_hi = 0.55;
+filter_parameters.hsv_val_lo = 0.25;
+closereq();
+% hObject    handle to pushbutton3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)

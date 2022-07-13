@@ -1,0 +1,132 @@
+\input{Header.tex}
+
+\begin{document}
+
+\def\verObs{0}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Caratula		%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setmainfont{AvenirLTStd-Roman}[Path = ./Utils/, Extension = .otf]
+
+\input{./Utils/Caratula_Fancy.tex}
+
+\setmainfont{Calibri}
+
+%%%%%%%%%%%%%%%%%%%%%
+%		Indice		%
+%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%
+%		Informe		%
+%%%%%%%%%%%%%%%%%%%%%
+
+\Section{Introducción}
+En este breve informe se explica como poder correr el código del trabajo y como utilizarlo.
+
+\Section{Dependencias}
+Las dependencias necesarias son:
+\begin{itemize}
+\item \href{https://petercorke.com/toolboxes/robotics-toolbox/}{Peter Corke Robotics Toolbox}
+\item \href{https://petercorke.com/toolboxes/machine-vision-toolbox/}{Peter Corke Vision Toolbox}
+\item \href{https://la.mathworks.com/products/matlab.html}{Matlab 2018}
+\end{itemize}
+
+\Section{Correr el trabajo}
+Para poder utilizar la interfaz gráfica se debe abrir la carpeta \quotes{Widow} y correr el archivo llamado \quotes{main.m} en Matlab 2018. Así se abrirá la siguiente interfaz:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{GUI}
+	\caption{GUI.}	
+	\label{fig:GUI}
+\end{figure}
+
+\Section{Utilización}
+
+\Subsection{Flujo de uso}
+
+Lo primero a hacer es cargar una imagen. Se debe presionar el botón \quotes{Cargar Imagen} y elegir una que cumpla con el formato de la presentada en la consigna. Al hacer esto se verá la siguiente pantalla:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{init}
+	\caption{Inicialización.}	
+	\label{fig:Inicializacion}
+\end{figure}
+
+Al cargarla imagen se hace un filtrado básico de los colores y se muestra el manipulador. 
+Una vez hecho esto, se accede a las opciones de \quotes{Mostrar espacio alcanzable} y \quotes{Modificar manipulador}.
+
+Se brinda la posibilidad de cambiar en los marcos presentes los distintos tipos de filtros que y figuras que se usan a lo largo del proceso. Esto se puede cambiar desde los \quotes{Drop Down Menus} que se encuentran por encima de cada imagen.
+
+Si se desea continuar, se debe presionar el botón de \quotes{Procesar Imagen}. Al hacer esto se realiza el filtrado, quitando todo el ruido posible y obteniendo tantos las coordenadas de las esquinas como las de la linea.
+
+Además se brinda acceso a un menú con todos los pasos intermedios en el filtrado.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{ddm}
+	\caption{Imagen procesada y opciones.}	
+	\label{fig:ddm}
+\end{figure}
+
+Luego, al utilizar el botón \quotes{Mover manipulador}, se logra que el robot recree el movimiento, como se ve en la mesa dibujada en pantalla.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{linea}
+	\caption{Manipulador una vez dibujado.}	
+	\label{fig:linea}
+\end{figure}
+
+Si se quisiera se puede cargar una nueva imagen y repetir el proceso.
+
+\Subsection{Configuración de longitudes}
+
+Es posible configurar las longitudes del manipulador durante la ejecución al cambiar los valores en la GUI.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.35\linewidth]{mm}
+	\caption{Modificación de parámetros.}	
+	\label{fig:mm}
+\end{figure}
+
+Esta modificación es para valores dentro de un desvío del 10\% del nominal para cada dimensión del manipulador.
+
+Al tocar en \quotes{Confirmar} se guardan los valores ingresados mediante el slider.
+Para volver a valores por defecto se debe tocar el botón \quotes{Reset}.
+
+\Subsection{Visualización de espacio alcanzable}
+
+Para visualizar el espacio alcanzable del manipulador, basta con presionar el botón \quotes{Mostrar espacio alcanzable}. Los ángulos de libertad que tienen los joints son configurables. Es importante mencionar que la variación de dicho parámetro es en módulo.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{alcanzable}
+	\caption{Espacio Alcanzable.}	
+	\label{fig:alcanzable}
+\end{figure}
+
+\Subsection{Configuración de filtros}
+
+Para la configuración de filtros se exponen todos los parámetros de estos para que sean modificados. Al tocar \quotes{try filter} se puede ver un \quotes{preview} de los resultados.
+El botón de \quotes{confirmar} guarda los valores nuevos, mientras que \quotes{cancelar} utiliza los por defecto.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{filtros}
+	\caption{Pantalla de configuración de filtros.}	
+	\label{fig:filtros}
+\end{figure}
+
+\Section{Errores comunes}
+
+\begin{itemize}
+	\item El programa debe ser corrido desde main.m y no desde otro archivo.
+	\item No aparece le manipulador al cargar la imagen:
+Existen veces que el Matlab y el Robotics Toolbox no interaccionan correctamente y no carga el manipulador, para resolver este problema basta con reiniciar Matlab hasta que funcione o reinstalar el toolbox.
+	\item El mismo gráfico se muestra en mas de un cuadro:\\
+Sucede cuando se mueve el manipulador y se rota otra imagen, esto se debe a que el toolbox grafica en el cuadro que esta siendo seleccionado, y no deja que se configure, por lo que no debe tocarse otro cuadro mientras se mueve el manipulador.
+	\item Cuando se filtra una imagen aparece el error ``Assignment not supported because the result method `umin'\, is a temporary value'':\\
+Error propio del toolbox que a veces no reconoce bien parámetros poropios. Similar a cuando no carga el manipulador.
+\end{itemize}
+
+\end{document}
