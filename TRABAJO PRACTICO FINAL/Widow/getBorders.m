@@ -47,6 +47,22 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
         final_linea = imresize(final_linea,[umax,vmax]);
 		
 		% Se busca los extremos de la linea roja        
+        blobs = iblobs(final_linea);
+        [~,blobs_count]= size(blobs);
+        for k=0:blobs_count
+            area = blobs(k).area > 100;
+            white = blobs(k).class;
+            for i=0:row
+                x_in = (i >= blobs(k).umin) && (i <= blobs(k).umax);
+                for j=0:col
+                   y_in = (j >= blobs(k).vmin) && (j <= blobs(k).vmax);                   
+                   if x_in && y_in && area && white
+                       final_linea(i,j) = 0;
+                   end
+               end
+            end      
+        end
+                
         [row_fin,col_fin,~] = size(final_linea);	
         fl_hough = Hough(final_linea,'suppress',30);
         imlinea5 = takeLine(fl_hough.lines.rho,fl_hough.lines.theta,col_fin,row_fin);
