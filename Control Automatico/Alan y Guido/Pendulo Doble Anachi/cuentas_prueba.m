@@ -6,6 +6,8 @@ m1_value=0.5;
 m2_value=0.75;
 L1_value=0.5;
 L2_value=0.75;
+I1 = m1_value*((L1_value^2)/12);
+I2 = m2_value*((L2_value^2)/12);
 
 %% Control por realimentación de estados
 %Del linearizer de simulink
