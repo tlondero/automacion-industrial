@@ -49,12 +49,12 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
 		% Se busca los extremos de la linea roja        
         blobs = iblobs(final_linea);
         [~,blobs_count]= size(blobs);
-        for k=0:blobs_count
-            area = blobs(k).area > 100;
+        for k=1:blobs_count
+            area = blobs(k).area < 100;
             white = blobs(k).class;
-            for i=0:row
+            for i=1:row
                 x_in = (i >= blobs(k).umin) && (i <= blobs(k).umax);
-                for j=0:col
+                for j=1:col
                    y_in = (j >= blobs(k).vmin) && (j <= blobs(k).vmax);                   
                    if x_in && y_in && area && white
                        final_linea(i,j) = 0;
