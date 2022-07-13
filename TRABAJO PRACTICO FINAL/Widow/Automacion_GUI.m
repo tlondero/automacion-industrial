@@ -22,7 +22,7 @@ function varargout = Automacion_GUI(varargin)
 
 % Edit the above text to modify the response to help Automacion_GUI
 
-% Last Modified by GUIDE v2.5 20-Mar-2022 12:03:54
+% Last Modified by GUIDE v2.5 13-Jul-2022 13:04:20
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -79,7 +79,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 axes(handles.axes4);
 [file,path] = uigetfile('*.png;*.jpeg;*.jpg','Image files','~/Vision');
 global vision_images
-
+global filter_parameters
 global BlackWidow;
 global references;
 global flags
@@ -92,7 +92,8 @@ if (file ~= 0)
     foto = idouble(foto);
     debug_state=0;
     f = msgbox('Procesando imagen...','Busy','help');
-    [vision_images.green_filter_l,~,~,~,~,~,vision_images.red_filter_l] = filterImage(foto,0,0,0,0,0,0,0);
+%     [vision_images.green_filter_l,~,~,~,~,~,vision_images.red_filter_l] = filterImage(foto,0,0,0,0,0,0,0);
+    [vision_images.green_filter_l,~,~,~,~,~,vision_images.red_filter_l] = filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,    filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
     delete(f);
 
     axes(handles.axes4);
@@ -686,12 +687,14 @@ end
 % handles    structure with handles and user data (see GUIDATA)
 
 
+
+
 % --- Executes during object creation, after setting all properties.
-function axes7_CreateFcn(hObject, eventdata, handles)
+function axes8_CreateFcn(hObject, eventdata, handles)
 I = imread('ITBA_LOGO.png');
 imshow(I);
-% hObject    handle to axes7 (see GCBO)
+% hObject    handle to axes8 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-% Hint: place code in OpeningFcn to populate axes7
+% Hint: place code in OpeningFcn to populate axes8
