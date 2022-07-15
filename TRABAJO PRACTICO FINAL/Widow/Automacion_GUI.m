@@ -473,7 +473,7 @@ delete(f);
 start_pos = start_pos./1000;    % Cambio de escala
 end_pos = end_pos./1000;
 if (isnan(start_pos))
-    msgbox('No se encontraron esquinas\nIntente nuevamente', 'Error','error');
+    msgbox('No se encontraron esquinas. Intente nuevamente.', 'Error','error');
 else
 flags.Processed=true;
         set(handles.popupmenu1, 'String', {'Filtro verde procesado', 'Filtro rojo procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
