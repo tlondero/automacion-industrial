@@ -7,9 +7,31 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
     green_filter = green_filter_l;
     [row,col] = size(green_filter_l);
 
-    imlin = Hough(green_filter_l,'suppress',30);%%CHANGED FROM 30 TO 40
-	lineas = imlin.lines;
-	[~,line_count,~] = size(lineas);
+    lineas = [];
+    line_count = 0;
+    imlinea1 = zeros(row,col);
+    imlinea2 = zeros(row,col);
+    imlinea3 = zeros(row,col);
+    imlinea4 = zeros(row,col);
+
+    for k=30:-1:5
+        lineas = Hough(green_filter_l,'suppress',k).lines;
+        [~,line_count,~] = size(lineas);
+        if(line_count==4)
+            % Genera 4 imagenes, una con cada linea que obtuvo
+            imlinea1 = takeLine(lineas(1).rho,lineas(1).theta,col,row);
+            imlinea2 = takeLine(lineas(2).rho,lineas(2).theta,col,row);
+            imlinea3 = takeLine(lineas(3).rho,lineas(3).theta,col,row);
+            imlinea4 = takeLine(lineas(4).rho,lineas(4).theta,col,row);
+            Bordes = imlinea1+imlinea2+imlinea3+imlinea4;
+
+            if(sum(Bordes(:) == 2) == 4)
+                k = 5;
+            else
+                line_count = 0;
+            end
+        end
+    end
 	
 	x_min = NaN;
 	y_min = NaN;
@@ -19,14 +41,8 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
     warpedth_g = NaN;
     warpedth_r = NaN;
     final_linea = NaN;
+
 	if(line_count==4)   % Chequeo que haya 4 elementos
-
-		% Genera 4 imagenes, una con cada linea que obtuvo
-		imlinea1 = takeLine(lineas(1).rho,lineas(1).theta,col,row);
-		imlinea2 = takeLine(lineas(2).rho,lineas(2).theta,col,row);
-		imlinea3 = takeLine(lineas(3).rho,lineas(3).theta,col,row);
-		imlinea4 = takeLine(lineas(4).rho,lineas(4).theta,col,row);
-
 		% Donde se superponen vale 2
 		bordes_esquinas = (imlinea1+imlinea2+imlinea3+imlinea4)==2;
         Bordes = imlinea1+imlinea2+imlinea3+imlinea4;
@@ -48,21 +64,6 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
 		
 		% Se busca los extremos de la linea roja        
         blobs = iblobs(final_linea);
-%         [~,blobs_count]= size(blobs);
-%         for k=1:blobs_count
-%             area = blobs(k).area < 100;
-%             white = blobs(k).class;
-%             for i=1:row
-%                 x_in = (i >= blobs(k).umin) && (i <= blobs(k).umax);
-%                 for j=1:col
-%                    y_in = (j >= blobs(k).vmin) && (j <= blobs(k).vmax);                   
-%                    if x_in && y_in && area && white
-%                        final_linea(i,j) = 0;
-%                    end
-%                end
-%             end      
-%         end 
-                
         [row_fin,col_fin,~] = size(final_linea);
         fl_hough = Hough(final_linea,'suppress',30);
         imlinea5 = takeLine(fl_hough.lines.rho,fl_hough.lines.theta,col_fin,row_fin);
