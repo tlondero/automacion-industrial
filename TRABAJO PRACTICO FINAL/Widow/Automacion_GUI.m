@@ -467,7 +467,7 @@ global foto
 global filter_parameters;
 global flags;
 f = msgbox('Procesando imagen...','Busy','help');
-[vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2, vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l,~] =filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
+[vision_images.green_filter_l,vision_images.green_filter,vision_images.green_filter_l2, vision_images.green_filter_l3,vision_images.green_filter_l4,~,vision_images.red_filter_l] =filterImage(foto,filter_parameters.hsv_sat_lo,filter_parameters.hsv_val_hi,filter_parameters.hsv_val_lo,filter_parameters.hsv_redhue_hi,filter_parameters.hsv_redhue_lo,filter_parameters.hsv_greenhue_hi,filter_parameters.hsv_greenhue_lo);
 [start_pos, end_pos,vision_images.Bordes,vision_images.warpedth_g,vision_images.warpedth_r,vision_images.final_linea] = getLineCoords(vision_images.green_filter,vision_images.green_filter_l,vision_images.green_filter_l2,vision_images.green_filter_l3,vision_images.green_filter_l4,vision_images.red_filter_l,flags.debug_state);
 delete(f);
 start_pos = start_pos./1000;    % Cambio de escala
