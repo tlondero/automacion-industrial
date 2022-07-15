@@ -7,7 +7,7 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
     green_filter = green_filter_l;
     [row,col] = size(green_filter_l);
 
-    imlin = Hough(green_filter_l,'suppress',30);
+    imlin = Hough(green_filter_l,'suppress',30);%%CHANGED FROM 30 TO 40
 	lineas = imlin.lines;
 	[~,line_count,~] = size(lineas);
 	
@@ -48,20 +48,20 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
 		
 		% Se busca los extremos de la linea roja        
         blobs = iblobs(final_linea);
-        [~,blobs_count]= size(blobs);
-        for k=1:blobs_count
-            area = blobs(k).area < 100;
-            white = blobs(k).class;
-            for i=1:row
-                x_in = (i >= blobs(k).umin) && (i <= blobs(k).umax);
-                for j=1:col
-                   y_in = (j >= blobs(k).vmin) && (j <= blobs(k).vmax);                   
-                   if x_in && y_in && area && white
-                       final_linea(i,j) = 0;
-                   end
-               end
-            end      
-        end 
+%         [~,blobs_count]= size(blobs);
+%         for k=1:blobs_count
+%             area = blobs(k).area < 100;
+%             white = blobs(k).class;
+%             for i=1:row
+%                 x_in = (i >= blobs(k).umin) && (i <= blobs(k).umax);
+%                 for j=1:col
+%                    y_in = (j >= blobs(k).vmin) && (j <= blobs(k).vmax);                   
+%                    if x_in && y_in && area && white
+%                        final_linea(i,j) = 0;
+%                    end
+%                end
+%             end      
+%         end 
                 
         [row_fin,col_fin,~] = size(final_linea);
         fl_hough = Hough(final_linea,'suppress',30);
