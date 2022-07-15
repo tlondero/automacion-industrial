@@ -7,7 +7,7 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
     green_filter = green_filter_l;
     [row,col] = size(green_filter_l);
 
-    imlin = Hough(green_filter_l,'suppress',30,'edgethresh', 0.0000002);
+    imlin = Hough(green_filter_l,'suppress',30,'edgethresh',0.0000002);
 	lineas = imlin.lines;
 	[~,line_count,~] = size(lineas);
 	
@@ -19,7 +19,7 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
     warpedth_g = NaN;
     warpedth_r = NaN;
     final_linea = NaN;
-	if(line_count==4)   % Chequeo que haya 4 elementos
+    if(line_count==4)   % Chequeo que haya 4 elementos
 
 		% Genera 4 imagenes, una con cada linea que obtuvo
 		imlinea1 = takeLine(lineas(1).rho,lineas(1).theta,col,row);
@@ -31,7 +31,7 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
 		bordes_esquinas = (imlinea1+imlinea2+imlinea3+imlinea4)==2;
         Bordes = imlinea1+imlinea2+imlinea3+imlinea4;
         
-        if (sum(Bordes(:) == 2) == 4)        % Hya 4 esquinas
+        if (sum(Bordes(:) == 2) == 4)        % Chequeo que haya 4 esquinas
             [row_, col_] = find(bordes_esquinas);
             posi = zeros(2,4);
             posi(2,:) = row_;
@@ -42,6 +42,13 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
             matH = homography(posi,posf);
             warpedth_g = (homwarp(matH,green_filter,'full'))>0.5;
             warpedth_r = (homwarp(matH,red_filter_l,'full'))>0.5;
+            
+            % Se verifica si esta la hoja vertical
+            [size_v, size_u] = size(warpedth_g);
+            if(size_v > size_u)
+                warpedth_g = warpedth_g';
+                warpedth_r = warpedth_r';
+            end
 
             % Se corta y reescala la imagen 
             [xmin, xmax, ymin, ymax] = trimImage(warpedth_g);
@@ -64,6 +71,9 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
                 [y_max, x_max] = find(fin_sup',1,'last');
             end
         end
+        
+        pos1 = [x_min, y_min];
+        pos2 = [x_max, y_max];
 
         if (debug_state)
             figure();
@@ -79,7 +89,6 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
             imshow(imlinea1+imlinea2+imlinea3+imlinea4)
             title('Bordes de la hoja')
             
-            
             subplot(2,3,4);
             imshow(warpedth_g)
             title('Filtro verde rotado')
@@ -93,9 +102,5 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
             title('Imagen final')
         end
     end
-	
-	pos1 = [x_min, y_min];
-	pos2 = [x_max, y_max];
-    
 end
 
