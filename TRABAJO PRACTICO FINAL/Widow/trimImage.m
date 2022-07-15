@@ -15,8 +15,8 @@ function [xmin, xmax, ymin, ymax]=trimImage(img)
     
     x = [];
     y = [];
-
-    for i=1:4
+    [final,~] = size(blobs_white)
+    for i=1:final
         y = [y, blobs_white(i).umin, blobs_white(i).umax];
         x = [x, blobs_white(i).vmin, blobs_white(i).vmax];
     end

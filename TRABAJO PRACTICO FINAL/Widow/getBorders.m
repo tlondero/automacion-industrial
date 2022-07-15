@@ -7,7 +7,7 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
     green_filter = green_filter_l;
     [row,col] = size(green_filter_l);
 
-    imlin = Hough(green_filter_l,'suppress',30);
+    imlin = Hough(green_filter_l,'suppress',30,'edgethresh', 0.0000002);
 	lineas = imlin.lines;
 	[~,line_count,~] = size(lineas);
 	
