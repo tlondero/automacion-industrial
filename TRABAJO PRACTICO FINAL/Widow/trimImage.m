@@ -12,13 +12,15 @@ function [xmin, xmax, ymin, ymax]=trimImage(img)
             blobs_white = [blobs_white; gfl_blobs(i)];
         end
     end
-    
-    x = [];
-    y = [];
+        
     [final,~] = size(blobs_white);
-    for i=1:final
-        y = [y, blobs_white(i).umin, blobs_white(i).umax];
-        x = [x, blobs_white(i).vmin, blobs_white(i).vmax];
+    x = zeros(1,final*2);
+    y = zeros(1,final*2);
+    for i=1:2:final*2
+        y(i) = blobs_white((i+1)/2).umin;
+        y(i+1) = blobs_white((i+1)/2).umax;
+        x(i) = blobs_white((i+1)/2).vmin;
+        x(i+1) = blobs_white((i+1)/2).vmax;
     end
     
     xmin = min(x);
