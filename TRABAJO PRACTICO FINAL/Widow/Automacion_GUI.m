@@ -195,6 +195,8 @@ switch popup_sel_index
         imshow(vision_images.final_linea);
     case 7
         imshow(vision_images.original);
+    case 8
+        imshow(vision_images.Bordes);
 end
 
 % --- Executes during object creation, after setting all properties.
@@ -206,7 +208,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
      set(hObject,'BackgroundColor','white');
 end
 if(flags.Processed)
-            set(hObject, 'String', {'Filtro verde procesado', 'Filtro rojo procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+            set(hObject, 'String', {'Filtro verde procesado', 'Filtro rojo procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original', 'Bordes de Hough'});
 else 
 set(hObject, 'String', {'Filtro verde basico', 'Filtro rojo basico'});
 end
@@ -232,6 +234,8 @@ switch popup_sel_index
         imshow(vision_images.final_linea);
     case 7
         imshow(vision_images.original);
+    case 8
+        imshow(vision_images.Bordes);
 end
 
 % --- Executes during object creation, after setting all properties.
@@ -476,8 +480,8 @@ if (isnan(start_pos))
     msgbox('No se encontraron esquinas. Intente nuevamente.', 'Error','error');
 else
 flags.Processed=true;
-        set(handles.popupmenu1, 'String', {'Filtro verde procesado', 'Filtro rojo procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
-        set(handles.popupmenu3, 'String', {'Filtro rojo procesado', 'Filtro verde procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original'});
+        set(handles.popupmenu1, 'String', {'Filtro verde procesado', 'Filtro rojo procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original', 'Bordes de Hough'});
+        set(handles.popupmenu3, 'String', {'Filtro rojo procesado', 'Filtro verde procesado', 'Bordes de la hoja', 'Filtro verde rotado', 'Filtro rojo rotado','Imagen final','Imagen original', 'Bordes de Hough'});
 axes(handles.axes4);
 
 popup_sel_index = get(handles.popupmenu1, 'Value');
@@ -496,6 +500,8 @@ switch popup_sel_index
         imshow(vision_images.final_linea);
     case 7
         imshow(vision_images.original);
+    case 8
+        imshow(vision_images.Bordes);
 end
 
 

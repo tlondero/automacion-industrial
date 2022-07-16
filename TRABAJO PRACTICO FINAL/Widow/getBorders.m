@@ -1,10 +1,5 @@
-function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug_state)
+function [pos1,pos2,sum_bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug_state)
 
-    if ~exist('debug_state','var')
-        umax = 0;
-    end
-
-    green_filter = green_filter_l;
     [row,col] = size(green_filter_l);
 
     imlin = Hough(green_filter_l,'suppress',30,'edgethresh',0.0000002);
@@ -15,11 +10,11 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
 	y_min = NaN;
 	x_max = NaN;
 	y_max = NaN;
-	Bordes = NaN;
     warpedth_g = NaN;
     warpedth_r = NaN;
-    final_linea = NaN;
-    if(line_count==4)   % Chequeo que haya 4 elementos
+	sum_bordes = zeros(umax,vmax);    
+    final_linea = zeros(umax,vmax);
+    if(line_count>=4)   % Chequeo que haya 4 elementos
 
 		% Genera 4 imagenes, una con cada linea que obtuvo
 		imlinea1 = takeLine(lineas(1).rho,lineas(1).theta,col,row);
@@ -28,11 +23,14 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
 		imlinea4 = takeLine(lineas(4).rho,lineas(4).theta,col,row);
 
 		% Donde se superponen vale 2
-		bordes_esquinas = (imlinea1+imlinea2+imlinea3+imlinea4)==2;
-        Bordes = imlinea1+imlinea2+imlinea3+imlinea4;
+        sum_bordes = imlinea1+imlinea2+imlinea3+imlinea4;
+		esquinas = (sum_bordes) == 2;
         
-        if (sum(Bordes(:) == 2) == 4)        % Chequeo que haya 4 esquinas
-            [row_, col_] = find(bordes_esquinas);
+        four_corners = sum(esquinas(:) == 1) == 4;
+        more_than_four = sum(esquinas(:) > 1);
+        
+        if (four_corners && ~more_than_four)        % Chequeo que haya 4 esquinas
+            [row_, col_] = find(esquinas);
             posi = zeros(2,4);
             posi(2,:) = row_;
             posi(1,:) = col_;
@@ -70,10 +68,7 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
                 [y_min, x_min] = find(fin_sup',1,'first');
                 [y_max, x_max] = find(fin_sup',1,'last');
             end
-        end
-        
-        pos1 = [x_min, y_min];
-        pos2 = [x_max, y_max];
+        end  
 
         if (debug_state)
             figure();
@@ -102,5 +97,8 @@ function [pos1, pos2,Bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_
             title('Imagen final')
         end
     end
+    
+    pos1 = [x_min, y_min];
+    pos2 = [x_max, y_max];
 end
 
