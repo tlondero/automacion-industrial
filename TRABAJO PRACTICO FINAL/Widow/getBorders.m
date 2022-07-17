@@ -14,6 +14,7 @@ function [pos1,pos2,sum_bordes,warpedth_g,warpedth_r,final_linea]=getBorders(gre
     warpedth_r = NaN;
 	sum_bordes = zeros(umax,vmax);    
     final_linea = zeros(umax,vmax);
+
     if(line_count>=4)   % Chequeo que haya 4 elementos
 
 		% Genera 4 imagenes, una con cada linea que obtuvo
@@ -24,21 +25,32 @@ function [pos1,pos2,sum_bordes,warpedth_g,warpedth_r,final_linea]=getBorders(gre
 
 		% Donde se superponen vale 2
         sum_bordes = imlinea1+imlinea2+imlinea3+imlinea4;
-		esquinas = (sum_bordes) == 2;
+        %[extra_x,extra_y,added] = checkBiggerCorners(sum_bordes, ones(2,2));
+
+        csum_bordes = conv2(sum_bordes,ones(2,2),'valid');
+        csum_bordes = csum_bordes/max(max(csum_bordes));
         
-        four_corners = sum(esquinas(:) == 1) == 4;
-        more_than_four = sum(esquinas(:) > 1);
+        [x_cs, y_cs] = find(csum_bordes == 1);
+        [x_s, y_s] = find(sum_bordes == 2);
         
-        if (four_corners && ~more_than_four)        % Chequeo que haya 4 esquinas
-            [row_, col_] = find(esquinas);
+        row_ = [x_cs; x_s];
+        col_ = [y_cs; y_s];
+        [points, ~] = size(row_);
+        continue_delete = points > 4;
+        while(continue_delete)
+            [row_,col_,continue_delete] = deleteRedundancy(row_,col_);
+        end
+        [points, ~] = size(row_);
+        
+        if (points == 4)        % Chequeo que haya 4 esquinas
             posi = zeros(2,4);
             posi(2,:) = row_;
             posi(1,:) = col_;
-            posf = orderPoints(posi,[col-1,row-1]);
-
+            posf = orderPoints5(posi,[col-1,row-1]);           
+            
             % Se rota tanto la imagen verde como la roja
             matH = homography(posi,posf);
-            warpedth_g = (homwarp(matH,green_filter,'full'))>0.5;
+            warpedth_g = (homwarp(matH,green_filter_l,'full'))>0.5;
             warpedth_r = (homwarp(matH,red_filter_l,'full'))>0.5;
             
             % Se verifica si esta la hoja vertical
