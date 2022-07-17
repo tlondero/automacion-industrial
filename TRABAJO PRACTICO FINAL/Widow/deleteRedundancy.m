@@ -1,4 +1,4 @@
-function [row_,col_,deteled]=deleteRedundancy(row,col)
+function [row_,col_,deteled]=deleteRedundancy(row,col,tolerancy)
     row_ = row;
     col_ = col;
 	[row_max,~] = size(row);
@@ -8,9 +8,9 @@ function [row_,col_,deteled]=deleteRedundancy(row,col)
     for i=1:row_max
 		done = 0;
         for j=1:col_max
-            if((i ~= j) && (abs((row(i) - row(j))) <= 10))
-                row_(i) = [];
-				col_(i) = [];
+            if((i ~= j) && (abs((row(i) - row(j))) <= tolerancy))
+                row_(j) = [];
+				col_(j) = [];
                 done = 1;
                 break
             end			
