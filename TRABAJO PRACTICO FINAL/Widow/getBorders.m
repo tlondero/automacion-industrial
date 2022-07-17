@@ -41,7 +41,7 @@ function [pos1,pos2,sum_bordes,warpedth_g,warpedth_r,final_linea]=getBorders(gre
             [points, ~] = size(row_);
             continue_delete = points > 4;
             while(continue_delete)
-                [row_,col_,continue_delete] = deleteRedundancy(row_,col_,5);
+                [row_,col_,continue_delete] = deleteRedundancy(row_,col_,5,5);
             end
             
             [points, ~] = size(row_);
