@@ -25,28 +25,30 @@ function [pos1,pos2,sum_bordes,warpedth_g,warpedth_r,final_linea]=getBorders(gre
 
 		% Donde se superponen vale 2
         sum_bordes = imlinea1+imlinea2+imlinea3+imlinea4;
-        %[extra_x,extra_y,added] = checkBiggerCorners(sum_bordes, ones(2,2));
-
+        
+        % Hay casos en los que hay interseccion pero no hay superposicion
         csum_bordes = conv2(sum_bordes,ones(2,2),'valid');
         csum_bordes = csum_bordes/max(max(csum_bordes));
         
+        % Se toman todos los puntos que se encontraron
+        % Y se eliminan los similares
         [x_cs, y_cs] = find(csum_bordes == 1);
-        [x_s, y_s] = find(sum_bordes == 2);
-        
+        [x_s, y_s] = find(sum_bordes == 2);        
         row_ = [x_cs; x_s];
         col_ = [y_cs; y_s];
         [points, ~] = size(row_);
         continue_delete = points > 4;
         while(continue_delete)
             [row_,col_,continue_delete] = deleteRedundancy(row_,col_);
-        end
-        [points, ~] = size(row_);
+        end        
+        [row_,col_] = deleteRedundancy(row_,col_);        
         
+        [points, ~] = size(row_);
         if (points == 4)        % Chequeo que haya 4 esquinas
             posi = zeros(2,4);
             posi(2,:) = row_;
             posi(1,:) = col_;
-            posf = orderPoints5(posi,[col-1,row-1]);           
+            posf = orderPoints(posi,[col-1,row-1]);           
             
             % Se rota tanto la imagen verde como la roja
             matH = homography(posi,posf);
