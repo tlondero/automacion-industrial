@@ -304,7 +304,7 @@ function pushbutton2_Callback(hObject, eventdata, handles)
     xf = references.table_origin(1) + start_pos(2);
     yf = references.table_origin(2) - start_pos(1);
     downward = true;
-     P = BlackWidow.createDownwardTrajectory([xf, yf],10,downward);
+    P = BlackWidow.createDownwardTrajectory([xf, yf],10,downward);
     [~, col_P] = size(P);
     T = zeros(4,4,col_P);
     for i=1:col_P
@@ -331,14 +331,14 @@ function pushbutton2_Callback(hObject, eventdata, handles)
     X = [references.table_origin(1)+start_pos(2),references.table_origin(1)+end_pos(2)];
     Y = [references.table_origin(2)-start_pos(1),references.table_origin(2)-end_pos(1)];
     Z = [references.table_height,references.table_height];
-    plot3(X,Y,Z,'Color','red');
+    plot3(X,Y,Z,'Color', [rand, rand, rand], 'MarkerSize', 3, 'LineWidth', 2);
     %Me muevo para arriba
     BlackWidow.getWidowInPosition(0)
     cur_pos = BlackWidow.getPosition();
     xf = cur_pos(1);
     yf = cur_pos(2);
     downward = false;
-     P = BlackWidow.createDownwardTrajectory([xf, yf],10,downward);
+    P = BlackWidow.createDownwardTrajectory([xf, yf],10,downward);
     [~, col_P] = size(P);    
     T = zeros(4,4,col_P);
     for i=1:col_P
