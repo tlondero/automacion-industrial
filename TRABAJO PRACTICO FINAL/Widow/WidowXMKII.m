@@ -109,10 +109,15 @@ classdef WidowXMKII < handle
             yi=InitialPosition(2);
             xo=FinalPosition(1);
             yo=FinalPosition(2);
-            b=(yo-yi)/(xo-xi);
-            m=yo-xo*b;
-            x=linspace(xi,xo,step);
-            y=x*b+m;
+            if(xi ~= xo)
+                b=(yo-yi)/(xo-xi);
+                m=yo-xo*b;
+                x=linspace(xi,xo,step);
+                y=x*b+m;
+            else
+                y = linspace(yi,yo,step);
+                x = xo+y*0;
+            end
             T=[x;y];
         end
        

@@ -289,17 +289,21 @@ function pushbutton2_Callback(hObject, eventdata, handles)
     y0=cur_pos(2);
     xf = references.table_origin(1) + start_pos(2);
     yf = references.table_origin(2) - start_pos(1);
-     P_ = BlackWidow.createLineTrajectory([x0, y0],[xf, yf],20);
-    [~, col_P] = size(P_);
-    
-    P = [P_', ones(col_P,1).*cur_pos(3)]';    
-    T = zeros(4,4,col_P);
-    for i=1:col_P
-        T(:,:,i) = [R, P(:,i); 0, 0, 0, 1];
+    if((x0 ~= xf) && (y0 ~= yf))
+         P_ = BlackWidow.createLineTrajectory([x0, y0],[xf, yf],20);
+        [~, col_P] = size(P_);
+
+        P = [P_', ones(col_P,1).*cur_pos(3)]';    
+        T = zeros(4,4,col_P);
+        for i=1:col_P
+            T(:,:,i) = [R, P(:,i); 0, 0, 0, 1];
+        end
     end
     hold on
     drawTable(references.w_hoja, references.l_hoja, references.table_origin(1), references.table_origin(2), references.table_height);    
-    BlackWidow.moveWidow(T);    
+    if((x0 ~= xf) && (y0 ~= yf))
+        BlackWidow.moveWidow(T);   
+    end
     %me muevo para abajo
     xf = references.table_origin(1) + start_pos(2);
     yf = references.table_origin(2) - start_pos(1);
