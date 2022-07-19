@@ -1,4 +1,10 @@
 function [pos1,pos2,sum_bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug_state)
+% GETBORDERS obtiene las coordenadas iniciales y finales de la linea roja.
+% [pos1,pos2,sum_bordes,warpedth_g,warpedth_r,final_linea]=getBorders(green_filter_l, red_filter_l, umax, vmax, debug_state)
+% Recibe la imagen filtrada verde y roja (green_filter_l y red_filter_l),
+% las dimensiones finales de la hoja (umax y vmax) y una opcion de debug.
+% Devuelve las coordenadas de la linea roja (pos1 y pos2) y los filtros
+% usados en el proceso (sum_bordes,warpedth_g,warpedth_r y final_linea).
 
     [row,col] = size(green_filter_l);
     valid_filter = max(max(green_filter_l));
