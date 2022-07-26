@@ -79,19 +79,16 @@ X0 = [x_0 t1_0 t2_0 x_0d t1_0d t2_0d];
 pK = [-40 -8 -8 -1 -1 -0.5];
 K = acker(A, B, pK)
 
-pL = [-400 -80 -0.01 -10 -10.5 -0.01];
-L = acker(A', C', pL)';
+pL = [-20 -22 -25 -21 -27 -23];
+L = place(A', C', pL)';
 
 C_3 = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 1 0 0 0];
-C_obs = [C zeros(1,6)];
 A_obs = [(A-B*K) (B*K);
           zeros(6,6) (A-(L*C));];        
 B_obs = [B' zeros(1,6)];
+C_obs = [C_3 zeros(3,6)];
 
 L = place(A', C_3', pL)
 L = L';
-
-C_obs = [C_3 zeros(3,6)];
-
 
 sim(simulation,10);
