@@ -77,6 +77,13 @@ disp(['Observabilidad con posicion y velocidades: ' num2str(rank(obsv(A,C)))])
 
 %% Realimentacion de estados y observador Pendulo Doble
 
+x_0 = 0;
+t1_0 = 5*pi/180;
+t2_0 = 5*pi/180;
+x_0d = 0;
+t1_0d = 0;
+t2_0d = 0;
+
 X0 = [0 5*pi/180 5*pi/180 0 0 0];
 
 pK = [-40 -8 -8 -1 -1 -0.5];
