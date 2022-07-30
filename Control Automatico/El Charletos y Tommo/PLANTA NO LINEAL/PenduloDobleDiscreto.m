@@ -94,7 +94,7 @@ pK = [-40 -8 -8 -1 -1 -0.5];
 pKd = exp(pK.*Ts);
 Kd = acker(Ad, Bd, pKd)
 
-pL = [-400 -80 -0.01 -10 -10 -0.01];
+pL = pK.*8;
 pLd = exp(pL.*Ts);
 Ld = place(Ad', Cd', pLd)
 Ld = Ld';

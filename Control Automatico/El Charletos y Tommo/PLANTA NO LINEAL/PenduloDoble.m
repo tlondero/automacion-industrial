@@ -85,9 +85,9 @@ K = acker(A, B, pK)
 C = [1 0 0 0 0 0;
      0 0 0 0 1 0;
      0 0 0 0 0 1];
- 
+
 pL = pK.*8;
-L = (place(A', C', pL))
+L = place(A', C', pL)
 L = L';
 
 sim(simulation,10);
