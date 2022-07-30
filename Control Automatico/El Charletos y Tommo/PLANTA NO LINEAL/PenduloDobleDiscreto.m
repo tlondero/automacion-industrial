@@ -62,13 +62,27 @@ D = 0;
 %% Estabilidad, controlabilidad y observabilidad Pendulo Doble
 
 disp(['Estabilidad pendulo doble: ' num2str(eig(A)')])        %Es inestable, tengo dos polos en SPD
-disp(['Controlabilidad pendulo simple: ' num2str(rank(ctrb(A,B)))])    %Es controlable
-disp(['Observabilidad pendulo simple: ' num2str(rank(obsv(A,C)))])    %Se puede estimar las variables de estado observando la posición
+disp(['Controlabilidad pendulo doble: ' num2str(rank(ctrb(A,B)))])    %Es controlable
+disp(['Observabilidad con posicion del carro: ' num2str(rank(obsv(A,C)))])    %Se puede estimar las variables de estado observando la posición
+
+C = [1 0 0 0 0 0;
+     0 1 0 0 0 0;
+     0 0 1 0 0 0];
+disp(['Observabilidad con las tres posiciones: ' num2str(rank(obsv(A,C)))])
+ 
+C = [1 0 0 0 0 0;
+     0 0 0 0 1 0;
+     0 0 0 0 0 1]; 
+disp(['Observabilidad con posicion y velocidades: ' num2str(rank(obsv(A,C)))])
 
 %% Realimentacion de estados y observador DISCRETO
 
 Ts = 1e-3;
 X0 = [0 5*pi/180 5*pi/180 0 0 0];
+
+C = [1 0 0 0 0 0;
+     0 0 0 0 1 0;
+     0 0 0 0 0 1]; 
 
 sysd = c2d(ss(A,B,C,0), Ts, 'tustin');
 Ad = sysd.A;
@@ -82,7 +96,7 @@ Kd = acker(Ad, Bd, pKd)
 
 pL = [-400 -80 -0.01 -10 -10 -0.01];
 pLd = exp(pL.*Ts);
-Ld = acker(Ad', Cd', pLd)
+Ld = place(Ad', Cd', pLd)
 Ld = Ld';
 
 sim(simulation,10);
