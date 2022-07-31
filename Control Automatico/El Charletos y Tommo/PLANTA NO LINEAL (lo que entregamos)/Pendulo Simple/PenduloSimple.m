@@ -1,6 +1,6 @@
 clear all; clc;
 
-simulation = 'DoublePendulum';
+simulation = 'SimplePendulum';
 
 if ~bdIsLoaded(simulation)   % Abro SimuLink si no está abierto
     open_system(simulation)
