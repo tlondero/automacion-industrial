@@ -1,0 +1,51 @@
+\input{Header.tex}
+
+\begin{document}
+
+\def\verObs{0}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%		Caratula		%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setmainfont{AvenirLTStd-Roman}[Path = ./Utils/, Extension = .otf]
+
+\input{./Utils/Caratula_Fancy.tex}
+
+\setmainfont{calibri-regular}[Path = ./Utils/, Extension = .ttf, BoldFont=calibrib, ItalicFont=calibrii, BoldItalicFont=calibriz]
+\tableofcontents
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%
+%		Informe		%
+%%%%%%%%%%%%%%%%%%%%%
+
+\Section{Introducción}
+
+\Section{Modelo Teórico}
+\Subsection{Modelo Físico}
+\Subsection{Linealizaci\'on}
+\Section{Modelo de Control}
+\Subsection{Espacio de estados}
+\Subsection{Controlabilidad y Observabilidad}
+\Subsection{Realimentaci\'on de Estados}
+\Subsection{Observador}
+\Subsection{Discretizaci\'on}
+\Subsection{LoopShaping}
+\Section{Simulaciones}
+\Subsection{Modelo de Simscape}
+\Subsection{Simulink}
+\Section{An\'alisis de Resultados}
+\Subsection{Diferencias entre modelo y simulaci\'on}
+\Subsection{Error}
+\Section{Conclusiones}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{Imagenes/pend}
+	\caption{pend.}	
+	\label{fig:pend}
+\end{figure}
+\input{../Referencias/Referencias.tex}
+
+\end{document}
