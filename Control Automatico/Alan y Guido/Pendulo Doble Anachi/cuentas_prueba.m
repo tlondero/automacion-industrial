@@ -5,7 +5,7 @@ m0_value=1.5;
 m1_value=0.5;
 m2_value=0.75;
 L1_value=0.5;
-L2_value=0.75;
+L2_value=0.75/0.35;
 I1 = m1_value*((L1_value^2)/12);
 I2 = m2_value*((L2_value^2)/12);
 
