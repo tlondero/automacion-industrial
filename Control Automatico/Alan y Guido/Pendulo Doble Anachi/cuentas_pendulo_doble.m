@@ -52,12 +52,15 @@ B=[zeros(3,1);Bsublinear];
 C=eye(6);
 D=zeros(1,6);
 
-m0_value=1.5;
-m1_value=0.5;
-m2_value=0.75;
-L1_value=0.5;
-L2_value=0.75;
+m0_value=5;
+m1_value=1;
+m2_value=1;
+L1_value=1;
+L2_value=1.5;
 g_value=9.8;
+I0=0;
+I1 = m1_value*(((L1_value)^2)/12);
+I2 = m2_value*(((L2_value)^2)/12);
 
 A=double(subs(A, {'m0' 'm1' 'm2','L1','L2' 'g'}, {m0_value m1_value m2_value L1_value L2_value g_value}))
 B=double(subs(B, {'m0' 'm1' 'm2','L1','L2' 'g'}, {m0_value m1_value m2_value L1_value L2_value g_value}))
