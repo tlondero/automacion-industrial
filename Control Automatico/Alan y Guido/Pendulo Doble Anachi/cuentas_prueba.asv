@@ -9,35 +9,33 @@ L2_value=1.5;
 I0 = 0;
 I1 = m1_value*(((L1_value)^2)/12);
 I2 = m2_value*(((L2_value)^2)/12);
-F0 = 0.004;
-F1 = 0.004;
-F2 = 0.004;
+F0 = 
 
 %% Control por realimentación de estados
 %Del linearizer de simulink
 A = [0 0 0 1 0 0;
     0 0 0 0 1 0;
     0 0 0 0 0 1;
-    0 -3.1784 0.3973 -0.0008 0.0557 -0.0681
-    0 16.6865 -13.1108 0.0010 -0.4646 0.8734
-    0 -20.3946 35.6243 -0.0012 0.8734 -1.9842];
+    0 -3.178 0.3973 0 0 0
+    0 16.69 -13.11 0 0 0
+    0 -19.47 30 0 0 0];
 
-B = [0 ; 0 ; 0 ; 0.1892 ; -0.2432 ; 0.2973];
+B = [0 ; 0 ; 0 ; 0.1892 ; -0.2432 ; 0.2838];
 
 C = [1 0 0 0 0 0];
 
 D = [0];
-%Tener en cuenta: x1: p, x2: q1, x3: q2, x4: v, x5: w1, x6: w2
+%Tener en cuenta: x1: p, x2: v, x3: q, x4: w
 sys = ss(A,B,C,D);
 %Chequeamos controlabilidad, viendo que el rango de la matriz de
 %controlabilidad sea igual a la dimensión del espacio columna de la matriz
 %A.
 rank(ctrb(sys.A, sys.B));
-%El rango es seis, por lo que el sistema es controlable.
+%El rango es cuatro, por lo que el sistema es controlable.
 %Realizamos la realimentación de estados teniendo en cuenta que el
 %controlador debe ser lo suficientemente rapido para lograr controlar la
 %inestabilidad del polo del semiplano derecho.
-K = place(sys.A, sys.B, [-5 -4.5 -4 -3.5 -3 -2]);
+K = acker(sys.A, sys.B, [-5 -5 -5 -5 -5 -5]);
 %El algoritmo de acker presenta error en los lugares de los polos por mas
 %de un 10% de lo esperado, sin embargo el diseño se valida mediante la
 %simulación y se logra asi obtener ganancia mas pequenas.
