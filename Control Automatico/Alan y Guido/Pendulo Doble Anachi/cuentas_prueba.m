@@ -24,7 +24,9 @@ A = [0 0 0 1 0 0;
 
 B = [0 ; 0 ; 0 ; 0.1892 ; -0.2432 ; 0.2973];
 
-C = [1 0 0 0 0 0];
+C = [1 0 0 0 0 0;
+    0 1 0 0 0 0;
+    0 0 1 0 0 0];
 
 D = [0];
 %Tener en cuenta: x1: p, x2: q1, x3: q2, x4: v, x5: w1, x6: w2
@@ -37,31 +39,31 @@ rank(ctrb(sys.A, sys.B));
 %Realizamos la realimentación de estados teniendo en cuenta que el
 %controlador debe ser lo suficientemente rapido para lograr controlar la
 %inestabilidad del polo del semiplano derecho.
-K = place(sys.A, sys.B, [-5 -4.5 -4 -3.5 -3 -2]);
+K = place(sys.A, sys.B, [-4 -3.5 -3 -2.5 -2 -1.5]);
 %El algoritmo de acker presenta error en los lugares de los polos por mas
 %de un 10% de lo esperado, sin embargo el diseño se valida mediante la
 %simulación y se logra asi obtener ganancia mas pequenas.
 
-% %% Control por realimentación de estados con observador
-% %Estudiamos la observabilidad del sistema
-% rank(obsv(sys.A,sys.C));
-% %Como el rango de la matriz de observabilidad es 4 igual al orden de la
-% %matriz A, el sistema es observable.
-% %Calculo ganancias del observador, colocando sus polos diez veces más
-% %rápidos que los de la planta a lazo cerrado.
-% L = place((sys.A)',(sys.C)', [-25 -20 -35 -30 -30 -30])';
-% 
-% %% Control por realimentación de estados con observador discreto
-% %Selecciono periodo de muestreo
-% Ts = 0.1; %100ms
-% %Discretizo el sistema utilizando tustin.
-% sysDisc = c2d(sys, Ts, 'tustin');
-% %Calculo ganancias de realimentación.
-% KDisc = acker(sysDisc.A, sysDisc.B, exp([-11 -10 -10 -10 -10 -10].*Ts));
-% %Calculo ganancias del observador discreto.
-% LDisc = place((sysDisc.A)',(sysDisc.C)', exp([-20 -15 -25 -30 -30 -30].*Ts))';
-% 
-% 
+ %% Control por realimentación de estados con observador
+ %Estudiamos la observabilidad del sistema
+ rank(obsv(sys.A,sys.C));
+ %Como el rango de la matriz de observabilidad es 4 igual al orden de la
+ %matriz A, el sistema es observable.
+ %Calculo ganancias del observador, colocando sus polos diez veces más
+ %rápidos que los de la planta a lazo cerrado.
+ L = place((sys.A)',(sys.C)', [-4 -3.5 -3 -2.5 -2 -1.5].*15)';
+ 
+ %% Control por realimentación de estados con observador discreto
+ %Selecciono periodo de muestreo
+ Ts = 0.025; %25ms o 40Hz
+ %Discretizo el sistema utilizando tustin.
+ sysDisc = c2d(sys, Ts, 'tustin');
+ %Calculo ganancias de realimentación.
+ KDisc = acker(sysDisc.A, sysDisc.B, exp([-3.5 -3 -2.5 -2 -1.5 -1].*Ts));
+ %Calculo ganancias del observador discreto.
+ LDisc = place((sysDisc.A)',(sysDisc.C)', exp(([-4 -3.5 -3 -2.5 -2 -1.5].*20).*Ts))';
+ 
+ 
 % %% Control por realimentación de estados con acción integral
 % %Modificamos la matriz C para realizar la acción integral sobre la posición
 % %del carrito
