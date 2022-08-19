@@ -1,9 +1,76 @@
 %\input{../Informe/Header.tex}
-%
+%%
 %\begin{document}
 
 \Subsection{Espacio de estados}
+Luego de hacer la linealización del sistema :
+\begin{equation}
+ A = \begin{bmatrix}
+0 &  0 & 0 & 1 &  0 & 0\\
+
+0 &  0 & 0 & 0 &  1 & 0\\
+0 &  0 & 0 & 0 &  0 & 1\\
+
+0 &  -\frac{3g(2m_1^2 + 5m_1m_2 + 2m_2^2)}{2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2} & 
+\frac{3gm_1m_2}{2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2}  & 0 &  0 & 0\\
+
+0 &  \frac{3g(4m_1^2 + 9m_1m_2 + 4m_0m_1 + 2m_2^2 + 8m_0m_2)}{2L_1(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} & -\frac{9*g*(2m_0m_2 + m_1m_2)}{2L_1(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)}
+ & 0 &  0 & 0\\
+
+0 &   -\frac{9g(2m_0m_1 + 4m_0m_2 + 2m_1m_2 + m_1^2)}{2L_2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} & \frac{3g(4m_0m_1 + 12m_0m_2 + 4m_1m_2 + m_1^2)}{2L_2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} & 0 &  0 & 0
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+ B = \begin{bmatrix}
+0 \\
+0 \\
+0 \\
+\frac{4m_1 + 3m_2}{4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2} \\
+ -\frac{3(2m_1 + m_2)}{L_1(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} \\
+\frac{2m_2}{L_2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)}
+\end{bmatrix}
+\end{equation}
+Si se opta por los siguientes valores:
+\begin{equation}
+m_0 = 5 \ Kg
+\hspace{0.5cm}
+m_1 = 1 \ Kg
+\hspace{0.5cm}
+m_2 = 1 \ Kg
+\hspace{0.5cm}
+L_1 = 1 \ m
+\hspace{0.5cm}
+L_2 = 1.5 \ m
+\hspace{0.5cm}
+g= 9.8 \ \frac{m}{s^2}
+\end{equation}
+\
+Se obtiene:
+
+\begin{equation}
+ A = \begin{bmatrix}
+0 &  0 & 0 & 1 &  0 & 0\\
+0 &  0 & 0 & 0 &  1 & 0\\
+0 &  0 & 0 & 0 &  0 & 1\\
+0 &  -3.5757 & 0.3973 & 0 &  0 & 0\\
+0 &  29.7973 & -13.1108 & 0 &  0 & 0\\
+0 &  -26.2216 & 22.5135 & 0 &  0 & 0
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+ B = \begin{bmatrix}
+0 \\
+0 \\
+0 \\
+0.1892 \\
+-0.2432 \\
+0.036 
+\end{bmatrix}
+\end{equation}
 \Subsection{Controlabilidad y Observabilidad}
+Hablar de alcanzabilidad detectabilidad
+Observabilidad controlabilidad 
+Test PBH
 \Subsection{Realimentaci\'on de Estados}
 \Subsection{Observador}
 \Subsection{Discretizaci\'on}
