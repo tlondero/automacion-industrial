@@ -67,11 +67,62 @@ Se obtiene:
 0.036 
 \end{bmatrix}
 \end{equation}
+
 \Subsection{Controlabilidad y Observabilidad}
-Hablar de alcanzabilidad detectabilidad
-Observabilidad controlabilidad 
-Test PBH
+
+Se define al set de estados alcanzables $\mathcal{R}_t$ en un tiempo $t$ como aquellos estados en los que el sistema se puede encontrar. Por otro lado, se define al subespacio controlable $\mathcal{C}_{AB}$ como aquellos estados a los que se puede forzar el sistema mediante una entrada $u(t)$ apropiada. Se puede probar que para $t > 0$ el set de estados alcanzables $\mathcal{R}_t$ es igual que el subespacio controlable $\mathcal{C}_{AB}$.
+
+Se dice que el par $(A, B)$ es controlable, y por ende un sistema definido con esas matrices es controlable si la matriz de controlabilidad
+
+\begin{equation}
+[B \ AB \ \cdots \ A^{n-1}B]
+\end{equation}
+
+es de rango completo.
+
+Para el caso del péndulo doble, se tiene que
+
+\begin{equation}
+[B \ AB \ \cdots \ A^{n-1}B] = 	\begin{bmatrix}
+0       &  0.1892  & 0        & 0.8839  &  0         & 30.4554\\
+0       &  -0.2432 & 0        & -7.7189 &  0         & -324.2311\\
+0       &  0.0360  & 0        & 7.1876  &  0         & 364.2140\\
+0.1892  &  0       & 0.8839   & 0       &  30.4554   & 0\\
+-0.2432 &  0       & -7.7189  & 0       &  -324.2311 & 0\\
+0.0360  &  0       & 7.1876   & 0       &  364.2140  & 0
+\end{bmatrix}
+\end{equation}
+
+donde se puede observar que la matriz es de rango completo, por lo que el sistema es controlable.
+
+%Otro método más sofisticado para probar la controlabilidad de un sistema es el Test PBH, el cual se basa 
+
+Otros dos aspectos importantes del sistema son la detectabilidad y la observabilidad, dado que en la vida real muchas veces no es posible medir todas las variables del sistema. 
+
+El estudio de la observabilidad del sistema se basa en comprobar la posibilidad de estimar las variables de estado a partir de la salida. Por otro lado, un estudio más débil pero de igual importancia teórica es la detectabilidad. Un sistema es detectable si todos sus estados no observables son estables. Se puede probar que si el par $(C*,A*)$ es controlable, entonces el par $(A,C)$ es observable. 
+
+En el caso del problema estudiado, se tiene que, tomando
+
+\begin{equation}
+C = 	\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}
+\end{equation}
+
+luego
+
+\begin{equation}
+rank[C* \ A*C* \ \cdots \ A*^{n-1}C*]
+\end{equation}
+
+es de rango completo, por lo que el sistema será observable midiendo las variables de estado definidas por la matriz C.
+
+
 \Subsection{Realimentaci\'on de Estados}
+
+
 \Subsection{Observador}
 \Subsection{Discretizaci\'on}
 %\end{document}

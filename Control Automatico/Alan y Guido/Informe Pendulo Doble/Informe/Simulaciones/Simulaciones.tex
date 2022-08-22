@@ -3,5 +3,46 @@
 %\begin{document}
 
 \Subsection{Modelo de Simscape}
+
+Para lograr mayor apego a la realidad, se decidió utilizar un modelo con fricción obtenido utilizando el framework de Simscape de Simulink, que se pueden observar en las Figuras (\ref{fig:simscape}) y (\ref{fig:simscape_dp}).
+
+Los valores de fricción que se utilizaron para cada joint son de $0.004 \ \frac{N\cdot s}{m}$, resultando así en las siguientes matrices:
+
+\begin{equation}
+ A_{simscape} = \begin{bmatrix}
+0 &  0 & 0 & 1 &  0 & 0\\
+0 &  0 & 0 & 0 &  1 & 0\\
+0 &  0 & 0 & 0 &  0 & 1\\
+0 &  -3.1784 & 0.3973 & -0.0008 &  0.0557 & -0.0681\\
+0 &  16.6865 & -13.1108 & 0.001 &  -0.4646 & 0.8734\\
+0 &  -20.3946 & 35.6243 & -0.0012 &  0.8734 & -1.9842
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+ B_{simscape} = \begin{bmatrix}
+0 \\
+0 \\
+0 \\
+0.1892 \\
+-0.2432 \\
+0.2973 
+\end{bmatrix}
+\end{equation}
+
+de ahora en más llamadas simplemente A y B. Estas matrices son muy similares a las obtenidas teóricamente, con la excepción más notoria del corrimiento de uno de los dos polos en el origen hacia el semiplano izquierdo.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1.1\linewidth]{../Simulaciones/ImagenesSimulaciones/simscape.png}
+	\caption{Bloques de la simulación del péndulo doble realizada con el framework de Simscape en Simulink.}	
+	\label{fig:simscape}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{../Simulaciones/ImagenesSimulaciones/simscape_double_pendulum.png}
+	\caption{Simulación del péndulo doble realizada con el framework de Simscape en Simulink.}	
+	\label{fig:simscape_dp}
+\end{figure}
+
 \Subsection{Simulink}
 %\end{document}
