@@ -2,131 +2,133 @@
 %%
 %\begin{document}
 
-\Subsection{Espacio de estados}
-Luego de hacer la linealización del sistema :
-\begin{equation}
- A = \begin{bmatrix}
-0 &  0 & 0 & 1 &  0 & 0\\
-
-0 &  0 & 0 & 0 &  1 & 0\\
-0 &  0 & 0 & 0 &  0 & 1\\
-
-0 &  -\frac{3g(2m_1^2 + 5m_1m_2 + 2m_2^2)}{2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2} & 
-\frac{3gm_1m_2}{2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2}  & 0 &  0 & 0\\
-
-0 &  \frac{3g(4m_1^2 + 9m_1m_2 + 4m_0m_1 + 2m_2^2 + 8m_0m_2)}{2L_1(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} & -\frac{9*g*(2m_0m_2 + m_1m_2)}{2L_1(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)}
- & 0 &  0 & 0\\
-
-0 &   -\frac{9g(2m_0m_1 + 4m_0m_2 + 2m_1m_2 + m_1^2)}{2L_2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} & \frac{3g(4m_0m_1 + 12m_0m_2 + 4m_1m_2 + m_1^2)}{2L_2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} & 0 &  0 & 0
-\end{bmatrix}
-\end{equation}
-\begin{equation}
- B = \begin{bmatrix}
-0 \\
-0 \\
-0 \\
-\frac{4m_1 + 3m_2}{4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2} \\
- -\frac{3(2m_1 + m_2)}{L_1(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} \\
-\frac{2m_2}{L_2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)}
-\end{bmatrix}
-\end{equation}
-Si se opta por los siguientes valores:
-\begin{equation}
-m_0 = 5 \ Kg
-\hspace{0.5cm}
-m_1 = 1 \ Kg
-\hspace{0.5cm}
-m_2 = 1 \ Kg
-\hspace{0.5cm}
-L_1 = 1 \ m
-\hspace{0.5cm}
-L_2 = 1.5 \ m
-\hspace{0.5cm}
-g= 9.8 \ \frac{m}{s^2}
-\end{equation}
-\
-Se obtiene:
-
-\begin{equation}
- A = \begin{bmatrix}
-0 &  0 & 0 & 1 &  0 & 0\\
-0 &  0 & 0 & 0 &  1 & 0\\
-0 &  0 & 0 & 0 &  0 & 1\\
-0 &  -3.5757 & 0.3973 & 0 &  0 & 0\\
-0 &  29.7973 & -13.1108 & 0 &  0 & 0\\
-0 &  -26.2216 & 22.5135 & 0 &  0 & 0
-\end{bmatrix}
-\end{equation}
-\begin{equation}
- B = \begin{bmatrix}
-0 \\
-0 \\
-0 \\
-0.1892 \\
--0.2432 \\
-0.036 
-\end{bmatrix}
-\end{equation}
-
-\Subsection{Controlabilidad y Observabilidad}
-
-Se define al set de estados alcanzables $\mathcal{R}_t$ en un tiempo $t$ como aquellos estados en los que el sistema se puede encontrar. Por otro lado, se define al subespacio controlable $\mathcal{C}_{AB}$ como aquellos estados a los que se puede forzar el sistema mediante una entrada $u(t)$ apropiada. Se puede probar que para $t > 0$ el set de estados alcanzables $\mathcal{R}_t$ es igual que el subespacio controlable $\mathcal{C}_{AB}$.
-
-Se dice que el par $(A, B)$ es controlable, y por ende un sistema definido con esas matrices es controlable si la matriz de controlabilidad
-
-\begin{equation}
-[B \ AB \ \cdots \ A^{n-1}B]
-\end{equation}
-
-es de rango completo.
-
-Para el caso del péndulo doble, se tiene que
-
-\begin{equation}
-[B \ AB \ \cdots \ A^{n-1}B] = 	\begin{bmatrix}
-0       &  0.1892  & 0        & 0.8839  &  0         & 30.4554\\
-0       &  -0.2432 & 0        & -7.7189 &  0         & -324.2311\\
-0       &  0.0360  & 0        & 7.1876  &  0         & 364.2140\\
-0.1892  &  0       & 0.8839   & 0       &  30.4554   & 0\\
--0.2432 &  0       & -7.7189  & 0       &  -324.2311 & 0\\
-0.0360  &  0       & 7.1876   & 0       &  364.2140  & 0
-\end{bmatrix}
-\end{equation}
-
-donde se puede observar que la matriz es de rango completo, por lo que el sistema es controlable.
-
-%Otro método más sofisticado para probar la controlabilidad de un sistema es el Test PBH, el cual se basa 
-
-Otros dos aspectos importantes del sistema son la detectabilidad y la observabilidad, dado que en la vida real muchas veces no es posible medir todas las variables del sistema. 
-
-El estudio de la observabilidad del sistema se basa en comprobar la posibilidad de estimar las variables de estado a partir de la salida. Por otro lado, un estudio más débil pero de igual importancia teórica es la detectabilidad. Un sistema es detectable si todos sus estados no observables son estables. Se puede probar que si el par $(C*,A*)$ es controlable, entonces el par $(A,C)$ es observable. 
-
-En el caso del problema estudiado, se tiene que, tomando
-
-\begin{equation}
-C = 	\begin{bmatrix}
-1 & 0 & 0 & 0 & 0 & 0\\
-0 & 1 & 0 & 0 & 0 & 0\\
-0 & 0 & 1 & 0 & 0 & 0
-\end{bmatrix}
-\end{equation}
-
-luego
-
-\begin{equation}
-rank[C^* \ A^*C^* \ \cdots \ A^{*n-1}C^*]
-\end{equation}
-
-es de rango completo, por lo que el sistema será observable midiendo las variables de estado definidas por la matriz C.
-
 
 \Subsection{Realimentaci\'on de Estados}
 
+Partiendo del sistema con fricción de la simulación, se comprueba la controlabilidad de este de manera homóloga a la explicada en la Sección (\ref{sec:ctrbyobsv}). 
+
+
+
+
+Luego, se realizó la realimentación de estados utilizando el comando \textit{place} de Matlab, colocando a los polos según la Tabla (\ref{tab:realim}).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+\multicolumn{6}{c}{Posición de los Polos} \\ \midrule
+-3   & -2.5   & -2.4  & -2  & -1.9  & -1.8  \\ \bottomrule
+\end{tabular}
+\end{table}
+\label{tab:realim}
+
+La posición de los polos fue seleccionada de manera tal que el control sea rápido, pero no lo suficientemente rápido como para que la entrada no desvíe demasiado al sistema del punto de trabajo, lo cual haría que este se desestabilice ya que se está utilizando una técnica de control lineal en un sistema intrínsecamente no lineal.
+Quedando entonces las ganancias de realimentación de la siguiente manera
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+\multicolumn{6}{c}{Ganancias}                    \\ \midrule
+2.63 & 20.81 & 517.25 & 7.36 & 74.88 & 94.07 \\ \bottomrule
+\end{tabular}
+\end{table}
 
 \Subsection{Observador}
 
+Como paso siguiente, se implementó una realimentación de estados con observador. Para esto, se comprobó la observabilidad del sistema con fricción, midiendo la posición del carrito y ambas posiciones angulares para estimar las variables del sistema restantes.
+
+Se decidió colocar los polos del observador de manera tal que estos sean mucho más rápidos que los del sistema. Esto es para que la señal error entre las variables de estado y las estimaciones del observador converga rápidamente a cero. De esta manera, quedaron los polos del observador colocados según la Tabla (\ref{tab:obsv}).
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+\multicolumn{6}{c}{Posición de los Polos del Observador} \\ \midrule
+-30    & -25    & -24    & -20    & -19    & -18   \\ \bottomrule
+\end{tabular}
+\end{table}
+\label{tab:obsv}
+
+por lo que las ganancias del observador quedan
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+\multicolumn{6}{c}{Ganancias}                    \\ \midrule
+47.18 & 3.05  & 0.88  & 528.29 & 60.25  & 18.75  \\
+2.16  & 43.35 & 0.73  & 40     & 468.40 & 12.29  \\
+0.40  & 0.80  & 43.02 & 6.67   & 22.13  & 450.94 \\ \bottomrule
+\end{tabular}
+\end{table}
 
 \Subsection{Discretizaci\'on}
+
+Como último paso, se decidió pasar a tiempo discreto el sistema original con fricción utilizando la aproximación de Tustin con una tasa de muestreo de $25 \ ms$. Así quedando
+
+\begin{equation}
+ A = \begin{bmatrix}
+1 &  -0.0010  & 0.0001 & 0.0250 &  0      & 0\\
+0 &  1.0051  & -0.0040 & 0     &  0.0249 & 0.0002\\
+0 &  -0.0062 & 1.0109  & 0     &  0.0002 & 0.0245\\
+0 &  -0.0790  & 0.0092 & 1     &  0.0004 & -0.0015\\
+0 &  0.4114  & -0.3190 & 0     &  0.9938 & 0.0173\\
+0 &  -0.4971 & 0.8714 & 0     &  0.0151 & 0.9624
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+ B = \begin{bmatrix}
+0.0001 \\
+-0.0001 \\
+0.0001 \\
+0.0047 \\
+-0.0060 \\
+0.0072
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+ C = \begin{bmatrix}
+1 &  -0.0005  & 0.0001 & 0.0125 &  0      & 0\\
+0 &  1.0026  & -0.0020 & 0     &  0.0125 & 0.0001\\
+0 &  -0.0031 & 1.0054  & 0     &  0.0001 & 0.0123
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+ D = \begin{bmatrix}
+0.2952 \cdot 10^{-4} \\
+-0.3748 \cdot 10^{-4} \\
+0.4529  \cdot 10^{-4}
+\end{bmatrix}
+\end{equation}
+
+para luego realizar la realimentación de estados con observador, midiendo la posición del carrito y las posiciones angulares. Los polos se colocaron de manera siguiente
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}cccccc@{}}
+\toprule
+\multicolumn{6}{c}{Posición de los Polos (Plano Z)}                \\ \midrule
+0.9560    & 0.9531    & 0.9503    & 0.9418   & 0.9389   & 0.9361   \\ \midrule
+\multicolumn{6}{c}{Posición de los Polos del Observador (Plano Z)} \\ \midrule
+0.4066    & 0.3829    & 0.3606    & 0.3012   & 0.2837   & 0.2671   \\ \bottomrule
+\end{tabular}
+\end{table}
+
+quedando las ganancias de realimentación
+
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}clllll@{}}
+\toprule
+\multicolumn{6}{c}{Ganancias de Realimentación}                           \\ \midrule
+0.7006 & \multicolumn{1}{c}{-34.1842} & \multicolumn{1}{c}{339.4479} & \multicolumn{1}{c}{2.3704}  & \multicolumn{1}{c}{34.6514} & \multicolumn{1}{c}{56.0334} \\ \midrule
+\multicolumn{6}{c}{Ganancias de Realimentación del Observador}            \\ \midrule
+1.4308 & \multicolumn{1}{c}{0.0081}   & \multicolumn{1}{c}{0.0018}   & \multicolumn{1}{c}{28.9658} & \multicolumn{1}{c}{0.4876}  & \multicolumn{1}{c}{0.1119}  \\
+\multicolumn{1}{l}{0.0061} & 1.4318 & 0.0063 & 0.3489 & 29.0873 & 0.4613  \\
+\multicolumn{1}{l}{0.0007} & 0.0071 & 1.4153 & 0.0161 & 0.6202  & 27.7099 \\ \bottomrule
+\end{tabular}
+\end{table}
 
 
 %\end{document}

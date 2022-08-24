@@ -108,4 +108,122 @@ m_0+m_1+m_2 & \left( \frac{1}{2}m_1L_1 + m_2 \right) L_1\cos \theta_1  \frac{1}{
 \end{equation}
 Cabe mencionar que $M(\Theta)$ es una matriz simétrica no-singular, por lo que existe la inversa y también es simétrica.
 
+\Subsection{Espacio de estados}
+Luego de hacer la linealización del sistema :
+\begin{equation}
+ A = \begin{bmatrix}
+0 &  0 & 0 & 1 &  0 & 0\\
+
+0 &  0 & 0 & 0 &  1 & 0\\
+0 &  0 & 0 & 0 &  0 & 1\\
+
+0 &  -\frac{3g(2m_1^2 + 5m_1m_2 + 2m_2^2)}{2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2} & 
+\frac{3gm_1m_2}{2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2}  & 0 &  0 & 0\\
+
+0 &  \frac{3g(4m_1^2 + 9m_1m_2 + 4m_0m_1 + 2m_2^2 + 8m_0m_2)}{2L_1(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} & -\frac{9*g*(2m_0m_2 + m_1m_2)}{2L_1(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)}
+ & 0 &  0 & 0\\
+
+0 &   -\frac{9g(2m_0m_1 + 4m_0m_2 + 2m_1m_2 + m_1^2)}{2L_2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} & \frac{3g(4m_0m_1 + 12m_0m_2 + 4m_1m_2 + m_1^2)}{2L_2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} & 0 &  0 & 0
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+ B = \begin{bmatrix}
+0 \\
+0 \\
+0 \\
+\frac{4m_1 + 3m_2}{4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2} \\
+ -\frac{3(2m_1 + m_2)}{L_1(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)} \\
+\frac{2m_2}{L_2(4m_0m_1 + 3m_0m_2 + m_1m_2 + m_1^2)}
+\end{bmatrix}
+\end{equation}
+Si se opta por los siguientes valores:
+\begin{equation}
+m_0 = 5 \ Kg
+\hspace{0.5cm}
+m_1 = 1 \ Kg
+\hspace{0.5cm}
+m_2 = 1 \ Kg
+\hspace{0.5cm}
+L_1 = 1 \ m
+\hspace{0.5cm}
+L_2 = 1.5 \ m
+\hspace{0.5cm}
+g= 9.8 \ \frac{m}{s^2}
+\end{equation}
+\
+Se obtiene:
+
+\begin{equation}
+ A = \begin{bmatrix}
+0 &  0 & 0 & 1 &  0 & 0\\
+0 &  0 & 0 & 0 &  1 & 0\\
+0 &  0 & 0 & 0 &  0 & 1\\
+0 &  -3.5757 & 0.3973 & 0 &  0 & 0\\
+0 &  29.7973 & -13.1108 & 0 &  0 & 0\\
+0 &  -26.2216 & 22.5135 & 0 &  0 & 0
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+ B = \begin{bmatrix}
+0 \\
+0 \\
+0 \\
+0.1892 \\
+-0.2432 \\
+0.036 
+\end{bmatrix}
+\end{equation}
+
+\Subsection{Controlabilidad y Observabilidad}
+\label{sec:ctrbyobsv}
+
+Se define al set de estados alcanzables $\mathcal{R}_t$ en un tiempo $t$ como aquellos estados en los que el sistema se puede encontrar. Por otro lado, se define al subespacio controlable $\mathcal{C}_{AB}$ como aquellos estados a los que se puede forzar el sistema mediante una entrada $u(t)$ apropiada. Se puede probar que para $t > 0$ el set de estados alcanzables $\mathcal{R}_t$ es igual que el subespacio controlable $\mathcal{C}_{AB}$.
+
+Se dice que el par $(A, B)$ es controlable, y por ende un sistema definido con esas matrices es controlable si la matriz de controlabilidad
+
+\begin{equation}
+[B \ AB \ \cdots \ A^{n-1}B]
+\end{equation}
+
+es de rango completo.
+
+Para el caso del péndulo doble, se tiene que
+
+\begin{equation}
+[B \ AB \ \cdots \ A^{n-1}B] = 	\begin{bmatrix}
+0       &  0.1892  & 0        & 0.8839  &  0         & 30.4554\\
+0       &  -0.2432 & 0        & -7.7189 &  0         & -324.2311\\
+0       &  0.0360  & 0        & 7.1876  &  0         & 364.2140\\
+0.1892  &  0       & 0.8839   & 0       &  30.4554   & 0\\
+-0.2432 &  0       & -7.7189  & 0       &  -324.2311 & 0\\
+0.0360  &  0       & 7.1876   & 0       &  364.2140  & 0
+\end{bmatrix}
+\end{equation}
+
+donde se puede observar que la matriz es de rango completo, por lo que el sistema es controlable.
+
+%Otro método más sofisticado para probar la controlabilidad de un sistema es el Test PBH, el cual se basa 
+
+Otros dos aspectos importantes del sistema son la detectabilidad y la observabilidad, dado que en la vida real muchas veces no es posible medir todas las variables del sistema. 
+
+El estudio de la observabilidad del sistema se basa en comprobar la posibilidad de estimar las variables de estado a partir de la salida. Por otro lado, un estudio más débil pero de igual importancia teórica es la detectabilidad. Un sistema es detectable si todos sus estados no observables son estables. Se puede probar que si el par $(C^*,A^*)$ es controlable, entonces el par $(A,C)$ es observable. 
+
+En el caso del problema estudiado, se tiene que, midiendo la posición del carrito y las dos posiciones angulares, es decir
+
+\begin{equation}
+C = 	\begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0\\
+0 & 1 & 0 & 0 & 0 & 0\\
+0 & 0 & 1 & 0 & 0 & 0
+\end{bmatrix}
+\end{equation}
+
+luego
+
+\begin{equation}
+[C^* \ A^*C^* \ \cdots \ A^{*n-1}C^*]
+\end{equation}
+
+es de rango completo, por lo que el sistema será observable midiendo las variables de estado definidas por la matriz C.
+
 %\end{document}

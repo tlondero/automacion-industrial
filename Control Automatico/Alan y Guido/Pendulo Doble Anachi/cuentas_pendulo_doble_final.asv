@@ -55,7 +55,7 @@ rank(ctrb(sys.A, sys.B));
 %Realizamos la realimentación de estados teniendo en cuenta que el
 %controlador debe ser lo suficientemente rapido para lograr controlar la
 %inestabilidad del polo del semiplano derecho.
-K = place(sys.A, sys.B, [-3 -2.5 -2.4 -2 -1.9 -1.8]);
+K = place(sys.A, sys.B, [-3 -2.5 -2.4 -2 -2.2 -2.1]);
 %El algoritmo de acker presenta error en los lugares de los polos por mas
 %de un 10% de lo esperado, sin embargo el diseño se valida mediante la
 %simulación y se logra asi obtener ganancia mas pequenas.
@@ -67,7 +67,7 @@ K = place(sys.A, sys.B, [-3 -2.5 -2.4 -2 -1.9 -1.8]);
  %matriz A, el sistema es observable.
  %Calculo ganancias del observador, colocando sus polos diez veces más
  %rápidos que los de la planta a lazo cerrado.
- L = place((sys.A)',(sys.C)', [-3 -2.5 -2.4 -2 -1.9 -1.8].*10)';
+ L = place((sys.A)',(sys.C)', [-3 -2.5 -2.4 -2.3 -2.2 -2.1].*10)';
  
  %% Control por realimentación de estados con observador discreto
  %Selecciono periodo de muestreo
