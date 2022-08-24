@@ -34,6 +34,15 @@ Quedando entonces las ganancias de realimentación de la siguiente manera
 \end{tabular}
 \end{table}
 
+Se puede observar en la Figura (\ref{fig:realim}) la simulación en bloques implementada en Simulink.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{../Modelo de Control/ImagenesModelo de Control/realim.png}
+	\caption{Simulación en bloques de la realimentación de estados.}	
+	\label{fig:realim}
+\end{figure}
+
 \Subsection{Observador}
 
 Como paso siguiente, se implementó una realimentación de estados con observador. Para esto, se comprobó la observabilidad del sistema con fricción, midiendo la posición del carrito y ambas posiciones angulares para estimar las variables del sistema restantes.
@@ -63,9 +72,18 @@ por lo que las ganancias del observador quedan
 \end{tabular}
 \end{table}
 
+Se puede observar en la Figura (\ref{fig:obsv}) la simulación en bloques implementada en Simulink.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{../Modelo de Control/ImagenesModelo de Control/obsv.png}
+	\caption{Simulación en bloques de la realimentación de estados con observador.}	
+	\label{fig:obsv}
+\end{figure}
+
 \Subsection{Discretizaci\'on}
 
-Como último paso, se decidió pasar a tiempo discreto el sistema original con fricción utilizando la aproximación de Tustin con una tasa de muestreo de $25 \ ms$. Así quedando
+Como último paso, se decidió pasar a tiempo discreto el sistema original con fricción utilizando la aproximación de Tustin con una tasa de muestreo de $30 \ ms$. Así quedando
 
 \begin{equation}
  A = \begin{bmatrix}
@@ -129,6 +147,15 @@ quedando las ganancias de realimentación
 \multicolumn{1}{l}{0.0007} & 0.0071 & 1.4153 & 0.0161 & 0.6202  & 27.7099 \\ \bottomrule
 \end{tabular}
 \end{table}
+
+Se puede observar en la Figura (\ref{fig:obsv_disc}) la simulación en bloques implementada en Simulink.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{../Modelo de Control/ImagenesModelo de Control/obsv_disc.png}
+	\caption{Simulación en bloques de la realimentación de estados con observador discreto.}	
+	\label{fig:obsv_disc}
+\end{figure}
 
 
 %\end{document}
