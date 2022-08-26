@@ -2,12 +2,11 @@
 %%
 %\begin{document}
 
-En este trabajo fue posible modelar una planta física a través de la formulación de Euler-Lagrange, y la linealización del mismo. También se definió la observablidad y controlabilidad del sistema, tanto mediante cuentas analíticas como por inspección de diagramas de Mason, que en caso de estos diagramas se optó por realizarlos para los tres casos estudiados, siendo estos sistema con fricción midiendo posición y ángulos de los joints, midiendo únicamente la posición, y el caso en el que se mide únicamente la posición y no hay fricción.
-Adicionalmente se diseñaron lazos de control por realimentación de estados, para el caso continuo como discreto y también para el caso de ampliar el sistema para realizar un control integral. Cabe mencionar que también se optó por implementar un observador para dichos sistemas.
+En este trabajo fue posible modelar una planta física a través de la formulación de Euler-Lagrange y la linealización del mismo. También se definió la observabilidad y controlabilidad del sistema, tanto mediante cuentas analíticas como por inspección de diagramas de Mason. En el caso de estos, se optó por realizarlos para los tres casos estudiados, siendo estos: el sistema con fricción midiendo posición y ángulos de los joints; el sistema midiendo únicamente la posición; y el caso en el que se mide únicamente la posición y no hay fricción.
+Adicionalmente se diseñaron lazos de control por realimentación de estados, tanto para el caso continuo como para el caso discreto discreto y también para el caso del sistema ampliado para realizar un control integral. Cabe mencionar que también se implementaron observadores para dichos sistemas exceptuando aquel con control integral.
 
 
+Se aprendió aun más acerca del paquete Simscape y Simulink. Con ayuda de este, se pudo graficar la planta de manera dinámica y estética, realizar una comparativa entre los resultados de las diversas plantas y la velocidad con las que estas alcanzan a la referencia y analizar el error que presenta el observador comparado con el sistema realimentado idealmente.
 
-Se aprendió aun mas acerca del paquete Simscape y Simulink. Con ayuda de este pudiendo graficar la planta de manera dinámica y estética. Pudiendo también a partir de los gráficos realizados hacer una comparativa entre los resultados entre las diversas plantas y la velocidad con las que estas alcanzan a la referencia. Y el error que presenta el observador comparado con el sistema realimentado idealmente.
-
-Finalmente se realizó una pequeña comparativa entre el problema del Doble péndulo invertido con carrito y el pédulo invertido con carrito simple.
+Finalmente se realizó una pequeña comparativa entre el problema del doble péndulo invertido con carrito y el pédulo invertido con carrito simple.
 %\end{document}
