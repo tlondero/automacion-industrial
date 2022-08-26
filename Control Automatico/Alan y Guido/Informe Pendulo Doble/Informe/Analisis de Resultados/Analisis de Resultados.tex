@@ -58,4 +58,27 @@
 
 \Subsection{Integral}
 
+\Subsection{Comparativa con péndulo invertido simple}
+Para comenzar la principal diferencia entre estos dos sistemas es la cantidad de variables de estados con los que cuentan ambos sistemas.
+Dado a que uno es una versión mas compleja del otro.
+\begin{figure}[H]
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.95\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/equilibrio.png}
+  \caption{Simple.}
+  \label{fig:sfig1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=0.95\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/simscape_double_pendulum.png}
+  \caption{Doble.}
+  \label{fig:sfig2}
+\end{subfigure}
+\caption{Péndulo invertido.}
+\label{fig:fig}
+\end{figure}
+Si bien esto es cierto, si se opta poro cambiar los parámetros de segundo, haciendo que el segundo link tenga una longitud que tienda a cero, ambos sistemas coinciden, como es de esperarse.
+
+Si bien ambos sistemas son estrictamente observables en todos los casos de fricción tomando mediciones únicamente de la posición, por lo explicado anteriormente en la realidad realizar el control del péndulo doble midiendo únicamente la posición resulta mucho mas difícil, que en el caso del péndulo simple.
+También resulta curioso que en el caso del péndulo simple, al ampliar el sistema para realizar el control integral el péndulo simple con roce y amortiguamiento resulta que no es controlable.
 %\end{document}
