@@ -6,14 +6,14 @@
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/realim_posref.png}
-	\caption{pendiente.}	
+	\caption{Comparación entre la posición de referencia (azul) y la posición medida (naranja) para el caso de la realimentación ideal de estados.}	
 	\label{fig:realim_posref}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/realim_vars.png}
-	\caption{pendiente.}	
+	\caption{Posiciones angulares y del carrito del sistema para el caso de la realimentación ideal de estados.}	
 	\label{fig:realim_vars}
 \end{figure}
 
@@ -22,14 +22,14 @@
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/obsv_posref.png}
-	\caption{pendiente.}	
+	\caption{Comparación entre la posición de referencia (azul) y la posición medida (naranja) para el caso de la realimentación de estados con observador.}	
 	\label{fig:obsv_posref}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/obsv_vars.png}
-	\caption{pendiente.}	
+	\caption{Posiciones angulares y del carrito del sistema para el caso de la realimentación de estados con observador junto a las estimaciones de las mismas señales del observador en linea punteada.}	
 	\label{fig:obsv_vars}
 \end{figure}
 
@@ -38,29 +38,29 @@
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/obsv_disc_posref.png}
-	\caption{pendiente.}	
+	\caption{Comparación entre la posición de referencia (azul) y la posición medida (naranja) para el caso de la realimentación de estados con observador discreto.}	
 	\label{fig:obsv_disc_posref}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/obsv_disc_posdisc.png}
-	\caption{pendiente.}	
+	\caption{Detalle de las señales de posición real y posición estimada del observador discreto.}	
 	\label{fig:obsv_disc_posdisc}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/disc_vs_ideal_vars.png}
-	\caption{pendiente.}	
+	\caption{Comparación de las posiciones angulares y de carrito para los casos de realimentación de estados ideal y realimentación de estados con observador discreto.}	
 	\label{fig:disc_vs_ideal_vars}
 \end{figure}
 
 \Subsection{Integral}
 
 \Subsection{Comparativa con péndulo invertido simple}
-Para comenzar la principal diferencia entre estos dos sistemas es la cantidad de variables de estados con los que cuentan ambos sistemas.
-Dado a que uno es una versión mas compleja del otro.
+Para comenzar, la principal diferencia entre estos dos sistemas es la cantidad de variables de estados con los que cuentan ambos sistemas.
+Esto se debe a que uno es una versión más compleja mecánica del otro.
 \begin{figure}[H]
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -77,8 +77,8 @@ Dado a que uno es una versión mas compleja del otro.
 \caption{Péndulo invertido.}
 \label{fig:fig}
 \end{figure}
-Si bien esto es cierto, si se opta poro cambiar los parámetros de segundo, haciendo que el segundo link tenga una longitud que tienda a cero, ambos sistemas coinciden, como es de esperarse.
+Si bien esto es cierto, si se opta por cambiar los parámetros de segundo, haciendo que el segundo link tenga una longitud que tienda a cero, ambos sistemas coinciden, como es de esperarse.
 
-Si bien ambos sistemas son estrictamente observables en todos los casos de fricción tomando mediciones únicamente de la posición, por lo explicado anteriormente en la realidad realizar el control del péndulo doble midiendo únicamente la posición resulta mucho mas difícil, que en el caso del péndulo simple.
-También resulta curioso que en el caso del péndulo simple, al ampliar el sistema para realizar el control integral el péndulo simple con roce y amortiguamiento resulta que no es controlable.
+Ambos sistemas son estrictamente observables en todos los casos de fricción tomando mediciones únicamente de la posición por lo explicado anteriormente. Sin embargo, en la realidad, realizar el control del péndulo doble midiendo únicamente la posición resulta mucho mas difícil, que en el caso del péndulo simple.
+También resulta curioso que en ambos casos al ampliar el sistema para realizar el control integral con roce y amortiguamiento estos no son controlables.
 %\end{document}
