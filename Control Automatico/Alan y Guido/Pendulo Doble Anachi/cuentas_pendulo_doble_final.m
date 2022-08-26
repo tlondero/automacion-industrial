@@ -30,20 +30,20 @@ C = [1 0 0 0 0 0;
 
 D = [0];
 
-A_orig = [0 0 0 1 0 0;
-    0 0 0 0 1 0;
-    0 0 0 0 0 1;
-    0 -3.5757 0.3973 0 0 0;
-    0 29.7973 -13.1108 0 0 0;
-    0 -26.2216 22.5135 0 0 0];
-
-B_orig = [0 ; 0 ; 0 ; 0.1892 ; -0.2432 ; 0.036];
-
-C_orig = [1 0 0 0 0 0;
-    0 1 0 0 0 0;
-    0 0 1 0 0 0];
-
-sys_orig = ss(A_orig, B_orig, C, D);
+%A_orig = [0 0 0 1 0 0;
+%    0 0 0 0 1 0;
+%    0 0 0 0 0 1;
+%    0 -3.5757 0.3973 0 0 0;
+%    0 29.7973 -13.1108 0 0 0;
+%    0 -26.2216 22.5135 0 0 0];
+%
+%B_orig = [0 ; 0 ; 0 ; 0.1892 ; -0.2432 ; 0.036];
+% 
+% C_orig = [1 0 0 0 0 0;
+%     0 1 0 0 0 0;
+%     0 0 1 0 0 0];
+% 
+% sys_orig = ss(A_orig, B_orig, C, D);
 
 %Tener en cuenta: x1: p, x2: q1, x3: q2, x4: v, x5: w1, x6: w2
 sys = ss(A,B,C,D);
@@ -77,7 +77,7 @@ K = place(sys.A, sys.B, [-3 -2.5 -2.4 -2 -1.9 -1.8]);
  %Calculo ganancias de realimentación.
  KDisc = place(sysDisc.A, sysDisc.B, exp([-1.5 -1.6 -1.7 -2 -2.1 -2.2].*Ts));
  %Calculo ganancias del observador discreto.
- LDisc = place((sysDisc.A)',(sysDisc.C)', exp(([-1.5 -1.6 -1.7 -2 -2.1 -2.2].*50).*Ts))';
+ LDisc = place((sysDisc.A)',(sysDisc.C)', exp(([-1.5 -1.6 -1.7 -2 -2.1 -2.2].*20).*Ts))';
  
  
  %% Control por realimentación de estados con acción integral
