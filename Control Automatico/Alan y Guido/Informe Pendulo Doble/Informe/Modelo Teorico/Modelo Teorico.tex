@@ -226,9 +226,8 @@ luego
 
 es de rango completo, por lo que el sistema será observable midiendo las variables de estado definidas por la matriz C.
 \Subsubsection{Estudio con diagramas de Mason}
-En la modelización de la planta como se verá en la seccion (\ref{sec:simulacionessimscape}) se debate entre el sistema con y sin fricción.
-Por lo que a continuación se define la observabilidad y controlabilidad de ambos sistemas. Por lo que se realizaron los diagramas de Mason para cada sistema.
-Asumiendo un espacio en variables de la siguiente forma:
+En la modelización de la planta como se verá en la sección (\ref{sec:simulacionessimscape}) se debate entre el sistema con y sin fricción.
+En la sección anterior se definió y estudió la observabilidad y controlabilidad del sistema sin fricción. A continuación se realizará el estudio y la comparación de la controlabilidad y observabilidad para ambos sistemas utilizando diagramas de Mason asumiendo un sistema en espacio de estados de la siguiente forma:
 \begin{equation}
  A = \begin{bmatrix}
 0 &  0 & 0 & 1 &  0 & 0\\
@@ -257,7 +256,7 @@ c_1 & 0 & 0 & 0 & 0 & 0\\
 \end{bmatrix}
 \end{equation}
 \Subsubsubsection{Sistema con fricción y mediciones de $\theta_1$, $\theta_2$ y $x_0$}
-A continuación se ve el diagrama de Mason para el sistema mencionado.
+A continuación se presenta el diagrama de Mason para el sistema con fricción y mediciones de $\theta_1$, $\theta_2$ y $x_0$.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth,page = 1]{../Modelo Teorico/ImagenesModelo Teorico/Mason.pdf}
@@ -265,37 +264,38 @@ A continuación se ve el diagrama de Mason para el sistema mencionado.
 	\label{fig:masonsisfyxomf}
 \end{figure}
 
-En el caso de la controlabilidad se hará un solo estudio debido a que es el mismo para los 3 casos que observaremos. Se observa que se puede llegar desde la acción de control a todas las variables de estado con un recorrido corto.
+Para el caso de la controlabilidad, se hará un solo estudio debido a que es el mismo para los 3 casos que observaremos. Se puede arribar desde la entrada a todas las variables de estado con un recorrido corto:
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth,page = 2]{../Modelo Teorico/ImagenesModelo Teorico/Mason.pdf}
 	\caption{Diagrama de Mason marcando la controlabilidad.}	
 	\label{fig:masonsisfyxofmC}
 \end{figure}
-Luego veremos la observabilidad, que en el caso del sistema con fricción y midiendo la posición y ángulos, se nota que el nivel de anidamiento de las variables de estado es de un solo nivel, teniendo que para medir las variables $x_6$, $x_5$ y $x_4$, basta con derivar las salidas. 
+por lo que todos los casos estudiados son controlables bajo las condiciones mencionadas.
+Para el estudio de observabilidad, se desea comprobar que es posible arribar a alguna salida partiendo de la derivada de cada variable de estado. En el caso del sistema con fricción y midiendo la posición y ángulos se nota que el nivel de anidamiento de las variables de estado es de un solo nivel, teniendo que para medir las variables $x_6$, $x_5$ y $x_4$, basta con derivar las salidas. 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth,page = 3]{../Modelo Teorico/ImagenesModelo Teorico/Mason.pdf}
 	\caption{Diagrama de Mason marcando la observabilidad.}	
 	\label{fig:masonsisfyxofmO}
 \end{figure}
-Por lo que el sistema es sumamente observable.
+Por lo que resulta muy claro que el sistema es observable.
 \Subsubsubsection{Sistema con fricción y mediciones de $x_0$}
-Aqui se muestra el diagrama de mason del sistema con fricción y mediciones únicamente de $x_0$. Este sistema tiene la particularidad de que al tener una única salida por $x_1$ llegar a todas las variables de estado se torna mas dificil.
+Aquí se muestra el diagrama de Mason del sistema con fricción y mediciones únicamente de $x_0$. Este sistema tiene la particularidad de que al tener una única salida por $x_1$ llegar a todas las variables de estado se torna mucho más dificil.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth,page = 4]{../Modelo Teorico/ImagenesModelo Teorico/Mason.pdf}
 	\caption{Diagrama de Mason del sistema con fricción y mediciones de $x_0$.}	
 	\label{fig:masonsisfyxom}
 \end{figure}
-Aqui veremos el camino que debe realizar cada variable de estado para llegar a la salida, o visto de otra manera el camino inverso que debe hacer el observador para estimar dichas variables.
+Aquí veremos el camino que debe realizar cada variable de estado para llegar a la salida, o visto de otra manera, el camino inverso que debe hacer el observador para estimar dichas variables.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1.2\linewidth,page = 5]{../Modelo Teorico/ImagenesModelo Teorico/Mason.pdf}
 	\caption{Diagrama de Mason marcando observabilidad.}	
 	\label{fig:masonsisfyxomO}
 \end{figure}
-Se observa que En este caso el camino hacia la salida es mucho menos directo, y todas las variables de estado pasan por la variable $x_4$ por lo que el anidamiento es superior al caso anterior y estimar las variables se torna mas dificil, teniendo en cuenta que ahora estan multiplicadas por las ganancias $a,b,c,$ etc.
+Se observa que en este caso el camino hacia la salida es mucho menos directo. Todas las variables de estado pasan por la variable $x_4$ por lo que el anidamiento es superior al caso anterior y estimar las variables se torna mas difícil, teniendo en cuenta que ahora están multiplicadas por las ganancias $a,b,c,...$ etc.
 Si bien en el sentido estricto de la palabra el sistema es completamente observable al igual que el anterior, en una aplicación real, teniendo en cuenta las diversas fuentes de ruido, este sistema resulta significativamente mas difícil de observar.
 \Subsubsubsection{Sistema sin fricción y mediciones de $x_0$}
 Finalmente observaremos el caso del sistema ideal sin fricción, midiendo únicamente la posición. El diagrama de Mason correspondiente es el siguiente:
@@ -305,7 +305,7 @@ Finalmente observaremos el caso del sistema ideal sin fricción, midiendo única
 	\caption{Diagrama de Mason del sistema sin fricción y mediciones de $x_0$.}	
 	\label{fig:masonsisyxom}
 \end{figure}
-En este caso se observa el mayor nivel de anidamiento de los 3 casos, resultando en el sistema que si se intentase replicar en la realidad menos probabilidad de éxito tendría. Si bien en el caso ideal funcionaría no es así en la realidad.
+En este caso se observa el mayor nivel de anidamiento de los tres casos. Si se intentase replicar a este sistema con un observador midiendo únicamente la posición $x_0$ en la realidad, menor probabilidad de éxito tendría. Si bien en el caso ideal funcionaría no es así en la realidad.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth,page = 7]{../Modelo Teorico/ImagenesModelo Teorico/Mason.pdf}

@@ -6,6 +6,8 @@ La señal de entrada será un escalón, la cual será la referencia a seguir, y 
 Adicionalmente en el segundo 10 se perturba al péndulo al aplicarle una fuerza sobre el segundo link. Y luego en el segundo 18 de simulación se procede a desactivar el sistema de control, por lo que se perderá la condición de equilibrio.
 \Subsection{Realimentación de Estados}
 
+En la Figura (\ref{fig:realim_posref}) y a lo largo de todas las demás figuras se puede observar la típica respuesta a un sistema con singularidades en el semiplano derecho. Esta respuesa se ve caracterizada por un pequeño desplazamiento hacia la dirección contraria respecto de la señal de referencia.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/realim_posref.png}
@@ -20,7 +22,11 @@ Adicionalmente en el segundo 10 se perturba al péndulo al aplicarle una fuerza 
 	\label{fig:realim_vars}
 \end{figure}
 
+Para el caso de la realimentación ideal de estados, se puede notar una respuesta al escalón filtrado sin sobrepico para la posición y robustez general ante disturbios. 
+
 \Subsection{Observador}
+
+El sistema con observador presenta mayor sobrepico que el sistema anterior, sin embargo los tiempos para volver a la referencia son similares.
 
 \begin{figure}[H]
 	\centering
@@ -36,7 +42,11 @@ Adicionalmente en el segundo 10 se perturba al péndulo al aplicarle una fuerza 
 	\label{fig:obsv_vars}
 \end{figure}
 
+En la Figura (\ref{fig:obsv_vars}) se puede observar como las señales del observador logran mantenerse muy cerca de las posiciones medidas.
+
 \Subsection{Discretización}
+
+En el caso discreto se debió ralentizar levemente los polos por efecto de la discretización. Esto se puede notar en la Figura (\ref{fig:obsv_disc_posref}) dado que el sistema tarda más en seguir la referencia.
 
 \begin{figure}[H]
 	\centering
@@ -45,12 +55,18 @@ Adicionalmente en el segundo 10 se perturba al péndulo al aplicarle una fuerza 
 	\label{fig:obsv_disc_posref}
 \end{figure}
 
+En la Figura (\ref{fig:obsv_disc_posdisc}) se puede observar una comparación entre la posición real medida y aquella estimada utilizando el observador discreto. 
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/obsv_disc_posdisc.png}
 	\caption{Detalle de las señales de posición real y posición estimada del observador discreto.}	
 	\label{fig:obsv_disc_posdisc}
 \end{figure}
+
+Finalmente, se pueden observar en la Figura (\ref{fig:disc_vs_ideal_vars}) las posiciones tanto del carrito como las angulares comparadas entre el sistema de realimentación ideal de estados y el sistema con observador discreto. 
+
+Se puede notar cómo debido al muestreo y su introducción del cero en el semiplano derecho el sistema se vuelve mucho más inestable.
 
 \begin{figure}[H]
 	\centering
@@ -59,11 +75,13 @@ Adicionalmente en el segundo 10 se perturba al péndulo al aplicarle una fuerza 
 	\label{fig:disc_vs_ideal_vars}
 \end{figure}
 
-\Subsection{Integral}
+PENDIENTE
 
+\Subsection{Integral}
+PENDIENTE
 \Subsection{Comparativa con péndulo invertido simple}
 Para comenzar, la principal diferencia entre estos dos sistemas es la cantidad de variables de estados con los que cuentan ambos sistemas.
-Esto se debe a que uno es una versión más compleja mecánica del otro.
+Esto se debe a que uno es una versión más compleja mecánicamente del otro.
 \begin{figure}[H]
 \begin{subfigure}{.5\textwidth}
   \centering
@@ -84,4 +102,6 @@ Si bien esto es cierto, si se opta por cambiar los parámetros de segundo, hacie
 
 Ambos sistemas son estrictamente observables en todos los casos de fricción tomando mediciones únicamente de la posición por lo explicado anteriormente. Sin embargo, en la realidad, realizar el control del péndulo doble midiendo únicamente la posición resulta mucho mas difícil, que en el caso del péndulo simple.
 También resulta curioso que en ambos casos al ampliar el sistema para realizar el control integral con roce y amortiguamiento estos no son controlables.
+
+PENDIENTE
 %\end{document}
