@@ -2,11 +2,13 @@
 %
 %\begin{document}
 \Subsection{Caracterización de la señales de entrada y perturbación}
-La señal de entrada será un escalón, la cual será la referencia a seguir, y esta apenas entra al sistema atravesará un filtro pasa bajos, para que el cambio de referencia resulte gradual para el sistema.
-Adicionalmente en el segundo 10 se perturba al péndulo al aplicarle una fuerza sobre el segundo link. Y luego en el segundo 18 de simulación se procede a desactivar el sistema de control, por lo que se perderá la condición de equilibrio.
+La señal de entrada es un escalón, el cual cumple la función de referencia a seguir. Apenas esta entra al sistema, atraviesa un filtro pasa bajos para que el cambio de referencia resulte gradual y no desplace al sistema demasiado de su punto de trabajo.
+Adicionalmente, en el segundo 10 se perturba al péndulo al aplicarle una fuerza sobre el segundo link. Luego en el segundo 18 se procede a desactivar el sistema de control.
 \Subsection{Realimentación de Estados}
 
-En la Figura (\ref{fig:realim_posref}) y a lo largo de todas las demás figuras se puede observar la típica respuesta a un sistema con singularidades en el semiplano derecho. Esta respuesa se ve caracterizada por un pequeño desplazamiento hacia la dirección contraria respecto de la señal de referencia.
+En las siguientes figuras se puede observar la típica respuesta a un sistema con singularidades en el semiplano derecho. Esta respuesa se ve caracterizada por un pequeño desplazamiento hacia la dirección contraria respecto de la señal de referencia.
+
+Comenzando con la realimentación de estados, en la Figura (\ref{fig:realim_posref}) se puede observar la respuesta al cambio de referencia y perturbaciones detalladas anteriormente.
 
 \begin{figure}[H]
 	\centering
@@ -26,7 +28,7 @@ Para el caso de la realimentación ideal de estados, se puede notar una respuest
 
 \Subsection{Observador}
 
-El sistema con observador presenta mayor sobrepico que el sistema anterior, sin embargo los tiempos para volver a la referencia son similares.
+El sistema con observador presenta mayor sobrepico que el sistema anterior, sin embargo los tiempos para volver a la referencia son similares dado que los polos de la realimentación están situados en los mismos lugares que con la realimentación ideal.
 
 \begin{figure}[H]
 	\centering
@@ -35,14 +37,14 @@ El sistema con observador presenta mayor sobrepico que el sistema anterior, sin 
 	\label{fig:obsv_posref}
 \end{figure}
 
+En la Figura (\ref{fig:obsv_vars}) se puede observar la comparación entre la estimación  y el valor real de las velocidades. Se puede notar que las estimaciones del observador de estados son prácticamente iguales excepto en dos puntos: a la hora de apagar el control, dado que se pierde una de las realimentaciones;  y cuando cambia la referencia de posición, ya que el cambio de referencia se realiza en el lazo de realimentación.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{../Analisis de Resultados/ImagenesAnalisis de Resultados/obsv_vars.png}
 	\caption{Posiciones angulares y del carrito del sistema para el caso de la realimentación de estados con observador junto a las estimaciones de las mismas señales del observador en linea punteada.}	
 	\label{fig:obsv_vars}
 \end{figure}
-
-En la Figura (\ref{fig:obsv_vars}) se puede observar como las señales del observador logran mantenerse muy cerca de las posiciones medidas.
 
 \Subsection{Discretización}
 
@@ -75,8 +77,6 @@ Se puede notar cómo debido al muestreo y su introducción del cero en el semipl
 	\label{fig:disc_vs_ideal_vars}
 \end{figure}
 
-PENDIENTE
-
 \Subsection{Integral}
 PENDIENTE
 \Subsection{Comparativa con péndulo invertido simple}
@@ -100,8 +100,18 @@ Esto se debe a que uno es una versión más compleja mecánicamente del otro.
 \end{figure}
 Si bien esto es cierto, si se opta por cambiar los parámetros de segundo, haciendo que el segundo link tenga una longitud que tienda a cero, ambos sistemas coinciden, como es de esperarse.
 
-Ambos sistemas son estrictamente observables en todos los casos de fricción tomando mediciones únicamente de la posición por lo explicado anteriormente. Sin embargo, en la realidad, realizar el control del péndulo doble midiendo únicamente la posición resulta mucho mas difícil, que en el caso del péndulo simple.
+Ambos sistemas son estrictamente observables en todos los casos de fricción tomando mediciones únicamente de la posición por lo explicado anteriormente. Sin embargo, en la realidad, realizar el control del péndulo doble midiendo únicamente la posición resulta mucho mas difícil, que en el caso del péndulo simple. Esto se ve reflejado en las ganancias resultantes de realimentación las cuales son mucho mayores en el caso de la medición únicamente de la posición del carrito, donde además no se pudo implementar un control exitoso. En la Tabla (\ref{tab:simgan}) se puede observar las ganancias de realimentación del observador para el caso del péndulo doble midiendo únicamente la posición del carrito y midiendo todas las posiciones del sistema.
+
 También resulta curioso que en ambos casos al ampliar el sistema para realizar el control integral con roce y amortiguamiento estos no son controlables.
 
-PENDIENTE
+\begin{table}[H]
+\centering
+\begin{tabular}{@{}c|cccccc@{}}
+\toprule
+\textbf{Ganancias}                                                                       & x1    & x2     & x3      & x4     & x5       & x6      \\ \midrule
+Solo posición del carrito                                                                & 100   & -70000 & 1387800 & 7400   & -1238700 & 7161400 \\
+\begin{tabular}[c]{@{}l@{}}Todas las posiciones\\ (primera fila únicamente)\end{tabular} & 47.20 & 3      & 0.88    & 528.30 & 60.25    & 18.75   \\ \bottomrule
+\end{tabular}
+\end{table}
+\label{tab:simgan}
 %\end{document}
