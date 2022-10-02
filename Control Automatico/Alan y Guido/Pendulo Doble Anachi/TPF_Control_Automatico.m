@@ -65,48 +65,5 @@ KDisc = place(sysDisc.A, sysDisc.B, exp([-1.5 -1.6 -1.7 -2 -2.1 -2.2].*Ts));
 LDisc = place((sysDisc.A)',(sysDisc.C)', exp(([-1.5 -1.6 -1.7 -2 -2.1 -2.2].*20).*Ts))';
 
 
-%% Control por realimentación de estados con acción integral
-%Modificamos la matriz C para realizar la acción integral sobre la posición
-%del carrito
-C = [1 0 0 0 0 0];
-%Aumentamos las matrices
-Aa = [A  zeros(6,1);
-   -C      0];
-Ba = [sys.B;
-   0];
-Bar = [zeros(6,1);
-    1];
-Ca = [C 0];
-%  Ca = [1 0 0 0 0 0 0;
-%     0 1 0 0 0 0 0;
-%     0 0 1 0 0 0 0;
-%     0 0 0 0 0 0 1];
-Da = 0;
-%Estudiamos controlabilidad del sistema aumentado
-rank(ctrb(Aa, Ba));
-%Como el rango de la matriz de controlabilidad es 7 igual al orden de Aa, el
-%sistema es controlable.
-%Estudio de observabilidad del sistema aumentado
-rank(obsv(Aa,Ca));
-%El rango de la matriz de observabilidad es menor al orden de Aa, por lo que
-%el sistema no es observable.
-%Calculamos las ganancias
-Ka = place(Aa, Ba, [-6 -3.5 -3 -2.5 -2 -1.5 -4]);
-sys_i = ss(Aa, Ba, Ca, Da);
-sys_i_cl = ss(Aa-Ba*Ka, Bar, Ca, Da);
-
-Kai = Ka(7);
-Ka = Ka(1:6);
-
-%% Control por realimentacion de estados con accion integral discreto
-%Tasa de muestreo
-Ts2 = 0.01; %10ms
-Ca = [C 0];
-%Calculo ganancias de realimentación.
-sysDisc2 = c2d(ss(Aa,Ba,Ca,Da), Ts2, 'tustin');
-KDisc2 = acker(sysDisc2.A, sysDisc2.B, exp([-6 -3.5 -3 -2.5 -2 -1.5 -4].*Ts2));
-
-KaiDisc = KDisc2(7);
-KaDisc = KDisc2(1:6);
 
 
